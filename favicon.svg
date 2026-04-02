@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="28" fill="#f7f5f0"/>
+  <circle cx="64" cy="70" r="28" fill="#181615"/>
+
+  <!-- глаза -->
+  <circle cx="50" cy="60" r="12" fill="#fff"/>
+  <circle cx="78" cy="60" r="12" fill="#fff"/>
+  <circle cx="50" cy="60" r="5" fill="#000"/>
+  <circle cx="78" cy="60" r="5" fill="#000"/>
+
+  <!-- блик -->
+  <circle cx="52" cy="58" r="2" fill="#fff"/>
+  <circle cx="80" cy="58" r="2" fill="#fff"/>
+
+  <!-- клюв -->
+  <path d="M64 70l-8 10h16z" fill="#ff4b00"/>
+
+  <!-- ушки -->
+  <path d="M40 40l10-12" stroke="#ccc" stroke-width="4"/>
+  <path d="M88 40l-10-12" stroke="#ccc" stroke-width="4"/>
+</svg>
