@@ -1,0 +1,9 @@
+name = "filin-cprt-label-form"
+main = "index.js"
+compatibility_date = "2026-04-02"
+
+# Secrets are not stored here.
+# Set them with:
+# wrangler secret put TELEGRAM_BOT_TOKEN
+# wrangler secret put TELEGRAM_CHAT_ID
+# wrangler secret put ALLOWED_ORIGIN

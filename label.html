@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Заявка на дистрибьюцию в filin_cprt" />
+  <title>filin_cprt label</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:#f7f5f0;color:#181615;font-family:'Cormorant Garamond',serif} a{color:inherit} .wrap{max-width:1100px;margin:0 auto;padding:0 24px} header{position:sticky;top:0;z-index:10;background:rgba(247,245,240,.9);backdrop-filter:blur(14px);border-bottom:1px solid rgba(24,22,21,.08)} header .wrap{display:flex;align-items:center;justify-content:space-between;min-height:72px} .brand,.back{font-family:'Space Mono',monospace;text-decoration:none;font-size:13px;letter-spacing:.1em;text-transform:uppercase} .hero{padding:62px 0 30px;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:end} .kicker{font-family:'Space Mono',monospace;color:#7a7570;text-transform:uppercase;letter-spacing:.2em;font-size:12px;margin:0 0 18px} h1{margin:0;font-size:clamp(54px,8vw,112px);line-height:.92;font-weight:300} h1 em{color:#ff4b00;font-style:italic;font-weight:600} .lead{margin:24px 0 0;max-width:34rem;font-size:21px;line-height:1.7;color:#5f5a55} .panel{border:1px solid rgba(24,22,21,.1);border-radius:28px;background:#fffdfa;padding:24px} .panel p{margin:0 0 16px;font-size:18px;line-height:1.7;color:#5f5a55} .panel ul{margin:0;padding-left:18px;color:#5f5a55;font-size:18px;line-height:1.7} .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px} .btn{border:1px solid #181615;background:#181615;color:#f7f5f0;border-radius:999px;padding:14px 18px;text-decoration:none;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;display:inline-flex;align-items:center;justify-content:center;cursor:pointer} .btn.secondary{background:transparent;color:#181615} .section{padding:44px 0 72px;border-top:1px solid rgba(24,22,21,.1)} .title{font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.2em;font-size:12px;color:#ff4b00;margin:0 0 18px;display:flex;gap:12px;align-items:center} .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px} .card{border:1px solid rgba(24,22,21,.1);border-radius:24px;padding:22px;background:#fffdfa} .card h3{margin:0 0 8px;font-size:30px;font-weight:600;line-height:1.05} .card p,.fine{margin:0;color:#5f5a55;font-size:18px;line-height:1.65} dialog{border:none;border-radius:28px;max-width:min(760px,calc(100vw - 24px));width:100%;padding:0;background:#fffdfa;color:#181615;box-shadow:0 24px 80px rgba(0,0,0,.18)} dialog::backdrop{background:rgba(24,22,21,.55);backdrop-filter:blur(6px)} .modal{padding:22px} .modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:12px} .modal-head h2{margin:0;font-size:36px;line-height:1.05;font-weight:600} .close{border:0;background:transparent;font-size:30px;cursor:pointer;line-height:1;padding:0} form{display:grid;gap:14px;margin-top:16px} .row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px} label{display:grid;gap:8px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7a7570} input,select,textarea{width:100%;padding:14px 14px;border:1px solid rgba(24,22,21,.14);border-radius:16px;background:#fff;font:inherit;color:#181615;outline:none} textarea{min-height:120px;resize:vertical} input:focus,select:focus,textarea:focus{border-color:#ff4b00;box-shadow:0 0 0 3px rgba(255,75,0,.12)} .hint{font-size:15px;color:#7a7570;line-height:1.55} .hidden{position:absolute;left:-9999px;opacity:0;pointer-events:none} .status{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7a7570;min-height:18px} .status.ok{color:#137333} .status.err{color:#b3261e} footer{padding:26px 0 40px;border-top:1px solid rgba(24,22,21,.1);font-family:'Space Mono',monospace;color:#7a7570;font-size:12px} @media (max-width:900px){.hero,.grid,.row{grid-template-columns:1fr}} @media (max-width:640px){header .wrap{min-height:60px}.hero{padding:40px 0 22px}.lead,.panel p,.panel ul,.card p,.fine{font-size:17px}.modal-head h2{font-size:30px}} </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <a class="brand" href="index.html">filin_cprt</a>
+      <a class="back" href="index.html">← назад</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <p class="kicker">Label submission</p>
+        <h1>Подай <em>релиз</em><br>на дистрибьюцию</h1>
+        <p class="lead">Здесь можно оставить заявку на сингл, альбом или ремикс и прикрепить демо. Форма уходит в Cloudflare Worker, а оттуда прилетает в Telegram как новая заявка.</p>
+        <div class="cta-row">
+          <button class="btn" id="openForm">Подать заявку</button>
+          <a class="btn secondary" href="index.html#label">На главную</a>
+        </div>
+      </div>
+      <div class="panel">
+        <p>Что лучше прикладывать:</p>
+        <ul>
+          <li>контакт для связи, лучше Telegram</li>
+          <li>тип релиза: сингл, альбом или ремикс</li>
+          <li>название и краткое описание</li>
+          <li>демо-файл или ссылку на него</li>
+        </ul>
+        <p class="fine" style="margin-top:16px">Файл демо можно отправлять прямо из формы, но без космических размеров. Для тяжёлых релизов лучше держать отдельную ссылку, потому что мир не обязан тащить гигабайты из браузера.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="title"><span>01</span>Требования</p>
+      <div class="grid">
+        <article class="card"><h3>Контакт</h3><p>Telegram, email или любой рабочий способ связи. Лучше один понятный контакт, а не квест на восемь полей.</p></article>
+        <article class="card"><h3>Тип релиза</h3><p>Выбор из трёх вариантов: сингл, альбом, ремикс. Дальше это уходит в Telegram в аккуратном виде.</p></article>
+        <article class="card"><h3>Демо</h3><p>Можно прикрепить mp3, wav, flac или любой аудиофайл, который потом будет отправлен как документ в бот.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="formDialog">
+    <div class="modal">
+      <div class="modal-head">
+        <div>
+          <p class="kicker" style="margin:0 0 10px">Новая заявка</p>
+          <h2>Форма связи</h2>
+        </div>
+        <button class="close" type="button" id="closeForm" aria-label="Закрыть">×</button>
+      </div>
+
+      <form id="labelForm" enctype="multipart/form-data">
+        <input class="hidden" type="text" name="company" tabindex="-1" autocomplete="off" />
+
+        <div class="row">
+          <label>Имя или ник
+            <input name="name" required placeholder="filin / artist name" />
+          </label>
+          <label>Контакт
+            <input name="contact" required placeholder="@telegram или email" />
+          </label>
+        </div>
+
+        <div class="row">
+          <label>Тип релиза
+            <select name="releaseType" required>
+              <option value="">Выбери</option>
+              <option>Сингл</option>
+              <option>Альбом</option>
+              <option>Ремикс</option>
+            </select>
+          </label>
+          <label>Название релиза
+            <input name="releaseTitle" required placeholder="Название трека или релиза" />
+          </label>
+        </div>
+
+        <label>Что нужно выпустить
+          <textarea name="details" required placeholder="Коротко: жанр, дата, состав, ссылки, пожелания по релизу"></textarea>
+        </label>
+
+        <div class="row">
+          <label>Ссылка на демо или материалы
+            <input name="demoLink" placeholder="Drive / Dropbox / SoundCloud / другое" />
+          </label>
+          <label>Демо-файл
+            <input name="demoFile" type="file" accept="audio/*,.mp3,.wav,.flac,.m4a,.aac" />
+          </label>
+        </div>
+
+        <label>Дополнительно
+          <textarea name="extra" placeholder="Ссылки на соцсети, обложку, комментарии"></textarea>
+        </label>
+
+        <div class="cta-row" style="margin-top:6px">
+          <button class="btn" type="submit">Отправить заявку</button>
+          <button class="btn secondary" type="button" id="cancelForm">Отмена</button>
+        </div>
+        <div class="status" id="status"></div>
+        <p class="hint">Нужно указать URL твоего Worker-а в скрипте страницы и задать секреты в Cloudflare. Всё остальное делается из формы.</p>
+      </form>
+    </div>
+  </dialog>
+
+  <footer><div class="wrap">© 2026 filin_cprt label</div></footer>
+
+  <script>
+    const WORKER_URL = 'https://YOUR-WORKER.workers.dev';
+    const dialog = document.getElementById('formDialog');
+    const openBtn = document.getElementById('openForm');
+    const closeBtn = document.getElementById('closeForm');
+    const cancelBtn = document.getElementById('cancelForm');
+    const form = document.getElementById('labelForm');
+    const statusEl = document.getElementById('status');
+
+    function openDialog(){ if (dialog.showModal) dialog.showModal(); else dialog.setAttribute('open',''); }
+    function closeDialog(){ if (dialog.close) dialog.close(); else dialog.removeAttribute('open'); }
+
+    openBtn.addEventListener('click', openDialog);
+    closeBtn.addEventListener('click', closeDialog);
+    cancelBtn.addEventListener('click', closeDialog);
+    dialog.addEventListener('click', (e) => { if (e.target === dialog) closeDialog(); });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusEl.className = 'status';
+      statusEl.textContent = 'Отправляю...';
+
+      const fd = new FormData(form);
+      try {
+        const res = await fetch(WORKER_URL, { method: 'POST', body: fd });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data.ok === false) throw new Error(data.error || 'Ошибка отправки');
+        statusEl.className = 'status ok';
+        statusEl.textContent = 'Заявка отправлена';
+        form.reset();
+        setTimeout(closeDialog, 900);
+      } catch (err) {
+        statusEl.className = 'status err';
+        statusEl.textContent = 'Не отправилось: ' + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
