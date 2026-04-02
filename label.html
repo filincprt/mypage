@@ -46,7 +46,7 @@
       <p class="title"><span>01</span>Требования</p>
       <div class="grid">
         <article class="card"><h3>Контакт</h3><p>Telegram, email или любой рабочий способ связи. Лучше один понятный контакт, а не квест на восемь полей.</p></article>
-        <article class="card"><h3>Тип релиза</h3><p>Выбор из трёх вариантов: сингл, альбом, ремикс. Дальше это уходит в Telegram в аккуратном виде.</p></article>
+        <article class="card"><h3>Тип релиза</h3><p>Выбор из трёх вариантов: сингл, альбом, ремикс.</p></article>
         <article class="card"><h3>Демо</h3><p>Можно прикрепить mp3, wav, flac или любой аудиофайл, который потом будет отправлен как документ в бот.</p></article>
       </div>
     </section>
@@ -101,7 +101,7 @@
           </label>
         </div>
 
-        <label>Дополнительно
+        <label>По желанию
           <textarea name="extra" placeholder="Ссылки на соцсети, обложку, комментарии"></textarea>
         </label>
 
@@ -110,12 +110,11 @@
           <button class="btn secondary" type="button" id="cancelForm">Отмена</button>
         </div>
         <div class="status" id="status"></div>
-        <p class="hint">Нужно указать URL твоего Worker-а в скрипте страницы и задать секреты в Cloudflare. Всё остальное делается из формы.</p>
       </form>
     </div>
   </dialog>
 
-  <footer><div class="wrap">© 2026 filin_cprt label</div></footer>
+  <footer><div class="wrap">© 2026 filin_cprt</div></footer>
 
   <script>
     const WORKER_URL = 'https://label.filin-vitaly2016.workers.dev';
