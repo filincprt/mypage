@@ -26,7 +26,7 @@
       <div>
         <p class="kicker">Label submission</p>
         <h1>Подай <em>релиз</em><br>на дистрибьюцию</h1>
-        <p class="lead">Здесь можно оставить заявку на сингл, альбом или ремикс и прикрепить демо. Форма уходит в Cloudflare Worker, а оттуда прилетает в Telegram как новая заявка.</p>
+        <p class="lead">Здесь можно оставить заявку на релиз сингла, альбома или ремикса и прикрепить демо. После рассмотрения, с вами свяжутся по указанным контактным данным</p>
         <div class="cta-row">
           <button class="btn" id="openForm">Подать заявку</button>
           <a class="btn secondary" href="index.html#label">На главную</a>
@@ -47,9 +47,9 @@
     <section class="section">
       <p class="title"><span>01</span>Требования</p>
       <div class="grid">
-        <article class="card"><h3>Контакт</h3><p>Telegram, email или любой рабочий способ связи. Лучше один понятный контакт, а не квест на восемь полей.</p></article>
+        <article class="card"><h3>Контакт</h3><p>Telegram, email или любой рабочий способ связи.</p></article>
         <article class="card"><h3>Тип релиза</h3><p>Выбор из трёх вариантов: сингл, альбом, ремикс.</p></article>
-        <article class="card"><h3>Демо</h3><p>Можно прикрепить mp3, wav, flac или любой аудиофайл, который потом будет отправлен как документ в бот.</p></article>
+        <article class="card"><h3>Демо</h3><p>Можно прикрепить mp3, wav, flac или любой аудиофайл</p></article>
       </div>
     </section>
   </main>
@@ -68,7 +68,7 @@
         <input class="hidden" type="text" name="company" tabindex="-1" autocomplete="off" />
 
         <div class="row">
-          <label>Имя или ник
+          <label>Имя или никнейм артиста
             <input name="name" required placeholder="filin / artist name" />
           </label>
           <label>Контакт
@@ -83,6 +83,7 @@
               <option>Сингл</option>
               <option>Альбом</option>
               <option>Ремикс</option>
+              <option>Другое</option>
             </select>
           </label>
           <label>Название релиза
