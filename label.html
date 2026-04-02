@@ -11,7 +11,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:#f7f5f0;color:#181615;font-family:'Cormorant Garamond',serif} a{color:inherit} .wrap{max-width:1100px;margin:0 auto;padding:0 24px} header{position:sticky;top:0;z-index:10;background:rgba(247,245,240,.9);backdrop-filter:blur(14px);border-bottom:1px solid rgba(24,22,21,.08)} header .wrap{display:flex;align-items:center;justify-content:space-between;min-height:72px} .brand,.back{font-family:'Space Mono',monospace;text-decoration:none;font-size:13px;letter-spacing:.1em;text-transform:uppercase} .hero{padding:62px 0 30px;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:end} .kicker{font-family:'Space Mono',monospace;color:#7a7570;text-transform:uppercase;letter-spacing:.2em;font-size:12px;margin:0 0 18px} h1{margin:0;font-size:clamp(54px,8vw,112px);line-height:.92;font-weight:300} h1 em{color:#ff4b00;font-style:italic;font-weight:600} .lead{margin:24px 0 0;max-width:34rem;font-size:21px;line-height:1.7;color:#5f5a55} .panel{border:1px solid rgba(24,22,21,.1);border-radius:28px;background:#fffdfa;padding:24px} .panel p{margin:0 0 16px;font-size:18px;line-height:1.7;color:#5f5a55} .panel ul{margin:0;padding-left:18px;color:#5f5a55;font-size:18px;line-height:1.7} .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px} .btn{border:1px solid #181615;background:#181615;color:#f7f5f0;border-radius:999px;padding:14px 18px;text-decoration:none;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;display:inline-flex;align-items:center;justify-content:center;cursor:pointer} .btn.secondary{background:transparent;color:#181615} .section{padding:44px 0 72px;border-top:1px solid rgba(24,22,21,.1)} .title{font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.2em;font-size:12px;color:#ff4b00;margin:0 0 18px;display:flex;gap:12px;align-items:center} .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px} .card{border:1px solid rgba(24,22,21,.1);border-radius:24px;padding:22px;background:#fffdfa} .card h3{margin:0 0 8px;font-size:30px;font-weight:600;line-height:1.05} .card p,.fine{margin:0;color:#5f5a55;font-size:18px;line-height:1.65} dialog{border:none;border-radius:28px;max-width:min(760px,calc(100vw - 24px));width:100%;padding:0;background:#fffdfa;color:#181615;box-shadow:0 24px 80px rgba(0,0,0,.18)} dialog::backdrop{background:rgba(24,22,21,.55);backdrop-filter:blur(6px)} .modal{padding:22px} .modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:12px} .modal-head h2{margin:0;font-size:36px;line-height:1.05;font-weight:600} .close{border:0;background:transparent;font-size:30px;cursor:pointer;line-height:1;padding:0} form{display:grid;gap:14px;margin-top:16px} .row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px} label{display:grid;gap:8px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7a7570} input,select,textarea{width:100%;padding:14px 14px;border:1px solid rgba(24,22,21,.14);border-radius:16px;background:#fff;font:inherit;color:#181615;outline:none} textarea{min-height:120px;resize:vertical} input:focus,select:focus,textarea:focus{border-color:#ff4b00;box-shadow:0 0 0 3px rgba(255,75,0,.12)} .hint{font-size:15px;color:#7a7570;line-height:1.55} .hidden{position:absolute;left:-9999px;opacity:0;pointer-events:none} .status{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7a7570;min-height:18px} .status.ok{color:#137333} .status.err{color:#b3261e} footer{padding:26px 0 40px;border-top:1px solid rgba(24,22,21,.1);font-family:'Space Mono',monospace;color:#7a7570;font-size:12px} @media (max-width:900px){.hero,.grid,.row{grid-template-columns:1fr}} @media (max-width:640px){header .wrap{min-height:60px}.hero{padding:40px 0 22px}.lead,.panel p,.panel ul,.card p,.fine{font-size:17px}.modal-head h2{font-size:30px}} </style>
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:#f7f5f0;color:#181615;font-family:'Cormorant Garamond',serif} a{color:inherit} .wrap{max-width:1100px;margin:0 auto;padding:0 24px} header{position:sticky;top:0;z-index:10;background:rgba(247,245,240,.9);backdrop-filter:blur(14px);border-bottom:1px solid rgba(24,22,21,.08)} header .wrap{display:flex;align-items:center;justify-content:space-between;min-height:72px} .brand,.back{font-family:'Space Mono',monospace;text-decoration:none;font-size:13px;letter-spacing:.1em;text-transform:uppercase} .hero{padding:62px 0 30px;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:end} .kicker{font-family:'Space Mono',monospace;color:#7a7570;text-transform:uppercase;letter-spacing:.2em;font-size:12px;margin:0 0 18px} h1{margin:0;font-size:clamp(54px,8vw,112px);line-height:.92;font-weight:300} h1 em{color:#ff4b00;font-style:italic;font-weight:600} .lead{margin:24px 0 0;max-width:34rem;font-size:21px;line-height:1.7;color:#5f5a55} .panel{border:1px solid rgba(24,22,21,.1);border-radius:28px;background:#fffdfa;padding:24px} .panel p{margin:0 0 16px;font-size:18px;line-height:1.7;color:#5f5a55} .panel ul{margin:0;padding-left:18px;color:#5f5a55;font-size:18px;line-height:1.7} .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px} .btn{border:1px solid #181615;background:#181615;color:#f7f5f0;border-radius:999px;padding:14px 18px;text-decoration:none;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;display:inline-flex;align-items:center;justify-content:center;cursor:pointer} .btn.secondary{background:transparent;color:#181615} .section{padding:44px 0 72px;border-top:1px solid rgba(24,22,21,.1)} .title{font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.2em;font-size:12px;color:#ff4b00;margin:0 0 18px;display:flex;gap:12px;align-items:center} .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px} .card{border:1px solid rgba(24,22,21,.1);border-radius:24px;padding:22px;background:#fffdfa} .card h3{margin:0 0 8px;font-size:30px;font-weight:600;line-height:1.05} .card p,.fine{margin:0;color:#5f5a55;font-size:18px;line-height:1.65} dialog{border:none;border-radius:28px;max-width:min(760px,calc(100vw - 24px));width:100%;padding:0;background:#fffdfa;color:#181615;box-shadow:0 24px 80px rgba(0,0,0,.18)} dialog::backdrop{background:rgba(24,22,21,.55);backdrop-filter:blur(6px)} .modal{padding:22px} .modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:12px} .modal-head h2{margin:0;font-size:36px;line-height:1.05;font-weight:600} .close{border:0;background:transparent;font-size:30px;cursor:pointer;line-height:1;padding:0} form{display:grid;gap:14px;margin-top:16px} .row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px} label{display:grid;gap:8px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7a7570} input,select,textarea{width:100%;padding:14px 14px;border:1px solid rgba(24,22,21,.14);border-radius:16px;background:#fff;font:inherit;color:#181615;outline:none} textarea{min-height:120px;resize:vertical} input:focus,select:focus,textarea:focus{border-color:#ff4b00;box-shadow:0 0 0 3px rgba(255,75,0,.12)} .hint{font-size:15px;color:#7a7570;line-height:1.55} .hidden{position:absolute;left:-9999px;opacity:0;pointer-events:none} .status{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7a7570;min-height:18px} .status.ok{color:#137333} .status.err{color:#b3261e} footer{padding:26px 0 40px;border-top:1px solid rgba(24,22,21,.1);font-family:'Space Mono',monospace;color:#7a7570;font-size:12px} @media (max-width:900px){.hero,.grid,.row{grid-template-columns:1fr}} @media (max-width:640px){header .wrap{min-height:60px}.hero{padding:40px 0 22px}.lead,.panel p,.panel ul,.card p,.fine{font-size:17px}.modal-head h2{font-size:30px}} 
+  .warn-box{
+    border:1px solid rgba(255,75,0,.25);
+    background:rgba(255,75,0,.08);
+    padding:16px;
+    border-radius:18px;
+    margin-bottom:18px;
+  }
+  </style>
 </head>
 <body>
   <header>
@@ -54,8 +62,38 @@
     </section>
   </main>
 
+  <dialog id="warningDialog">
+    <div class="modal">
+      <div class="modal-head">
+        <div>
+          <p class="kicker" style="margin:0 0 10px">Внимание</p>
+          <h2 style="margin:0">Перед отправкой</h2>
+        </div>
+        <button class="close" type="button" id="closeWarning" aria-label="Закрыть">×</button>
+      </div>
+  
+      <div style="border:1px solid rgba(255,75,0,.25); background:rgba(255,75,0,.08); padding:16px; border-radius:18px; margin-bottom:18px;">
+        <p style="margin:0; font-size:18px; line-height:1.7; color:#181615;">
+          Из-за ограничений доступа к Cloudflare на территории РФ отправка заявки может работать нестабильно.
+          Для корректной отправки может потребоваться VPN.
+        </p>
+      </div>
+  
+      <div class="cta-row">
+        <button class="btn" type="button" id="continueToForm">Понятно, открыть форму</button>
+        <button class="btn secondary" type="button" id="cancelWarning">Отмена</button>
+      </div>
+    </div>
+  </dialog>
+  
   <dialog id="formDialog">
     <div class="modal">
+      <div style="border:1px solid rgba(255,75,0,.25); background:rgba(255,75,0,.08); padding:16px; border-radius:18px; margin-bottom:18px;">
+        <p style="margin:0; font-size:17px; line-height:1.7; color:#181615;">
+          Важно: из-за ограничений доступа к Cloudflare на территории РФ отправка заявки может быть нестабильной.
+          Если форма не отправляется, попробуйте через VPN.
+        </p>
+      </div>
       <div class="modal-head">
         <div>
           <p class="kicker" style="margin:0 0 10px">Новая заявка</p>
@@ -121,20 +159,49 @@
 
   <script>
     const WORKER_URL = 'https://label.filin-vitaly2016.workers.dev';
-    const dialog = document.getElementById('formDialog');
+    const warningDialog = document.getElementById('warningDialog');
+    const formDialog = document.getElementById('formDialog');
+    
     const openBtn = document.getElementById('openForm');
+    const closeWarning = document.getElementById('closeWarning');
+    const cancelWarning = document.getElementById('cancelWarning');
+    const continueToForm = document.getElementById('continueToForm');
+    
     const closeBtn = document.getElementById('closeForm');
     const cancelBtn = document.getElementById('cancelForm');
+    
     const form = document.getElementById('labelForm');
     const statusEl = document.getElementById('status');
-
-    function openDialog(){ if (dialog.showModal) dialog.showModal(); else dialog.setAttribute('open',''); }
-    function closeDialog(){ if (dialog.close) dialog.close(); else dialog.removeAttribute('open'); }
-
-    openBtn.addEventListener('click', openDialog);
-    closeBtn.addEventListener('click', closeDialog);
-    cancelBtn.addEventListener('click', closeDialog);
-    dialog.addEventListener('click', (e) => { if (e.target === dialog) closeDialog(); });
+    
+    function openDialog(dialog) {
+      if (dialog.showModal) dialog.showModal();
+      else dialog.setAttribute('open', '');
+    }
+    
+    function closeDialog(dialog) {
+      if (dialog.close) dialog.close();
+      else dialog.removeAttribute('open');
+    }
+    
+    openBtn.addEventListener('click', () => openDialog(warningDialog));
+    closeWarning.addEventListener('click', () => closeDialog(warningDialog));
+    cancelWarning.addEventListener('click', () => closeDialog(warningDialog));
+    
+    continueToForm.addEventListener('click', () => {
+      closeDialog(warningDialog);
+      openDialog(formDialog);
+    });
+    
+    closeBtn.addEventListener('click', () => closeDialog(formDialog));
+    cancelBtn.addEventListener('click', () => closeDialog(formDialog));
+    
+    warningDialog.addEventListener('click', (e) => {
+      if (e.target === warningDialog) closeDialog(warningDialog);
+    });
+    
+    formDialog.addEventListener('click', (e) => {
+      if (e.target === formDialog) closeDialog(formDialog);
+    });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
