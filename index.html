@@ -5,13 +5,75 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="filin_cprt — personal page and label submissions" />
   <title>filin_cprt</title>
-  <link rel="apple-touch-icon" href="/favicon.svg">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
-    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:#f7f5f0;color:#181615;font-family:'Cormorant Garamond',serif;overflow-x:hidden} a{color:inherit} .wrap{max-width:1200px;margin:0 auto;padding:0 24px} .topbar{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:rgba(247,245,240,.88);border-bottom:1px solid rgba(24,22,21,.08)} .topbar .wrap{display:flex;align-items:center;justify-content:space-between;min-height:72px} .brand{font-family:'Space Mono',monospace;text-decoration:none;letter-spacing:.08em;font-size:14px} .nav{display:flex;gap:18px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.12em} .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:end;min-height:calc(100vh - 72px);padding:64px 0 48px} .kicker{font-family:'Space Mono',monospace;color:#7a7570;text-transform:uppercase;letter-spacing:.2em;font-size:12px;margin:0 0 18px} h1{font-size:clamp(64px,10vw,132px);line-height:.9;margin:0;font-weight:300;letter-spacing:-.03em} h1 em{color:#ff4b00;font-style:italic;font-weight:600} .lead{max-width:34rem;font-size:22px;line-height:1.75;color:#5f5a55;margin:28px 0 0} .cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px} .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border:1px solid #181615;border-radius:999px;text-decoration:none;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;transition:.2s ease} .btn.primary{background:#181615;color:#f7f5f0} .btn:hover{transform:translateY(-2px)} .art{border:1px solid rgba(24,22,21,.1);border-radius:28px;padding:28px;min-height:360px;display:grid;place-items:center;background:linear-gradient(180deg,rgba(255,75,0,.05),rgba(255,75,0,0))} .orb{width:min(100%,280px);aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,75,0,.7);position:relative} .orb:before,.orb:after{content:"";position:absolute;inset:18%;border-radius:50%;border:1px dashed rgba(255,75,0,.35)} .orb:after{inset:34%;background:rgba(255,75,0,.08)} section{border-top:1px solid rgba(24,22,21,.1)} .section{padding:72px 0} .title{font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.2em;font-size:12px;color:#ff4b00;margin:0 0 16px;display:flex;gap:12px;align-items:center} .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px} .card{border:1px solid rgba(24,22,21,.1);border-radius:24px;padding:24px;background:#fffdfa} .card h3{margin:0 0 10px;font-size:32px;font-weight:600;line-height:1.05} .card p{margin:0;color:#5f5a55;font-size:19px;line-height:1.65} .links{display:grid;gap:12px} .link{display:flex;justify-content:space-between;gap:18px;padding:20px 22px;border:1px solid rgba(24,22,21,.1);border-radius:18px;text-decoration:none;background:#fffdfa;transition:.2s ease} .link:hover{background:rgba(255,75,0,.06);transform:translateY(-2px)} .link strong{font-size:22px;font-weight:600} .link span{font-family:'Space Mono',monospace;color:#7a7570;font-size:12px;letter-spacing:.12em;text-transform:uppercase;align-self:center} footer{padding:28px 0 40px;border-top:1px solid rgba(24,22,21,.1);font-family:'Space Mono',monospace;color:#7a7570;font-size:12px} @media (max-width:900px){.hero,.grid{grid-template-columns:1fr}.art{min-height:260px}} @media (max-width:640px){.topbar .wrap{min-height:60px}.hero{padding:42px 0 34px;min-height:auto}.lead{font-size:19px}.card h3{font-size:28px}.card p{font-size:17px}} </style>
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:#f7f5f0;color:#181615;font-family:'Cormorant Garamond',serif;overflow-x:hidden}
+    a{color:inherit}
+    .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+    .topbar{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:rgba(247,245,240,.88);border-bottom:1px solid rgba(24,22,21,.08)}
+    .topbar .wrap{display:flex;align-items:center;justify-content:space-between;min-height:72px}
+    .brand{font-family:'Space Mono',monospace;text-decoration:none;letter-spacing:.08em;font-size:14px}
+    .nav{display:flex;gap:18px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.12em}
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:end;min-height:calc(100vh - 72px);padding:64px 0 48px}
+    .kicker{font-family:'Space Mono',monospace;color:#7a7570;text-transform:uppercase;letter-spacing:.2em;font-size:12px;margin:0 0 18px}
+    h1{font-size:clamp(64px,10vw,132px);line-height:.9;margin:0;font-weight:300;letter-spacing:-.03em}
+    h1 em{color:#ff4b00;font-style:italic;font-weight:600}
+    .lead{max-width:34rem;font-size:22px;line-height:1.75;color:#5f5a55;margin:28px 0 0}
+    .cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border:1px solid #181615;border-radius:999px;text-decoration:none;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;transition:.2s ease}
+    .btn.primary{background:#181615;color:#f7f5f0}
+    .btn:hover{transform:translateY(-2px)}
+    .art{border:1px solid rgba(24,22,21,.1);border-radius:28px;padding:28px;min-height:360px;display:grid;place-items:center;background:linear-gradient(180deg,rgba(255,75,0,.05),rgba(255,75,0,0))}
+    .orb{width:min(100%,280px);aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,75,0,.7);position:relative}
+    .orb:before,.orb:after{content:"";position:absolute;inset:18%;border-radius:50%;border:1px dashed rgba(255,75,0,.35)}
+    .orb:after{inset:34%;background:rgba(255,75,0,.08)}
+    section{border-top:1px solid rgba(24,22,21,.1)}
+    .section{padding:72px 0}
+    .title{font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.2em;font-size:12px;color:#ff4b00;margin:0 0 16px;display:flex;gap:12px;align-items:center}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{border:1px solid rgba(24,22,21,.1);border-radius:24px;padding:24px;background:#fffdfa}
+    .card h3{margin:0 0 10px;font-size:32px;font-weight:600;line-height:1.05}
+    .card p{margin:0;color:#5f5a55;font-size:19px;line-height:1.65}
+    .links{display:grid;gap:12px}
+    .link{display:flex;justify-content:space-between;gap:18px;padding:20px 22px;border:1px solid rgba(24,22,21,.1);border-radius:18px;text-decoration:none;background:#fffdfa;transition:.2s ease}
+    .link:hover{background:rgba(255,75,0,.06);transform:translateY(-2px)}
+    .link strong{font-size:22px;font-weight:600}
+    .link span{font-family:'Space Mono',monospace;color:#7a7570;font-size:12px;letter-spacing:.12em;text-transform:uppercase;align-self:center}
+
+    .ad-wrap{
+      border:1px solid rgba(24,22,21,.1);
+      border-radius:24px;
+      background:#fffdfa;
+      padding:18px;
+      overflow:hidden;
+    }
+    .ad-label{
+      font-family:'Space Mono',monospace;
+      font-size:11px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:#7a7570;
+      margin:0 0 12px;
+    }
+    .ad-slot{
+      min-height:250px;
+      display:grid;
+      place-items:center;
+    }
+
+    footer{padding:28px 0 40px;border-top:1px solid rgba(24,22,21,.1);font-family:'Space Mono',monospace;color:#7a7570;font-size:12px}
+    @media (max-width:900px){.hero,.grid{grid-template-columns:1fr}.art{min-height:260px}}
+    @media (max-width:640px){.topbar .wrap{min-height:60px}.hero{padding:42px 0 34px;min-height:auto}.lead{font-size:19px}.card h3{font-size:28px}.card p{font-size:17px}}
+  </style>
+
+  <!-- Если этот скрипт уже подключён где-то ещё, второй раз не вставляй -->
+  <script>window.yaContextCb = window.yaContextCb || [];</script>
+  <script src="https://yandex.ru/ads/system/context.js" async></script>
 </head>
 <body>
   <header class="topbar">
@@ -30,7 +92,7 @@
       <div>
         <p class="kicker">Персональная страница</p>
         <h1>filin<em>_cprt</em></h1>
-        <p class="lead">Личная страничка в сети Интернет. Немного занимаюсь разработкой различных сервисов, а также дистрибьюцией музыки.</p>
+        <p class="lead">Музыка, визуал, публикации и отдельная форма для заявок на дистрибьюцию. Без плясок с мессенджерами и без лишних кнопок, потому что людям и так тяжело.</p>
         <div class="cta">
           <a class="btn primary" href="label.html">Подать заявку в лейбл</a>
           <a class="btn" href="#contacts">Связаться</a>
@@ -42,9 +104,9 @@
     <section id="about" class="section">
       <p class="title"><span>01</span>Обо мне</p>
       <div class="grid">
-        <article class="card"><h3>Музыка и релизы</h3><p>lo-fi, атмосферные и экспериментальные биты: от спокойных чилловых треков до более грязного баса и минималистичных вайбов. Музыка короткая, простая, с акцентом на настроение, а не на сложность</p></article>
-        <article class="card"><h3>Мини-лейбл</h3><p>DIY-лейбл для объединения артистов, впервые пришедшие в мир музыки</p></article>
-        <article class="card"><h3>Разработка</h3><p>Микро-сервисы, личные страницы, нативные приложения и прочие вещи. Python, Java/Kotlin, JS (Node.js), C#, вёрстка и прочее </p></article>
+        <article class="card"><h3>Музыка и релизы</h3><p>Сайт показывает мой профиль и даёт отдельную страницу для заявок на синглы, альбомы и ремиксы.</p></article>
+        <article class="card"><h3>Мини-лейбл</h3><p>Материалы уходят через форму в Cloudflare Worker, а затем прилетают в Telegram как новая заявка.</p></article>
+        <article class="card"><h3>Демо</h3><p>К форме можно прикрепить демо-файл, чтобы сразу было что слушать, а не гадать по названиям файлов вроде demo_final_final2.mp3.</p></article>
       </div>
     </section>
 
@@ -61,6 +123,26 @@
         <a class="link" href="https://github.com/filincprt" target="_blank" rel="noopener noreferrer"><strong>GitHub</strong><span>filincprt ↗</span></a>
         <a class="link" href="https://t.me/filin_cprt" target="_blank" rel="noopener noreferrer"><strong>Telegram</strong><span>@filin_cprt ↗</span></a>
         <a class="link" href="mailto:internet@filincprt.ru"><strong>Email</strong><span>internet@filincprt.ru ↗</span></a>
+      </div>
+    </section>
+
+    <!-- Рекламный блок в самом низу страницы -->
+    <section id="ad" class="section">
+      <p class="title"><span>04</span>Реклама</p>
+      <div class="ad-wrap">
+        <div class="ad-label">Рекламный блок</div>
+        <div class="ad-slot">
+          <!-- Yandex.RTB R-A-19045079-1 -->
+          <div id="yandex_rtb_R-A-19045079-1"></div>
+          <script>
+            window.yaContextCb.push(() => {
+              Ya.Context.AdvManager.render({
+                "blockId": "R-A-19045079-1",
+                "renderTo": "yandex_rtb_R-A-19045079-1"
+              })
+            })
+          </script>
+        </div>
       </div>
     </section>
   </main>
