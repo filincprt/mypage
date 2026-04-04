@@ -573,47 +573,47 @@
     }
 
     async function loadWeather() {
-        try {
-          const locationRes = await fetch('https://ipapi.co/json/', { cache: 'no-store' });
-          const location = await locationRes.json();
+  try {
+    const locationRes = await fetch('https://get.geojs.io/v1/ip/geo.json', { cache: 'no-store' });
+    const location = await locationRes.json();
 
-          if (!locationRes.ok || location.error) {
-            throw new Error(location.reason || 'Не удалось определить местоположение');
-          }
+    if (!location.latitude || !location.longitude) {
+      throw new Error('Не удалось определить местоположение');
+    }
 
-          const weatherRes = await fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m&timezone=auto`,
-            { cache: 'no-store' }
-          );
-          const weather = await weatherRes.json();
+    const weatherRes = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m&timezone=auto`,
+      { cache: 'no-store' }
+    );
+    const weather = await weatherRes.json();
 
-          const current = weather.current;
-          if (!current) throw new Error('Погода не пришла');
+    const current = weather.current;
+    if (!current) throw new Error('Погода не пришла');
 
-          const mapped = weatherCodeMap[current.weather_code] || { label: 'Неизвестно', kind: 'cloudy', icon: 'cloud' };
-          const windKind = current.wind_speed_10m >= 35 ? 'windy' : mapped.kind;
+    const mapped = weatherCodeMap[current.weather_code] || { label: 'Неизвестно', kind: 'cloudy', icon: 'cloud' };
+    const windKind = current.wind_speed_10m >= 35 ? 'windy' : mapped.kind;
 
-          setWeatherVisual(windKind);
-          weatherCity.textContent = location.city ? `${location.city}` : 'Ваше местоположение';
-          weatherTemp.textContent = `${Math.round(current.temperature_2m)}°`;
-          weatherDesc.textContent = mapped.label;
-          weatherWind.textContent = `Ветер ${Math.round(current.wind_speed_10m)} км/ч`;
-          weatherFeels.textContent = `Ощущается ${Math.round(current.apparent_temperature)}°`;
-          weatherLoading.style.display = 'none';
-          weatherCard.classList.remove('has-error');
-        } catch (err) {
-          console.error(err);
-          weatherCard.classList.add('has-error');
-          weatherLoading.textContent = 'Погода недоступна';
-          weatherCity.textContent = 'Город не определён';
-          weatherTemp.textContent = '--°';
-          weatherDesc.textContent = 'Не удалось загрузить данные';
-          weatherWind.textContent = 'Ветер --';
-          weatherFeels.textContent = 'Ощущается --';
-          weatherError.textContent = 'Не удалось получить местоположение или погоду.';
-          setWeatherVisual('cloudy');
-        }
-      }
+    setWeatherVisual(windKind);
+    weatherCity.textContent = location.city || 'Ваше местоположение';
+    weatherTemp.textContent = `${Math.round(current.temperature_2m)}°`;
+    weatherDesc.textContent = mapped.label;
+    weatherWind.textContent = `Ветер ${Math.round(current.wind_speed_10m)} км/ч`;
+    weatherFeels.textContent = `Ощущается ${Math.round(current.apparent_temperature)}°`;
+    weatherLoading.style.display = 'none';
+    weatherCard.classList.remove('has-error');
+  } catch (err) {
+    console.error(err);
+    weatherCard.classList.add('has-error');
+    weatherLoading.textContent = 'Погода недоступна';
+    weatherCity.textContent = 'Город не определён';
+    weatherTemp.textContent = '--°';
+    weatherDesc.textContent = 'Не удалось загрузить данные';
+    weatherWind.textContent = 'Ветер --';
+    weatherFeels.textContent = 'Ощущается --';
+    weatherError.textContent = err.message;
+    setWeatherVisual('cloudy');
+  }
+}
     loadWeather();
   </script>
 </body>
