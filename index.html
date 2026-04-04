@@ -29,10 +29,143 @@
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border:1px solid #181615;border-radius:999px;text-decoration:none;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;transition:.2s ease}
     .btn.primary{background:#181615;color:#f7f5f0}
     .btn:hover{transform:translateY(-2px)}
-    .art{border:1px solid rgba(24,22,21,.1);border-radius:28px;padding:28px;min-height:360px;display:grid;place-items:center;background:linear-gradient(180deg,rgba(255,75,0,.05),rgba(255,75,0,0))}
-    .orb{width:min(100%,280px);aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,75,0,.7);position:relative}
-    .orb:before,.orb:after{content:"";position:absolute;inset:18%;border-radius:50%;border:1px dashed rgba(255,75,0,.35)}
-    .orb:after{inset:34%;background:rgba(255,75,0,.08)}
+    .art{
+      border:1px solid rgba(24,22,21,.1);
+      border-radius:28px;
+      padding:24px;
+      min-height:360px;
+      display:grid;
+      place-items:center;
+      background:
+        radial-gradient(circle at center, rgba(255,75,0,.08), transparent 58%),
+        linear-gradient(180deg, rgba(255,75,0,.05), rgba(255,75,0,0));
+    }
+    .dart-art{position:relative}
+    .dartboard{
+      position:relative;
+      width:min(100%, 380px);
+      aspect-ratio:1;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at center,
+          #fffdfa 0 8%,
+          #181615 8% 9.5%,
+          #fffdfa 9.5% 18%,
+          #ff4b00 18% 19.5%,
+          #fffdfa 19.5% 30%,
+          #181615 30% 31.5%,
+          #fffdfa 31.5% 42%,
+          #ff4b00 42% 43.5%,
+          #fffdfa 43.5% 100%);
+      border:1px solid rgba(24,22,21,.12);
+      box-shadow:0 18px 50px rgba(24,22,21,.08);
+      overflow:hidden;
+      touch-action:none;
+      user-select:none;
+      -webkit-user-select:none;
+      cursor:crosshair;
+    }
+    .dartboard__ring{
+      position:absolute;
+      border-radius:50%;
+      inset:10%;
+      border:1px dashed rgba(24,22,21,.18);
+      pointer-events:none;
+    }
+    .dartboard__ring--mid{inset:24%}
+    .dartboard__ring--inner{inset:38%}
+    .dartboard__center{
+      position:absolute;
+      left:50%;
+      top:50%;
+      width:16%;
+      aspect-ratio:1;
+      transform:translate(-50%,-50%);
+      border-radius:50%;
+      background:#ff4b00;
+      box-shadow:0 0 0 10px rgba(255,75,0,.12);
+      pointer-events:none;
+    }
+    .dartboard__cross{
+      position:absolute;
+      left:50%;
+      top:50%;
+      background:rgba(24,22,21,.16);
+      pointer-events:none;
+    }
+    .dartboard__cross--v{
+      width:2px;
+      height:100%;
+      transform:translateX(-50%);
+    }
+    .dartboard__cross--h{
+      width:100%;
+      height:2px;
+      transform:translateY(-50%);
+    }
+    .dartboard__hint{
+      position:absolute;
+      left:50%;
+      bottom:16px;
+      transform:translateX(-50%);
+      font-family:'Space Mono',monospace;
+      font-size:11px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:#7a7570;
+      background:rgba(255,250,245,.72);
+      padding:8px 10px;
+      border-radius:999px;
+      backdrop-filter:blur(8px);
+      pointer-events:none;
+    }
+    .dart{
+      position:absolute;
+      width:18px;
+      height:84px;
+      transform-origin:50% 72%;
+      pointer-events:none;
+      filter:drop-shadow(0 6px 8px rgba(0,0,0,.18));
+    }
+    .dart__tip{
+      position:absolute;
+      left:50%;
+      top:0;
+      transform:translateX(-50%);
+      width:0;
+      height:0;
+      border-left:6px solid transparent;
+      border-right:6px solid transparent;
+      border-bottom:18px solid #ff4b00;
+    }
+    .dart__shaft{
+      position:absolute;
+      left:50%;
+      top:14px;
+      transform:translateX(-50%);
+      width:6px;
+      height:44px;
+      border-radius:999px;
+      background:linear-gradient(180deg, #ddd, #777);
+    }
+    .dart__fletch{
+      position:absolute;
+      left:50%;
+      bottom:0;
+      transform:translateX(-50%);
+      width:24px;
+      height:22px;
+      border-radius:6px 6px 10px 10px;
+      background:linear-gradient(180deg, rgba(255,75,0,.95), rgba(255,75,0,.65));
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);
+    }
+    .dart.is-stuck{animation:dartHit .18s ease-out both}
+
+@keyframes dartHit{
+  0%{transform:translate(-50%, -50%) scale(.78) rotate(var(--dart-rot, 0deg)); opacity:.35}
+  70%{transform:translate(-50%, -50%) scale(1.08) rotate(var(--dart-rot, 0deg)); opacity:1}
+  100%{transform:translate(-50%, -50%) scale(1) rotate(var(--dart-rot, 0deg)); opacity:1}
+}
     section{border-top:1px solid rgba(24,22,21,.1)}
     .section{padding:72px 0}
     .title{font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.2em;font-size:12px;color:#ff4b00;margin:0 0 16px;display:flex;gap:12px;align-items:center}
@@ -58,7 +191,6 @@
     .cert-preview img{width:100%;border-radius:14px;border:1px solid rgba(24,22,21,.14);background:#fff}
     .cert-actions{display:flex;flex-wrap:wrap;gap:10px}
     .tiny{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;color:#7a7570;text-transform:uppercase}
-
     .ad-wrap{
       border:1px solid rgba(24,22,21,.1);
       border-radius:24px;
@@ -79,15 +211,20 @@
       display:grid;
       place-items:center;
     }
-
     footer{padding:28px 0 40px;border-top:1px solid rgba(24,22,21,.1);font-family:'Space Mono',monospace;color:#7a7570;font-size:12px}
-    @media (max-width:900px){.hero,.grid,.cert-wrap{grid-template-columns:1fr}.art{min-height:260px}}
-    @media (max-width:640px){.topbar .wrap{min-height:60px}.hero{padding:42px 0 34px;min-height:auto}.lead{font-size:19px}.card h3{font-size:28px}.card p{font-size:17px}}
+    @media (max-width:900px){
+      .hero,.grid,.cert-wrap{grid-template-columns:1fr}
+      .art{min-height:280px}
+      .dartboard{width:min(88vw, 360px)}
+    }
+    @media (max-width:640px){
+      .topbar .wrap{min-height:60px}
+      .hero{padding:42px 0 34px;min-height:auto}
+      .lead{font-size:19px}
+      .card h3{font-size:28px}
+      .card p{font-size:17px}
+    }
   </style>
-
-  <!-- Если этот скрипт уже подключён где-то ещё, второй раз не вставляй -->
-  <script>window.yaContextCb = window.yaContextCb || []</script>
-  <script src="https://yandex.ru/ads/system/context.js" async></script>
 </head>
 <body>
   <header class="topbar">
@@ -113,7 +250,33 @@
           <a class="btn" href="#contacts">Связаться</a>
         </div>
       </div>
-      <div class="art" aria-hidden="true"><div class="orb"></div></div>
+      <div class="art" aria-label="Погода по местоположению">
+        <div class="weather-card" id="weatherCard">
+          <div class="loading-state" id="weatherLoading">Определяем город...</div>
+          <div class="weather-icon" id="weatherIcon"></div>
+          <div class="rain" id="rainLayer"></div>
+          <div class="wind-lines" id="windLayer">
+            <div class="wind-line"></div>
+            <div class="wind-line"></div>
+            <div class="wind-line"></div>
+          </div>
+          <div class="snow" id="snowLayer"></div>
+          <div class="weather-top">
+            <div>
+              <p class="weather-city" id="weatherCity">Город не найден</p>
+              <p class="weather-desc" id="weatherDesc">Погода подгружается</p>
+            </div>
+            <div>
+              <p class="weather-temp" id="weatherTemp">--°</p>
+              <div class="weather-meta">
+                <span id="weatherWind">Ветер --</span>
+                <span id="weatherFeels">Ощущается --</span>
+              </div>
+            </div>
+          </div>
+          <div class="weather-error" id="weatherError"></div>
+        </div>
+      </div>
     </section>
 
     <section id="about" class="section">
@@ -170,84 +333,289 @@
       <div class="links">
         <a class="link" href="https://github.com/filincprt" target="_blank" rel="noopener noreferrer"><strong>GitHub</strong><span>filincprt ↗</span></a>
         <a class="link" href="https://t.me/filin_cprt" target="_blank" rel="noopener noreferrer"><strong>Telegram</strong><span>@filin_cprt ↗</span></a>
-        <a class="link" href="mailto:internet@filincprt.ru"><strong>Email</strong><span>internet@filincprt.ru ↗</span></a>
+        <a class="link" href="mailto:internet@filincprt.ru" target="_blank" rel="noopener noreferrer"><strong>Email</strong><span>internet@filincprt.ru ↗</span></a>
+        <a class="link" href="https://band.link/filincprtlable" target="_blank" rel="noopener noreferrer"><strong>BandLink</strong><span>filincprtlable ↗</span></a>
       </div>
     </section>
+  </main>
 
-  <footer><div class="wrap">© 2026 filin_cprt</div></footer>
+  <footer>
+    <div class="wrap">© 2026 filin_cprt</div>
+  </footer>
+
   <script>
-    const certForm = document.getElementById('certForm');
-    const certImage = document.getElementById('certImage');
-    const certEmpty = document.getElementById('certEmpty');
-    const downloadLink = document.getElementById('downloadLink');
+    // --- CERTIFICATE ---
+    console.log('Скрипт загружен');
 
-    function drawCertificate(firstName, lastName) {
+    const certForm = document.getElementById('certForm');
+    console.log('Форма найдена?', certForm);
+
+    certForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      console.log('Кнопка нажата, submit сработал');
+
+      const firstName = document.getElementById('firstName').value;
+      const lastName = document.getElementById('lastName').value;
+      console.log('Имя:', firstName, 'Фамилия:', lastName);
+
+      try {
+        console.log('Начинаем рисовать сертификат...');
+        const dataUrl = await drawCertificate(firstName, lastName);
+        console.log('Сертификат получен, длина dataUrl:', dataUrl.length);
+
+        const certImage = document.getElementById('certImage');
+        const certEmpty = document.getElementById('certEmpty');
+        const downloadLink = document.getElementById('downloadLink');
+
+        certImage.src = dataUrl;
+        certImage.hidden = false;
+        certEmpty.hidden = true;
+        downloadLink.href = dataUrl;
+        downloadLink.hidden = false;
+        console.log('Сертификат отображён');
+      } catch (err) {
+        console.error('Ошибка:', err);
+        alert('Ошибка: ' + err.message);
+      }
+    });
+
+    async function drawCertificate(firstName, lastName) {
       const fullName = `${firstName.trim()} ${lastName.trim()}`.trim();
       const canvas = document.createElement('canvas');
-      canvas.width = 1400;
-      canvas.height = 980;
+      canvas.width = 1500;
+      canvas.height = 1000;
       const ctx = canvas.getContext('2d');
+
+      const logoImg = new Image();
+      logoImg.src = 'logo_mfi.png';
+      await new Promise((resolve, reject) => {
+        logoImg.onload = resolve;
+        logoImg.onerror = () => reject(new Error('Логотип не загружен. Проверь файл logo_mfi.png'));
+      });
 
       ctx.fillStyle = '#fdf9f1';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
       ctx.strokeStyle = '#202020';
       ctx.lineWidth = 8;
       ctx.strokeRect(28, 28, canvas.width - 56, canvas.height - 56);
-
       ctx.strokeStyle = '#ff4b00';
       ctx.lineWidth = 2;
       ctx.strokeRect(46, 46, canvas.width - 92, canvas.height - 92);
 
+      const logoMaxHeight = 175;
+      const logoTop = 55;
+      const logoAspect = logoImg.width / logoImg.height;
+      const logoHeight = logoMaxHeight;
+      const logoWidth = logoHeight * logoAspect;
+      const logoX = (canvas.width - logoWidth) / 2;
+      const logoY = logoTop;
+
+      ctx.drawImage(logoImg, logoX, logoY, logoWidth, logoHeight);
+
+      const titleY = logoY + logoHeight + 25;
+
       ctx.fillStyle = '#202020';
-      ctx.font = '700 36px "Space Mono", monospace';
       ctx.textAlign = 'center';
-      ctx.fillText('МИНИСТЕРСТВО СТАБИЛЬНОГО ИНТЕРНЕТА', canvas.width / 2, 130);
+
+      ctx.font = '700 36px "Space Mono", monospace';
+      ctx.fillText('МИНИСТЕРСТВО СТАБИЛЬНОГО ИНТЕРНЕТА', canvas.width / 2, titleY);
 
       ctx.font = '400 28px "Space Mono", monospace';
-      ctx.fillText('СЕРТИФИКАТ № 4GB-' + Math.floor(Math.random() * 90000 + 10000), canvas.width / 2, 190);
+      ctx.fillText(
+        'СЕРТИФИКАТ № 4GB-' + Math.floor(Math.random() * 90000 + 10000),
+        canvas.width / 2,
+        titleY + 60
+      );
 
       ctx.font = '600 76px "Cormorant Garamond", serif';
       ctx.fillStyle = '#ff4b00';
-      ctx.fillText('«ДОСТУП В ИНТЕРНЕТ 4 Gb»', canvas.width / 2, 300);
+      ctx.fillText('«ДОСТУП В ИНТЕРНЕТ 4 Gb»', canvas.width / 2, titleY + 170);
 
       ctx.fillStyle = '#202020';
       ctx.font = '500 46px "Cormorant Garamond", serif';
-      ctx.fillText('Настоящим удостоверяется, что гражданин(ка)', canvas.width / 2, 390);
+      ctx.fillText('Настоящим удостоверяется, что гражданин(ка)', canvas.width / 2, titleY + 260);
 
       ctx.font = '700 70px "Cormorant Garamond", serif';
-      ctx.fillText(fullName.toUpperCase(), canvas.width / 2, 480);
+      ctx.fillText(fullName.toUpperCase(), canvas.width / 2, titleY + 350);
 
       ctx.font = '500 42px "Cormorant Garamond", serif';
-      ctx.fillText('официально получает стратегический запас трафика', canvas.width / 2, 560);
-      ctx.fillText('в размере 4 гигабайта для великих интернет-дел.', canvas.width / 2, 615);
+      ctx.fillText('официально получает стратегический запас трафика', canvas.width / 2, titleY + 430);
+      ctx.fillText('в размере 4 гигабайта для великих интернет-дел.', canvas.width / 2, titleY + 485);
 
       ctx.font = '400 34px "Cormorant Garamond", serif';
-      ctx.fillText('Права: листать мемы, отвечать "щас скину", смотреть один (1) туториал', canvas.width / 2, 700);
-      ctx.fillText('и вести важные переговоры в комментариях.', canvas.width / 2, 742);
+      ctx.fillText(
+        'Разрешается пользоваться свободным Интернетом на территории Российской Федерации',
+        canvas.width / 2,
+        titleY + 575
+      );
+      ctx.fillText(
+        'без каких-либо блокировок, не боясь сесть на пару лет.',
+        canvas.width / 2,
+        titleY + 620
+      );
 
       ctx.textAlign = 'left';
       ctx.font = '700 28px "Space Mono", monospace';
-      ctx.fillText('Гражданство: Российская Федерация', 100, 840);
-      ctx.fillText('Подпись уполномоченного модема: ________________', 100, 890);
+      ctx.textBaseline = 'middle';
+
+      const labelText = 'Подпись уполномоченного: ';
+      const y = 920;
+      ctx.fillText(labelText, 100, y);
+
+      const signImg = new Image();
+      signImg.src = 'podpis.png';
+      await new Promise((resolve, reject) => {
+        signImg.onload = resolve;
+        signImg.onerror = () => reject(new Error('Картинка подписи недоступна. Проверь файл podpis.png'));
+      });
+
+      const textWidth = ctx.measureText(labelText).width;
+      const imgX = 100 + textWidth;
+      const imgHeight = 20;
+      const imgY = y - imgHeight / 2;
+      ctx.drawImage(signImg, imgX, imgY, 100, imgHeight);
 
       ctx.textAlign = 'right';
-      ctx.fillText(new Date().toLocaleDateString('ru-RU'), canvas.width - 100, 890);
+      ctx.fillText(new Date().toLocaleDateString('ru-RU'), canvas.width - 100, 920);
 
       return canvas.toDataURL('image/png');
     }
 
-    certForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const firstName = document.getElementById('firstName').value;
-      const lastName = document.getElementById('lastName').value;
-      const dataUrl = drawCertificate(firstName, lastName);
-      certImage.src = dataUrl;
-      certImage.hidden = false;
-      certEmpty.hidden = true;
-      downloadLink.href = dataUrl;
-      downloadLink.hidden = false;
-    });
+    // --- WEATHER WIDGET ---
+    const weatherCard = document.getElementById('weatherCard');
+    const weatherLoading = document.getElementById('weatherLoading');
+    const weatherCity = document.getElementById('weatherCity');
+    const weatherDesc = document.getElementById('weatherDesc');
+    const weatherTemp = document.getElementById('weatherTemp');
+    const weatherWind = document.getElementById('weatherWind');
+    const weatherFeels = document.getElementById('weatherFeels');
+    const weatherIcon = document.getElementById('weatherIcon');
+    const weatherError = document.getElementById('weatherError');
+    const rainLayer = document.getElementById('rainLayer');
+    const snowLayer = document.getElementById('snowLayer');
+
+    const weatherCodeMap = {
+      0: { label: 'Ясно', kind: 'sunny', icon: 'sun' },
+      1: { label: 'Преимущественно ясно', kind: 'sunny', icon: 'sun' },
+      2: { label: 'Переменная облачность', kind: 'cloudy', icon: 'cloud' },
+      3: { label: 'Пасмурно', kind: 'cloudy', icon: 'cloud' },
+      45: { label: 'Туман', kind: 'cloudy', icon: 'cloud' },
+      48: { label: 'Изморозь', kind: 'cloudy', icon: 'cloud' },
+      51: { label: 'Морось', kind: 'rainy', icon: 'rain' },
+      53: { label: 'Морось', kind: 'rainy', icon: 'rain' },
+      55: { label: 'Морось', kind: 'rainy', icon: 'rain' },
+      56: { label: 'Ледяная морось', kind: 'rainy', icon: 'rain' },
+      57: { label: 'Ледяная морось', kind: 'rainy', icon: 'rain' },
+      61: { label: 'Дождь', kind: 'rainy', icon: 'rain' },
+      63: { label: 'Дождь', kind: 'rainy', icon: 'rain' },
+      65: { label: 'Сильный дождь', kind: 'rainy', icon: 'rain' },
+      66: { label: 'Ледяной дождь', kind: 'rainy', icon: 'rain' },
+      67: { label: 'Ледяной дождь', kind: 'rainy', icon: 'rain' },
+      71: { label: 'Снег', kind: 'snowy', icon: 'snow' },
+      73: { label: 'Снег', kind: 'snowy', icon: 'snow' },
+      75: { label: 'Сильный снег', kind: 'snowy', icon: 'snow' },
+      77: { label: 'Снежные зерна', kind: 'snowy', icon: 'snow' },
+      80: { label: 'Ливень', kind: 'rainy', icon: 'rain' },
+      81: { label: 'Ливень', kind: 'rainy', icon: 'rain' },
+      82: { label: 'Сильный ливень', kind: 'rainy', icon: 'rain' },
+      85: { label: 'Снегопад', kind: 'snowy', icon: 'snow' },
+      86: { label: 'Сильный снегопад', kind: 'snowy', icon: 'snow' },
+      95: { label: 'Гроза', kind: 'rainy', icon: 'rain' },
+      96: { label: 'Гроза с градом', kind: 'rainy', icon: 'rain' },
+      99: { label: 'Гроза с градом', kind: 'rainy', icon: 'rain' }
+    };
+
+    function buildRain() {
+      rainLayer.innerHTML = '';
+      for (let i = 0; i < 26; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'drop';
+        drop.style.left = `${Math.random() * 100}%`;
+        drop.style.animationDelay = `${Math.random() * 1.2}s`;
+        drop.style.animationDuration = `${0.75 + Math.random() * 0.65}s`;
+        drop.style.opacity = `${0.45 + Math.random() * 0.5}`;
+        rainLayer.appendChild(drop);
+      }
+    }
+
+    function buildSnow() {
+      snowLayer.innerHTML = '';
+      for (let i = 0; i < 24; i++) {
+        const flake = document.createElement('div');
+        flake.className = 'flake';
+        flake.style.left = `${Math.random() * 100}%`;
+        flake.style.animationDelay = `${Math.random() * 3.5}s`;
+        flake.style.animationDuration = `${4.5 + Math.random() * 3.5}s`;
+        flake.style.opacity = `${0.55 + Math.random() * 0.45}`;
+        snowLayer.appendChild(flake);
+      }
+    }
+
+    function setWeatherVisual(kind) {
+      weatherCard.className = `weather-card is-${kind}`;
+      weatherIcon.innerHTML = '';
+
+      if (kind === 'sunny') {
+        weatherIcon.innerHTML = '<div class="weather-sun"></div>';
+      } else if (kind === 'cloudy') {
+        weatherIcon.innerHTML = '<div class="cloud one"></div><div class="cloud two"></div>';
+      } else if (kind === 'rainy') {
+        weatherIcon.innerHTML = '<div class="cloud one" style="top:24px;left:2px;width:140px;height:54px;"></div><div class="cloud two" style="top:56px;left:56px;width:126px;height:48px;"></div>';
+        buildRain();
+      } else if (kind === 'windy') {
+        weatherIcon.innerHTML = '<div class="cloud one" style="top:38px;left:10px;width:132px;height:50px;opacity:.72"></div>';
+      } else if (kind === 'snowy') {
+        weatherIcon.innerHTML = '<div class="cloud one" style="top:30px;left:8px;width:136px;height:52px;opacity:.88"></div>';
+        buildSnow();
+      } else {
+        weatherIcon.innerHTML = '<div class="cloud one"></div>';
+      }
+    }
+
+    async function loadWeather() {
+      try {
+        const locationRes = await fetch('https://ip-api.com/json/?fields=status,message,city,lat,lon,timezone,query', { cache: 'no-store' });
+        const location = await locationRes.json();
+
+        if (!locationRes.ok || location.status !== 'success') {
+          throw new Error(location.message || 'Не удалось определить местоположение');
+        }
+
+        const weatherRes = await fetch(
+          `https://api.open-meteo.com/v1/forecast?latitude=${location.lat}&longitude=${location.lon}&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m&timezone=auto`,
+          { cache: 'no-store' }
+        );
+        const weather = await weatherRes.json();
+
+        const current = weather.current;
+        if (!current) throw new Error('Погода не пришла');
+
+        const mapped = weatherCodeMap[current.weather_code] || { label: 'Неизвестно', kind: 'cloudy', icon: 'cloud' };
+        const windKind = current.wind_speed_10m >= 35 ? 'windy' : mapped.kind;
+
+        setWeatherVisual(windKind);
+        weatherCity.textContent = location.city ? `${location.city}` : 'Ваше местоположение';
+        weatherTemp.textContent = `${Math.round(current.temperature_2m)}°`;
+        weatherDesc.textContent = mapped.label;
+        weatherWind.textContent = `Ветер ${Math.round(current.wind_speed_10m)} км/ч`;
+        weatherFeels.textContent = `Ощущается ${Math.round(current.apparent_temperature)}°`;
+        weatherLoading.style.display = 'none';
+        weatherCard.classList.remove('has-error');
+      } catch (err) {
+        console.error(err);
+        weatherCard.classList.add('has-error');
+        weatherLoading.textContent = 'Погода недоступна';
+        weatherCity.textContent = 'Город не определён';
+        weatherTemp.textContent = '--°';
+        weatherDesc.textContent = 'Не удалось загрузить данные';
+        weatherWind.textContent = 'Ветер --';
+        weatherFeels.textContent = 'Ощущается --';
+        weatherError.textContent = 'Не удалось получить местоположение или погоду. Браузер, сеть или API решили устроить саботаж.';
+        setWeatherVisual('cloudy');
+      }
+    }
+
+    loadWeather();
   </script>
 </body>
 </html>
