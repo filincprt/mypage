@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Картотека просмотренных фильмов и сериалов filin_cprt" />
+  <title>filin_cprt · watchlist</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;background:#f7f5f0;color:#181615;font-family:'Cormorant Garamond',serif;overflow-x:hidden}
+    a{color:inherit}
+    button,input,select,textarea{font:inherit}
+    .wrap{max-width:1280px;margin:0 auto;padding:0 24px}
+    .topbar{position:sticky;top:0;z-index:30;backdrop-filter:blur(14px);background:rgba(247,245,240,.9);border-bottom:1px solid rgba(24,22,21,.08)}
+    .topbar .wrap{display:flex;align-items:center;justify-content:space-between;min-height:72px;gap:16px}
+    .brand,.back{font-family:'Space Mono',monospace;text-decoration:none;font-size:13px;letter-spacing:.1em;text-transform:uppercase}
+    .nav{display:flex;gap:16px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.12em}
+    .hero{padding:56px 0 26px;display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:end}
+    .kicker{font-family:'Space Mono',monospace;color:#7a7570;text-transform:uppercase;letter-spacing:.2em;font-size:12px;margin:0 0 18px}
+    h1{margin:0;font-size:clamp(56px,8vw,116px);line-height:.92;font-weight:300;letter-spacing:-.03em}
+    h1 em{color:#ff4b00;font-style:italic;font-weight:600}
+    .lead{margin:22px 0 0;max-width:42rem;font-size:21px;line-height:1.72;color:#5f5a55}
+    .hero-box{border:1px solid rgba(24,22,21,.1);border-radius:28px;background:#fffdfa;padding:24px;min-height:320px;display:grid;gap:16px;align-content:start}
+    .hero-box strong{font-size:28px;line-height:1.1}
+    .hero-box p{margin:0;color:#5f5a55;font-size:18px;line-height:1.7}
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+    .btn{border:1px solid #181615;background:#181615;color:#f7f5f0;border-radius:999px;padding:14px 18px;text-decoration:none;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s ease}
+    .btn:hover{transform:translateY(-2px)}
+    .btn.secondary{background:transparent;color:#181615}
+    .btn.ghost{background:#fffdfa;color:#181615;border-color:rgba(24,22,21,.18)}
+    .pill{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7a7570;border:1px solid rgba(24,22,21,.1);border-radius:999px;padding:10px 12px;background:#fffdfa}
+    section{border-top:1px solid rgba(24,22,21,.1)}
+    .section{padding:44px 0 72px}
+    .title{font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.2em;font-size:12px;color:#ff4b00;margin:0 0 18px;display:flex;gap:12px;align-items:center}
+    .search-card{border:1px solid rgba(24,22,21,.1);border-radius:28px;padding:22px;background:#fffdfa;display:grid;gap:14px}
+    .search-grid{display:grid;grid-template-columns:1.2fr .4fr auto;gap:12px}
+    .search-grid input,.search-grid select,.admin-grid input,.admin-grid select,.admin-grid textarea{width:100%;padding:14px 14px;border:1px solid rgba(24,22,21,.14);border-radius:16px;background:#fff;color:#181615;outline:none}
+    .search-grid input:focus,.search-grid select:focus,.admin-grid input:focus,.admin-grid select:focus,.admin-grid textarea:focus{border-color:#ff4b00;box-shadow:0 0 0 3px rgba(255,75,0,.12)}
+    .help{font-size:16px;color:#7a7570;line-height:1.6;margin:0}
+    .split{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:start}
+    .panel{border:1px solid rgba(24,22,21,.1);border-radius:28px;background:#fffdfa;padding:22px;min-height:300px}
+    .results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    .result-card,.library-card{border:1px solid rgba(24,22,21,.1);border-radius:20px;background:#fff;overflow:hidden;transition:.2s ease;display:grid}
+    .result-card{cursor:pointer}
+    .result-card:hover,.library-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(24,22,21,.08)}
+    .poster{aspect-ratio:2/3;background:linear-gradient(180deg,rgba(255,75,0,.08),rgba(24,22,21,.04));display:grid;place-items:center;overflow:hidden}
+    .poster img{width:100%;height:100%;object-fit:cover;display:block}
+    .poster .no-poster{padding:20px;text-align:center;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#7a7570}
+    .card-body{padding:14px 14px 16px;display:grid;gap:8px}
+    .card-title,.name{font-size:23px;line-height:1.1;font-weight:600}
+    .card-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:#7a7570;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+    .badge{display:inline-flex;align-items:center;padding:6px 8px;border-radius:999px;background:rgba(255,75,0,.08);color:#ff4b00;border:1px solid rgba(255,75,0,.12)}
+    .overview,.note{color:#5f5a55;font-size:17px;line-height:1.55}
+    .overview{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;min-height:108px}
+    .empty{border:1px dashed rgba(24,22,21,.18);border-radius:22px;padding:20px;color:#7a7570;font-size:18px;line-height:1.65;background:rgba(255,255,255,.6)}
+    .detail-top{display:grid;grid-template-columns:190px 1fr;gap:18px;align-items:start}
+    .detail-poster{border-radius:18px;overflow:hidden;border:1px solid rgba(24,22,21,.12);background:linear-gradient(180deg,rgba(255,75,0,.08),rgba(24,22,21,.04));aspect-ratio:2/3}
+    .detail-poster img{width:100%;height:100%;object-fit:cover;display:block}
+    .detail-title{display:flex;flex-direction:column;gap:10px}
+    .detail-title h2{font-size:36px;margin:0}
+    .detail-title .subtitle{font-size:18px;color:#5f5a55;line-height:1.6}
+    .facts{display:flex;flex-wrap:wrap;gap:8px}
+    .facts .pill{background:#fff}
+    .detail-section{margin-top:18px;border-top:1px solid rgba(24,22,21,.1);padding-top:18px;display:grid;gap:12px}
+    .cast{display:flex;flex-wrap:wrap;gap:10px}
+    .cast .pill{background:#fffdfa;border-color:rgba(24,22,21,.12);text-transform:none;letter-spacing:.04em;font-size:12px}
+    .admin-bar{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .admin-grid .full{grid-column:1/-1}
+    .admin-grid textarea{min-height:96px;resize:vertical}
+    .toggle{display:flex;align-items:center;gap:10px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7a7570}
+    .toggle input{width:18px;height:18px}
+    .status{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7a7570;min-height:18px}
+    .status.ok{color:#137333}.status.err{color:#b3261e}
+    .library-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    .library-card{padding:0;cursor:default}
+    .library-card .top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:16px 16px 0}
+    .library-card .note{padding:0 16px 16px;white-space:pre-wrap}
+    .small-actions{display:flex;gap:8px;flex-wrap:wrap;padding:0 16px 16px}
+    .tiny{padding:10px 12px;font-size:11px}
+    .footer-note{margin-top:10px;font-size:15px;color:#7a7570;line-height:1.55}
+    .tmdb-brand{font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.12em;font-size:11px;color:#7a7570}
+    .hidden{display:none !important}
+    @media (max-width:1100px){.hero,.split,.detail-top{grid-template-columns:1fr}.results,.library-grid,.admin-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:720px){.topbar .wrap{min-height:60px}.hero{padding:36px 0 20px}h1{font-size:clamp(44px,13vw,76px)}.lead{font-size:18px}.results,.library-grid,.search-grid,.admin-grid{grid-template-columns:1fr}.panel h2{font-size:30px}.card-title{font-size:21px}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="index.html">filin_cprt</a>
+      <nav class="nav">
+        <a href="#search">Поиск</a>
+        <a href="#detail">Карточка</a>
+        <a href="#library">Витрина</a>
+        <a href="#admin">Админка</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <p class="kicker">Картотека просмотренного</p>
+        <h1>Фильмы <em>и</em><br>сериалы</h1>
+        <p class="lead">Поиск идёт через TMDb, а личная картотека с оценками, избранным и комментариями хранится в Cloudflare D1. Публичная часть видна всем, а админка закрыта паролем. Для ручного добавления записей TMDb не обязателен, потому что не всё из реальной жизни есть в каталогах, как ни удивительно.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="#search">Искать</a>
+          <a class="btn secondary" href="index.html">На главную</a>
+        </div>
+      </div>
+      <div class="hero-box">
+        <span class="pill">TMDb + D1</span>
+        <strong>Постеры, описания, актёры, хранение.</strong>
+        <p>TMDb даёт каталог и постеры, D1 хранит твою запись о просмотре, а Basic Auth не пускает левых в редактирование.</p>
+      </div>
+    </section>
+
+    <section id="search" class="section">
+      <p class="title"><span>01</span>Поиск</p>
+      <div class="search-card">
+        <div class="search-grid">
+          <input id="query" type="search" placeholder="Название фильма или сериала" autocomplete="off" />
+          <select id="type">
+            <option value="all">Фильмы + сериалы</option>
+            <option value="movie">Только фильмы</option>
+            <option value="tv">Только сериалы</option>
+          </select>
+          <button class="btn" id="searchBtn" type="button">Найти</button>
+        </div>
+        <p class="help">Поиск учитывает русские и английские варианты, а подробности карточки подгружаются отдельно, чтобы были и описание, и актёрский состав.</p>
+      </div>
+    </section>
+
+    <section class="section split">
+      <div>
+        <p class="title"><span>02</span>Подходящие варианты</p>
+        <div id="results" class="results"></div>
+        <div id="resultsEmpty" class="empty" style="display:none;">Пока ничего не найдено. Введи название и подожди пару секунд.</div>
+      </div>
+      <aside id="detail" class="panel">
+        <p class="title" style="margin-top:0"><span>03</span>Карточка</p>
+        <div id="detailEmpty" class="empty">Выбери фильм или сериал из списка. Тут будут постер, описание, жанры и актёрский состав.</div>
+        <div id="detailView" hidden>
+          <div class="detail-top">
+            <div class="detail-poster"><img id="detailPoster" alt="Постер" /></div>
+            <div class="detail-title">
+              <h2 id="detailTitle">—</h2>
+              <div class="subtitle" id="detailSubtitle"></div>
+              <div class="facts" id="detailFacts"></div>
+            </div>
+          </div>
+          <div class="detail-section">
+            <p class="help" id="detailOverview"></p>
+            <div>
+              <p class="title" style="margin:0 0 12px"><span>04</span>Актёрский состав</p>
+              <div class="cast" id="detailCast"></div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="library" class="section">
+      <p class="title"><span>05</span>Витрина</p>
+      <div id="libraryGrid" class="library-grid"></div>
+      <div id="libraryEmpty" class="empty" style="display:none;">Публичная витрина пока пустая.</div>
+    </section>
+
+    <section id="admin" class="section">
+      <p class="title"><span>06</span>Админка</p>
+      <div class="search-card">
+        <div class="admin-bar">
+          <input id="adminPassword" type="password" placeholder="Админ-пароль" />
+          <button class="btn" id="unlockAdmin" type="button">Разблокировать</button>
+          <button class="btn secondary hidden" id="lockAdmin" type="button">Заблокировать</button>
+        </div>
+        <div id="adminStatus" class="status"></div>
+      </div>
+
+      <div id="adminPanel" class="section hidden" style="padding-bottom:0">
+        <div class="panel" style="margin-bottom:18px">
+          <p class="title" style="margin-top:0"><span>07</span>Добавить или изменить запись</p>
+          <form id="adminForm" class="admin-grid">
+            <input type="hidden" id="editId" />
+            <input type="hidden" id="editSource" value="tmdb" />
+            <input type="hidden" id="editSourceId" />
+            <label>Название
+              <input id="editTitle" required placeholder="Елки 3" />
+            </label>
+            <label>Оригинальное название
+              <input id="editOriginalTitle" placeholder="Original title" />
+            </label>
+            <label>Тип
+              <select id="editType">
+                <option value="movie">Фильм</option>
+                <option value="tv">Сериал</option>
+              </select>
+            </label>
+            <label>Год
+              <input id="editYear" placeholder="2013" />
+            </label>
+            <label class="full">Постер
+              <input id="editPoster" placeholder="/poster_path.jpg или https://..." />
+            </label>
+            <label class="full">Описание
+              <textarea id="editDescription" placeholder="Сюжет, заметки"></textarea>
+            </label>
+            <label>Актёры через запятую
+              <input id="editCast" placeholder="Иван Ургант, Сергей Светлаков" />
+            </label>
+            <label>Жанры через запятую
+              <input id="editGenres" placeholder="Комедия, Семейный" />
+            </label>
+            <label>Страны через запятую
+              <input id="editCountries" placeholder="Россия" />
+            </label>
+            <label>Оценка 1-10
+              <input id="editRating" type="number" min="1" max="10" />
+            </label>
+            <label>Комментарий
+              <input id="editComment" placeholder="Что ты об этом думаешь" />
+            </label>
+            <label class="toggle full"><input id="editFavorite" type="checkbox" /> В избранное</label>
+            <label class="toggle full"><input id="editPublic" type="checkbox" checked /> Показать на витрине</label>
+            <div class="full cta-row" style="margin-top:4px">
+              <button class="btn" type="submit">Сохранить</button>
+              <button class="btn secondary" type="button" id="resetAdminForm">Очистить</button>
+              <button class="btn secondary" type="button" id="deleteAdminEntry">Удалить</button>
+            </div>
+            <div class="full status" id="editStatus"></div>
+          </form>
+        </div>
+
+        <div class="panel">
+          <p class="title" style="margin-top:0"><span>08</span>Полная база</p>
+          <div class="help" style="margin-bottom:12px">Здесь видны все записи, включая приватные. Именно это и остаётся под паролем.</div>
+          <div id="adminGrid" class="library-grid"></div>
+          <div id="adminEmpty" class="empty" style="display:none;">Пока ничего не сохранено.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap" style="padding:28px 24px 40px;border-top:1px solid rgba(24,22,21,.1);font-family:'Space Mono',monospace;color:#7a7570;font-size:12px">
+    © 2026 filin_cprt · TMDb for data, Cloudflare D1 for your personal notes.
+  </footer>
+
+  <script>
+    const API_URL = 'https://YOUR-WORKER.workers.dev';
+    const sessionKey = 'filin-watchlist-pass';
+    const resultsEl = document.getElementById('results');
+    const resultsEmptyEl = document.getElementById('resultsEmpty');
+    const libraryGridEl = document.getElementById('libraryGrid');
+    const libraryEmptyEl = document.getElementById('libraryEmpty');
+    const queryEl = document.getElementById('query');
+    const typeEl = document.getElementById('type');
+    const searchBtn = document.getElementById('searchBtn');
+    const detailEmpty = document.getElementById('detailEmpty');
+    const detailView = document.getElementById('detailView');
+    const detailPoster = document.getElementById('detailPoster');
+    const detailTitle = document.getElementById('detailTitle');
+    const detailSubtitle = document.getElementById('detailSubtitle');
+    const detailFacts = document.getElementById('detailFacts');
+    const detailOverview = document.getElementById('detailOverview');
+    const detailCast = document.getElementById('detailCast');
+    const adminPassword = document.getElementById('adminPassword');
+    const unlockAdmin = document.getElementById('unlockAdmin');
+    const lockAdmin = document.getElementById('lockAdmin');
+    const adminStatus = document.getElementById('adminStatus');
+    const adminPanel = document.getElementById('adminPanel');
+    const adminForm = document.getElementById('adminForm');
+    const adminGrid = document.getElementById('adminGrid');
+    const adminEmpty = document.getElementById('adminEmpty');
+    const editId = document.getElementById('editId');
+    const editSource = document.getElementById('editSource');
+    const editSourceId = document.getElementById('editSourceId');
+    const editTitle = document.getElementById('editTitle');
+    const editOriginalTitle = document.getElementById('editOriginalTitle');
+    const editType = document.getElementById('editType');
+    const editYear = document.getElementById('editYear');
+    const editPoster = document.getElementById('editPoster');
+    const editDescription = document.getElementById('editDescription');
+    const editCast = document.getElementById('editCast');
+    const editGenres = document.getElementById('editGenres');
+    const editCountries = document.getElementById('editCountries');
+    const editRating = document.getElementById('editRating');
+    const editComment = document.getElementById('editComment');
+    const editFavorite = document.getElementById('editFavorite');
+    const editPublic = document.getElementById('editPublic');
+    const editStatus = document.getElementById('editStatus');
+    const resetAdminForm = document.getElementById('resetAdminForm');
+    const deleteAdminEntry = document.getElementById('deleteAdminEntry');
+
+    const state = { results: [], publicItems: [], adminItems: [] };
+
+    function imgUrl(item) {
+      if (!item.poster_path) return '';
+      if (String(item.poster_path).startsWith('http')) return item.poster_path;
+      return `https://image.tmdb.org/t/p/w500${item.poster_path}`;
+    }
+    function yearOf(item) { return item.year || String(item.release_date || item.first_air_date || '').slice(0,4) || '—'; }
+    function keyOf(item) { return item.id || `${item.source}:${item.source_id}:${item.title}`; }
+    function showStatus(el, text, kind='') { el.className = `status${kind ? ' ' + kind : ''}`; el.textContent = text; }
+    function authHeader() {
+      const pass = sessionStorage.getItem(sessionKey);
+      return pass ? 'Basic ' + btoa(`admin:${pass}`) : null;
+    }
+
+    async function api(path, options = {}) {
+      const headers = new Headers(options.headers || {});
+      if (!headers.has('Content-Type') && options.body && !(options.body instanceof FormData)) headers.set('Content-Type', 'application/json');
+      const auth = authHeader();
+      if (auth) headers.set('Authorization', auth);
+      const res = await fetch(`${API_URL}${path}`, { ...options, headers });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.ok === false) throw new Error(data.error || `Request failed ${res.status}`);
+      return data;
+    }
+
+    function renderResults(items) {
+      resultsEl.innerHTML = '';
+      if (!items.length) { resultsEmptyEl.style.display = 'block'; resultsEmptyEl.textContent = 'Начни с поиска по названию.'; return; }
+      resultsEmptyEl.style.display = 'none';
+      items.forEach((item) => {
+        const card = document.createElement('article');
+        card.className = 'result-card';
+        card.innerHTML = `
+          <div class="poster">${imgUrl(item) ? `<img src="${imgUrl(item)}" alt="${escapeHtml(item.title || 'Постер')}" loading="lazy">` : '<div class="no-poster">Постер отсутствует</div>'}</div>
+          <div class="card-body">
+            <div class="card-meta"><span class="badge">${item.media_type === 'tv' ? 'Сериал' : 'Фильм'}</span><span>${escapeHtml(yearOf(item))}</span><span>TMDb</span></div>
+            <div class="card-title">${escapeHtml(item.title || 'Без названия')}</div>
+            <div class="overview">${escapeHtml(item.overview || item.description || 'Описание отсутствует.')}</div>
+          </div>
+        `;
+        card.addEventListener('click', () => openItem(item));
+        resultsEl.appendChild(card);
+      });
+    }
+
+    async function searchCatalog() {
+      const q = queryEl.value.trim();
+      const type = typeEl.value;
+      if (q.length < 2) { renderResults([]); return; }
+      searchBtn.disabled = true; searchBtn.textContent = 'Ищу...'; resultsEl.innerHTML = '<div class="empty" style="grid-column:1/-1">Ищем...</div>';
+      try {
+        const data = await api(`/search?q=${encodeURIComponent(q)}&type=${encodeURIComponent(type)}&language=ru-RU`);
+        state.results = data.results || [];
+        renderResults(state.results);
+      } catch (err) {
+        resultsEl.innerHTML = '';
+        resultsEmptyEl.style.display = 'block';
+        resultsEmptyEl.textContent = 'Поиск не сработал: ' + err.message;
+      } finally { searchBtn.disabled = false; searchBtn.textContent = 'Найти'; }
+    }
+
+    async function openItem(item) {
+      detailEmpty.hidden = true; detailView.hidden = false;
+      detailTitle.textContent = item.title || 'Загрузка...';
+      detailSubtitle.textContent = '';
+      detailFacts.innerHTML = '';
+      detailCast.innerHTML = '';
+      detailOverview.textContent = item.overview || item.description || '';
+      detailPoster.src = imgUrl(item);
+      detailPoster.alt = item.title || 'Постер';
+
+      try {
+        const data = await api(`/details?type=${encodeURIComponent(item.media_type)}&id=${encodeURIComponent(item.id)}&language=ru-RU`);
+        const d = data.details || item;
+        detailPoster.src = imgUrl(d) || imgUrl(item);
+        detailTitle.textContent = d.title || d.name || item.title || 'Без названия';
+        detailSubtitle.textContent = [d.media_type === 'tv' ? 'Сериал' : 'Фильм', yearOf(d), d.original_language ? d.original_language.toUpperCase() : null].filter(Boolean).join(' · ');
+        detailOverview.textContent = d.overview || item.overview || 'Описание отсутствует.';
+        const facts = [];
+        if (Array.isArray(d.genres) && d.genres.length) facts.push(d.genres.slice(0,3).map(g => g.name || g).join(', '));
+        if (d.runtime) facts.push(`${d.runtime} мин`);
+        if (d.number_of_seasons) facts.push(`${d.number_of_seasons} сез.`);
+        if (d.vote_average) facts.push(`TMDb ${Number(d.vote_average).toFixed(1)}`);
+        if (Array.isArray(d.origin_country) && d.origin_country.length) facts.push(d.origin_country.slice(0,2).join(', '));
+        facts.forEach((text) => { const el = document.createElement('span'); el.className = 'pill'; el.textContent = text; detailFacts.appendChild(el); });
+        const cast = (data.credits && data.credits.cast) || [];
+        detailCast.innerHTML = cast.length ? '' : '<span class="pill">Актёрский состав не загружен</span>';
+        cast.slice(0,10).forEach((person) => { const el = document.createElement('span'); el.className = 'pill'; el.textContent = `${person.name}${person.character ? ` · ${person.character}` : ''}`; detailCast.appendChild(el); });
+        fillAdminForm({
+          ...item,
+          ...d,
+          cast: cast.slice(0,10).map(p => `${p.name}${p.character ? ` · ${p.character}` : ''}`),
+          genres: Array.isArray(d.genres) ? d.genres.map(g => g.name) : [],
+          countries: Array.isArray(d.origin_country) ? d.origin_country : [],
+          poster_path: d.poster_path || item.poster_path || '',
+        });
+      } catch (err) {
+        console.warn(err);
+        // fallback to search result only
+        const cast = Array.isArray(item.cast) ? item.cast : [];
+        detailFacts.innerHTML = '';
+        detailOverview.textContent = item.overview || item.description || 'Описание отсутствует.';
+        detailSubtitle.textContent = [item.media_type === 'tv' ? 'Сериал' : 'Фильм', yearOf(item)].filter(Boolean).join(' · ');
+        detailCast.innerHTML = cast.length ? '' : '<span class="pill">Актёрский состав не загружен</span>';
+        cast.slice(0,10).forEach((text) => { const el = document.createElement('span'); el.className = 'pill'; el.textContent = text; detailCast.appendChild(el); });
+        fillAdminForm(item);
+      }
+    }
+
+    function fillAdminForm(item) {
+      editId.value = item.id || '';
+      editSource.value = item.source || 'tmdb';
+      editSourceId.value = item.source_id || item.id || '';
+      editTitle.value = item.title || '';
+      editOriginalTitle.value = item.original_title || '';
+      editType.value = item.media_type || 'movie';
+      editYear.value = yearOf(item);
+      editPoster.value = item.poster_path || '';
+      editDescription.value = item.overview || item.description || '';
+      editCast.value = Array.isArray(item.cast) ? item.cast.join(', ') : '';
+      editGenres.value = Array.isArray(item.genres) ? item.genres.join(', ') : '';
+      editCountries.value = Array.isArray(item.countries) ? item.countries.join(', ') : '';
+      editRating.value = item.rating ?? '';
+      editComment.value = item.comment || '';
+      editFavorite.checked = Boolean(item.favorite);
+      editPublic.checked = item.is_public === undefined ? true : Boolean(item.is_public);
+      showStatus(editStatus, 'Готово к редактированию');
+    }
+
+    function getFormPayload() {
+      return {
+        id: editId.value || undefined,
+        source: editSource.value || 'tmdb',
+        source_id: editSourceId.value || '',
+        media_type: editType.value,
+        title: editTitle.value.trim(),
+        original_title: editOriginalTitle.value.trim(),
+        year: editYear.value.trim(),
+        poster_path: editPoster.value.trim(),
+        overview: editDescription.value.trim(),
+        cast: editCast.value.split(',').map(s => s.trim()).filter(Boolean),
+        genres: editGenres.value.split(',').map(s => s.trim()).filter(Boolean),
+        countries: editCountries.value.split(',').map(s => s.trim()).filter(Boolean),
+        rating: editRating.value ? Number(editRating.value) : null,
+        favorite: editFavorite.checked,
+        comment: editComment.value.trim(),
+        is_public: editPublic.checked,
+        watched_at: new Date().toISOString(),
+      };
+    }
+
+    async function loadPublic() {
+      try {
+        const data = await api('/public');
+        state.publicItems = data.results || [];
+        renderPublic();
+      } catch (err) {
+        libraryEmptyEl.style.display = 'block';
+        libraryEmptyEl.textContent = 'Не удалось загрузить витрину: ' + err.message;
+      }
+    }
+
+    function renderPublic() {
+      libraryGridEl.innerHTML = '';
+      if (!state.publicItems.length) { libraryEmptyEl.style.display = 'block'; return; }
+      libraryEmptyEl.style.display = 'none';
+      state.publicItems.forEach((item) => {
+        const card = document.createElement('article');
+        card.className = 'library-card';
+        card.innerHTML = `
+          <div class="poster">${imgUrl(item) ? `<img src="${imgUrl(item)}" alt="${escapeHtml(item.title || 'Постер')}" loading="lazy">` : '<div class="no-poster">Постер отсутствует</div>'}</div>
+          <div class="top">
+            <div>
+              <div class="badge">${item.media_type === 'tv' ? 'Сериал' : 'Фильм'}</div>
+              <div class="name">${escapeHtml(item.title || 'Без названия')}</div>
+              <div class="card-meta" style="margin-top:6px"><span>${escapeHtml(yearOf(item))}</span><span>TMDb</span></div>
+            </div>
+            <div class="muted">${item.favorite ? '★' : ''}${item.rating ? ` ${item.rating}/10` : ''}</div>
+          </div>
+          <div class="note">${escapeHtml(item.comment || 'Комментарий не оставлен.')}</div>
+        `;
+        card.addEventListener('click', () => openItem(item));
+        libraryGridEl.appendChild(card);
+      });
+    }
+
+    async function loadAdmin() {
+      try {
+        const data = await api('/admin');
+        state.adminItems = data.results || [];
+        renderAdmin();
+      } catch (err) {
+        showStatus(adminStatus, 'Админку не удалось открыть: ' + err.message, 'err');
+        adminPanel.classList.add('hidden');
+        lockAdmin.classList.add('hidden');
+        unlockAdmin.classList.remove('hidden');
+      }
+    }
+
+    function renderAdmin() {
+      adminGrid.innerHTML = '';
+      if (!state.adminItems.length) { adminEmpty.style.display = 'block'; return; }
+      adminEmpty.style.display = 'none';
+      state.adminItems.forEach((item) => {
+        const card = document.createElement('article');
+        card.className = 'library-card';
+        card.innerHTML = `
+          <div class="poster">${imgUrl(item) ? `<img src="${imgUrl(item)}" alt="${escapeHtml(item.title || 'Постер')}" loading="lazy">` : '<div class="no-poster">Постер отсутствует</div>'}</div>
+          <div class="top">
+            <div>
+              <div class="badge">${item.is_public ? 'public' : 'private'}</div>
+              <div class="name">${escapeHtml(item.title || 'Без названия')}</div>
+              <div class="card-meta" style="margin-top:6px"><span>${escapeHtml(yearOf(item))}</span><span>TMDb</span></div>
+            </div>
+            <div class="muted">${item.favorite ? '★' : ''}${item.rating ? ` ${item.rating}/10` : ''}</div>
+          </div>
+          <div class="note">${escapeHtml(item.comment || 'Комментарий не оставлен.')}</div>
+          <div class="small-actions">
+            <button class="btn ghost tiny" type="button">Редактировать</button>
+            <button class="btn secondary tiny" type="button">Удалить</button>
+          </div>
+        `;
+        const [editBtn, deleteBtn] = card.querySelectorAll('button');
+        editBtn.addEventListener('click', () => fillAdminForm(item));
+        deleteBtn.addEventListener('click', async () => {
+          if (!confirm(`Удалить ${item.title || 'запись'}?`)) return;
+          await api('/admin', { method: 'DELETE', body: JSON.stringify({ id: item.id }) });
+          await loadAdmin();
+          await loadPublic();
+        });
+        adminGrid.appendChild(card);
+      });
+    }
+
+    function unlock() {
+      const pass = adminPassword.value.trim();
+      if (!pass) return;
+      sessionStorage.setItem(sessionKey, pass);
+      adminPanel.classList.remove('hidden');
+      unlockAdmin.classList.add('hidden');
+      lockAdmin.classList.remove('hidden');
+      showStatus(adminStatus, 'Админка открыта', 'ok');
+      loadAdmin();
+    }
+
+    function lock() {
+      sessionStorage.removeItem(sessionKey);
+      adminPanel.classList.add('hidden');
+      lockAdmin.classList.add('hidden');
+      unlockAdmin.classList.remove('hidden');
+      adminPassword.value = '';
+      showStatus(adminStatus, 'Админка закрыта');
+    }
+
+    adminForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      showStatus(editStatus, 'Сохраняю...');
+      try {
+        await api('/admin', { method: 'POST', body: JSON.stringify(getFormPayload()) });
+        showStatus(editStatus, 'Сохранено', 'ok');
+        await loadAdmin();
+        await loadPublic();
+      } catch (err) {
+        showStatus(editStatus, 'Ошибка: ' + err.message, 'err');
+      }
+    });
+
+    document.getElementById('deleteAdminEntry').addEventListener('click', async () => {
+      if (!editId.value) return;
+      if (!confirm(`Удалить ${editTitle.value || 'эту запись'}?`)) return;
+      try {
+        await api('/admin', { method: 'DELETE', body: JSON.stringify({ id: editId.value }) });
+        showStatus(editStatus, 'Удалено', 'ok');
+        resetForm();
+        await loadAdmin();
+        await loadPublic();
+      } catch (err) {
+        showStatus(editStatus, 'Ошибка: ' + err.message, 'err');
+      }
+    });
+
+    function resetForm() {
+      editId.value = '';
+      editSource.value = 'tmdb';
+      editSourceId.value = '';
+      editTitle.value = '';
+      editOriginalTitle.value = '';
+      editType.value = 'movie';
+      editYear.value = '';
+      editPoster.value = '';
+      editDescription.value = '';
+      editCast.value = '';
+      editGenres.value = '';
+      editCountries.value = '';
+      editRating.value = '';
+      editComment.value = '';
+      editFavorite.checked = false;
+      editPublic.checked = true;
+      showStatus(editStatus, 'Форма очищена');
+    }
+
+    resetAdminForm.addEventListener('click', resetForm);
+    unlockAdmin.addEventListener('click', unlock);
+    lockAdmin.addEventListener('click', lock);
+    searchBtn.addEventListener('click', searchCatalog);
+    queryEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); searchCatalog(); } });
+    typeEl.addEventListener('change', () => { if (queryEl.value.trim().length >= 2) searchCatalog(); });
+
+    function escapeHtml(value='') { return String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;').replace(/'/g,'&#39;'); }
+    const savedPass = sessionStorage.getItem(sessionKey);
+    if (savedPass) {
+      adminPanel.classList.remove('hidden');
+      unlockAdmin.classList.add('hidden');
+      lockAdmin.classList.remove('hidden');
+      adminPassword.value = savedPass;
+      loadAdmin();
+    }
+
+    loadPublic();
+    renderResults([]);
+  </script>
+</body>
+</html>
