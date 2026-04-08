@@ -1,0 +1,513 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>filincprt - Витрина</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f2f0ec;
+      --surface: #fffdf9;
+      --ink: #1f1a16;
+      --muted: #74695f;
+      --line: #d9cfc5;
+      --accent: #c85016;
+      --accent-soft: #f4d6c8;
+      --shadow: 0 18px 44px rgba(33, 23, 15, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(200, 80, 22, 0.12), transparent 32%),
+        radial-gradient(circle at 88% 10%, rgba(80, 132, 111, 0.1), transparent 34%),
+        var(--bg);
+      font-family: 'Manrope', sans-serif;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 14px 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 253, 249, 0.88);
+    }
+
+    .brand {
+      margin: 0;
+      font-family: 'Literata', serif;
+      font-size: clamp(24px, 3vw, 34px);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .topbar a {
+      text-decoration: none;
+      color: var(--ink);
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .topbar a:hover {
+      transform: translateY(-1px);
+      background: var(--ink);
+      color: var(--surface);
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+    .filters {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: end;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .field select {
+      width: 100%;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--ink);
+      padding: 0 12px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .field button {
+      width: 100%;
+      height: 44px;
+      border: 1px solid var(--ink);
+      border-radius: 12px;
+      background: var(--ink);
+      color: var(--surface);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .field button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+
+    .field select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(200, 80, 22, 0.16);
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      margin: 2px 0 4px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: 320px auto;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      animation: rise 0.34s ease both;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 24px 50px rgba(33, 23, 15, 0.14);
+    }
+
+    .poster {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #e9e2db;
+    }
+
+    .card-body {
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .title {
+      margin: 0;
+      font-family: 'Literata', serif;
+      font-size: 21px;
+      line-height: 1.1;
+      font-weight: 700;
+    }
+
+    .year {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      white-space: nowrap;
+      margin-top: 3px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      font-size: 11px;
+      line-height: 1;
+      padding: 7px 9px;
+      border-radius: 999px;
+      border: 1px solid #dfd4c9;
+      background: #fff;
+      color: #5e5348;
+      font-weight: 600;
+    }
+
+    .rating {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--ink);
+      font-weight: 700;
+      width: fit-content;
+      border-radius: 9px;
+      padding: 6px 8px;
+      background: var(--accent-soft);
+    }
+
+    .comment {
+      margin: 0;
+      color: #4f463f;
+      font-size: 13px;
+      line-height: 1.45;
+      min-height: 18px;
+    }
+
+    .empty,
+    .error {
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+      color: var(--muted);
+      background: rgba(255, 253, 249, 0.7);
+    }
+
+    .error {
+      border-color: #d89f83;
+      color: #7c2f12;
+      background: #fff4ee;
+    }
+
+    .loader {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 4px 0 10px;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 1100px) {
+      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 760px) {
+      .topbar { position: static; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .card { grid-template-rows: 260px auto; }
+    }
+
+    @media (max-width: 520px) {
+      .grid { grid-template-columns: 1fr; }
+      .filters { grid-template-columns: 1fr; }
+      .container { padding: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="topbar">
+      <h1 class="brand">Личная витрина Media</h1>
+      <a href="/index.html">На главную</a>
+    </header>
+
+    <section class="panel">
+      <div class="filters">
+        <div class="field">
+          <label for="typeFilter">Тип</label>
+          <select id="typeFilter">
+            <option value="all">Все</option>
+            <option value="movie">Фильмы</option>
+            <option value="tv">Сериалы</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="genreFilter">Жанр</label>
+          <select id="genreFilter">
+            <option value="all">Все жанры</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="sortFilter">Сортировка</label>
+          <select id="sortFilter">
+            <option value="created_desc">Сначала новые</option>
+            <option value="created_asc">Сначала старые</option>
+            <option value="rating_desc">По оценке: выше</option>
+            <option value="rating_asc">По оценке: ниже</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="reloadBtn">Обновить</label>
+          <button id="reloadBtn" type="button">Обновить список</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="meta">
+      <span id="countMeta">Записей: 0</span>
+    </div>
+
+    <div id="loader" class="loader">Загрузка каталога...</div>
+    <div id="error" class="error" hidden></div>
+    <div id="grid" class="grid"></div>
+  </div>
+
+  <script>
+    const DEFAULT_API_BASE = 'https://label.filin-vitaly2016.workers.dev';
+    const API_BASE = window.location.origin.includes('workers.dev')
+      ? window.location.origin
+      : DEFAULT_API_BASE;
+
+    const TMDB_IMAGE = 'https://image.tmdb.org/t/p/w500';
+
+    const typeFilter = document.getElementById('typeFilter');
+    const genreFilter = document.getElementById('genreFilter');
+    const sortFilter = document.getElementById('sortFilter');
+    const reloadBtn = document.getElementById('reloadBtn');
+
+    const grid = document.getElementById('grid');
+    const loader = document.getElementById('loader');
+    const errorEl = document.getElementById('error');
+    const countMeta = document.getElementById('countMeta');
+    const sourceMeta = document.getElementById('sourceMeta');
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function parseArray(input, fallback = []) {
+      if (Array.isArray(input)) return input;
+      if (typeof input === 'string' && input.trim()) {
+        try {
+          const parsed = JSON.parse(input);
+          return Array.isArray(parsed) ? parsed : fallback;
+        } catch {
+          return fallback;
+        }
+      }
+      return fallback;
+    }
+
+    function posterUrl(path) {
+      if (!path) return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="500" height="750"><rect width="100%" height="100%" fill="%23e8e1d9"/><text x="50%" y="50%" font-size="28" text-anchor="middle" fill="%23675e55" font-family="sans-serif">Нет постера</text></svg>';
+      if (path.startsWith('http://') || path.startsWith('https://')) return path;
+      return `${TMDB_IMAGE}${path}`;
+    }
+
+    async function api(path) {
+      const res = await fetch(`${API_BASE}${path}`, {
+        headers: { Accept: 'application/json' }
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.ok === false) {
+        throw new Error(data.error || `HTTP ${res.status}`);
+      }
+      return data;
+    }
+
+    async function loadGenres() {
+      const data = await api('/public/genres');
+      const genres = data.genres || data.data?.genres || [];
+
+      const current = genreFilter.value;
+      genreFilter.innerHTML = '<option value="all">Все жанры</option>';
+
+      for (const genre of genres) {
+        const option = document.createElement('option');
+        option.value = genre;
+        option.textContent = genre;
+        genreFilter.append(option);
+      }
+
+      if ([...genreFilter.options].some((option) => option.value === current)) {
+        genreFilter.value = current;
+      }
+    }
+
+    function renderCards(items) {
+      if (!items.length) {
+        grid.innerHTML = '<div class="empty">По выбранным фильтрам ничего не найдено.</div>';
+        return;
+      }
+
+      grid.innerHTML = items.map((item) => {
+        const genres = parseArray(item.genres || item.genres_json)
+          .map((g) => g && g.name ? g.name : '')
+          .filter(Boolean)
+          .slice(0, 3);
+
+        const title = item.title || item.original_title || 'Без названия';
+        const year = item.year || '—';
+        const rating = item.rating === null || item.rating === undefined || item.rating === ''
+          ? '—'
+          : Number(item.rating).toFixed(1);
+
+        const comment = item.comment ? escapeHtml(item.comment) : '';
+        const typeLabel = item.media_type === 'tv' ? 'Сериал' : 'Фильм';
+
+        return `
+          <article class="card">
+            <img class="poster" src="${posterUrl(item.poster_path)}" alt="Постер: ${escapeHtml(title)}" loading="lazy" />
+            <div class="card-body">
+              <div class="title-row">
+                <h2 class="title">${escapeHtml(title)}</h2>
+                <span class="year">${escapeHtml(year)}</span>
+              </div>
+              <div class="chips">
+                <span class="chip">${typeLabel}</span>
+                ${genres.map((name) => `<span class="chip">${escapeHtml(name)}</span>`).join('')}
+              </div>
+              <div class="rating">Оценка: ${rating}</div>
+              <p class="comment">${comment}</p>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    async function loadCatalog() {
+      loader.hidden = false;
+      errorEl.hidden = true;
+
+      const params = new URLSearchParams();
+      if (typeFilter.value) params.set('type', typeFilter.value);
+      if (genreFilter.value) params.set('genre', genreFilter.value);
+      if (sortFilter.value) params.set('sort', sortFilter.value);
+
+      try {
+        const data = await api(`/public?${params.toString()}`);
+        const items = data.results || data.data?.results || [];
+        countMeta.textContent = `Записей: ${items.length}`;
+        renderCards(items);
+      } catch (err) {
+        grid.innerHTML = '';
+        errorEl.hidden = false;
+        errorEl.textContent = `Не удалось загрузить каталог: ${err.message}`;
+      } finally {
+        loader.hidden = true;
+      }
+    }
+
+    typeFilter.addEventListener('change', loadCatalog);
+    genreFilter.addEventListener('change', loadCatalog);
+    sortFilter.addEventListener('change', loadCatalog);
+
+    reloadBtn.addEventListener('click', async () => {
+      await loadGenres();
+      await loadCatalog();
+    });
+
+    (async () => {
+      await loadGenres();
+      await loadCatalog();
+    })();
+  </script>
+</body>
+</html>

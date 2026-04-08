@@ -1,0 +1,848 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>filincprt - Админка</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f1ea;
+      --surface: #fffdf8;
+      --ink: #231d19;
+      --muted: #6d6358;
+      --line: #d8cdc1;
+      --accent: #c54d14;
+      --accent-soft: #fbe6d6;
+      --ok: #17633f;
+      --danger: #a22a18;
+      --shadow: 0 14px 32px rgba(34, 24, 17, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 82% 0%, rgba(93, 131, 115, 0.15), transparent 38%),
+        radial-gradient(circle at 14% 12%, rgba(197, 77, 20, 0.14), transparent 34%),
+        var(--bg);
+      font-family: 'Manrope', sans-serif;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 253, 248, 0.9);
+      backdrop-filter: blur(8px);
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .title {
+      margin: 0;
+      font-family: 'Literata', serif;
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 700;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid var(--ink);
+      background: transparent;
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 10px 14px;
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      cursor: pointer;
+      transition: 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: var(--ink);
+      color: var(--surface);
+      transform: translateY(-1px);
+    }
+
+    .btn.accent {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .btn.accent:hover {
+      filter: brightness(0.95);
+      transform: translateY(-1px);
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .panel h2 {
+      margin: 0 0 10px;
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+    }
+
+    .row {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1.7fr 0.7fr auto;
+      align-items: end;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(197, 77, 20, 0.16);
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .status {
+      min-height: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .status.ok { color: var(--ok); }
+    .status.err { color: var(--danger); }
+
+    .search-results {
+      display: grid;
+      gap: 8px;
+      max-height: 290px;
+      overflow: auto;
+      padding-right: 3px;
+    }
+
+    .search-item {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .search-title {
+      margin: 0;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .search-meta {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .selected {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: 120px 1fr;
+      align-items: start;
+    }
+
+    .poster {
+      width: 120px;
+      height: 170px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      object-fit: cover;
+      background: #eee6db;
+    }
+
+    .selected-title {
+      margin: 0;
+      font-family: 'Literata', serif;
+      font-size: 25px;
+      line-height: 1.1;
+    }
+
+    .selected-meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .selected-overview {
+      margin: 8px 0 0;
+      font-size: 13px;
+      line-height: 1.42;
+      color: #4f4740;
+      max-height: 100px;
+      overflow: auto;
+    }
+
+    .add-grid {
+      margin-top: 10px;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: end;
+    }
+
+    .entries {
+      display: grid;
+      gap: 10px;
+    }
+
+    .entry {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      padding: 10px;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 82px 1fr;
+      align-items: start;
+    }
+
+    .entry img {
+      width: 82px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #eee6db;
+    }
+
+    .entry h3 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .entry-sub {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .entry-grid {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: 90px 120px 110px 1fr auto;
+      align-items: end;
+      margin-top: 8px;
+    }
+
+    .entry-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .mini {
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .empty {
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+      padding: 12px;
+      color: var(--muted);
+      text-align: center;
+      background: rgba(255, 253, 248, 0.8);
+    }
+
+    @media (max-width: 980px) {
+      .row { grid-template-columns: 1fr 1fr; }
+      .row .btn { width: 100%; }
+      .add-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .entry-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .topbar { position: static; }
+      .selected { grid-template-columns: 1fr; }
+      .poster { width: 100%; height: 250px; max-width: 180px; }
+      .entry { grid-template-columns: 1fr; }
+      .entry img { width: 100px; height: 140px; }
+      .row { grid-template-columns: 1fr; }
+      .add-grid { grid-template-columns: 1fr; }
+      .entry-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="topbar">
+      <h1 class="title">Админка картотеки</h1>
+      <div class="top-actions">
+        <a href="/catalog" class="btn">Витрина</a>
+        <a href="/index.html" class="btn">Главная</a>
+        <button id="refreshBtn" class="btn">Обновить список</button>
+      </div>
+    </header>
+
+    <section class="panel">
+      <h2>1) Поиск в TMDb</h2>
+      <div class="row">
+        <div class="field">
+          <label for="queryInput">Название</label>
+          <input id="queryInput" type="text" placeholder="Введите фильм или сериал" />
+        </div>
+        <div class="field">
+          <label for="typeInput">Тип</label>
+          <select id="typeInput">
+            <option value="all">Фильмы и сериалы</option>
+            <option value="movie">Фильм</option>
+            <option value="tv">Сериал</option>
+          </select>
+        </div>
+        <button id="searchBtn" class="btn accent">Найти</button>
+      </div>
+      <p class="status" id="searchStatus"></p>
+      <div id="searchResults" class="search-results"></div>
+    </section>
+
+    <section class="panel">
+      <h2>2) Добавление в картотеку</h2>
+      <div id="selectedWrap" class="empty">Сначала выберите медиа из результатов поиска.</div>
+      <div id="addFields" class="add-grid" hidden>
+        <div class="field">
+          <label for="ratingInput">Оценка (0-10)</label>
+          <input id="ratingInput" type="number" min="0" max="10" step="0.1" placeholder="8.5" />
+        </div>
+
+        <div class="field">
+          <label for="statusInput">Статус</label>
+          <select id="statusInput">
+            <option value="watched">Просмотрено</option>
+            <option value="pending">В ожидании</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="publicInput">Публичность</label>
+          <select id="publicInput">
+            <option value="1">Показывать в витрине</option>
+            <option value="0">Скрыть из витрины</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="commentInput">Комментарий</label>
+          <input id="commentInput" type="text" placeholder="Короткий комментарий" />
+        </div>
+
+        <button id="addBtn" class="btn accent">Добавить в картотеку</button>
+      </div>
+      <p class="status" id="addStatus"></p>
+    </section>
+
+    <section class="panel">
+      <h2>3) Все записи</h2>
+      <p class="mini" id="entriesMeta">Записей: 0</p>
+      <div id="entries" class="entries"></div>
+      <p class="status" id="entriesStatus"></p>
+    </section>
+  </div>
+
+  <script>
+    const DEFAULT_API_BASE = 'https://label.filin-vitaly2016.workers.dev';
+    const API_BASE = window.location.origin.includes('workers.dev')
+      ? window.location.origin
+      : DEFAULT_API_BASE;
+    const TMDB_IMAGE = 'https://image.tmdb.org/t/p/w500';
+
+    const queryInput = document.getElementById('queryInput');
+    const typeInput = document.getElementById('typeInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const searchStatus = document.getElementById('searchStatus');
+    const searchResults = document.getElementById('searchResults');
+
+    const selectedWrap = document.getElementById('selectedWrap');
+    const addFields = document.getElementById('addFields');
+    const ratingInput = document.getElementById('ratingInput');
+    const statusInput = document.getElementById('statusInput');
+    const publicInput = document.getElementById('publicInput');
+    const commentInput = document.getElementById('commentInput');
+    const addBtn = document.getElementById('addBtn');
+    const addStatus = document.getElementById('addStatus');
+
+    const refreshBtn = document.getElementById('refreshBtn');
+    const entries = document.getElementById('entries');
+    const entriesMeta = document.getElementById('entriesMeta');
+    const entriesStatus = document.getElementById('entriesStatus');
+
+    let selectedPayload = null;
+    let authHeader = null;
+
+    function parseJsonArray(value) {
+      if (Array.isArray(value)) return value;
+      if (!value || typeof value !== 'string') return [];
+      try {
+        const parsed = JSON.parse(value);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function posterUrl(path) {
+      if (!path) return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="500" height="750"><rect width="100%" height="100%" fill="%23ebe3d9"/><text x="50%" y="50%" font-size="28" text-anchor="middle" fill="%23655d54" font-family="sans-serif">Нет постера</text></svg>';
+      if (path.startsWith('http://') || path.startsWith('https://')) return path;
+      return `${TMDB_IMAGE}${path}`;
+    }
+
+    function setStatus(el, text, type = '') {
+      el.className = 'status';
+      if (type) el.classList.add(type);
+      el.textContent = text;
+    }
+
+    function typeLabel(mediaType) {
+      return mediaType === 'tv' ? 'Сериал' : 'Фильм';
+    }
+
+    function extractYear(details) {
+      const date = details.release_date || details.first_air_date || '';
+      return date ? Number(String(date).slice(0, 4)) : null;
+    }
+
+    function getTitle(details) {
+      return details.title || details.name || '';
+    }
+
+    function getOriginalTitle(details) {
+      return details.original_title || details.original_name || '';
+    }
+
+    function getCountries(details) {
+      if (Array.isArray(details.production_countries) && details.production_countries.length) {
+        return details.production_countries;
+      }
+
+      if (Array.isArray(details.origin_country) && details.origin_country.length) {
+        return details.origin_country.map((code) => ({ iso_3166_1: code, name: code }));
+      }
+
+      return [];
+    }
+
+    function buildInsertPayload(bundle) {
+      return {
+        source: 'tmdb',
+        source_id: String(bundle.details.id || ''),
+        media_type: bundle.mediaType,
+        title: getTitle(bundle.details),
+        original_title: getOriginalTitle(bundle.details),
+        year: extractYear(bundle.details),
+        poster_path: bundle.details.poster_path || '',
+        overview: bundle.details.overview || '',
+        cast: (bundle.credits.cast || []).slice(0, 20).map((c) => ({
+          id: c.id,
+          name: c.name,
+          character: c.character
+        })),
+        genres: bundle.details.genres || [],
+        countries: getCountries(bundle.details),
+        rating: ratingInput.value ? Number(ratingInput.value) : null,
+        favorite: statusInput.value === 'watched',
+        comment: commentInput.value.trim(),
+        is_public: publicInput.value === '1'
+      };
+    }
+
+    function collectAuthHeader() {
+      if (authHeader) return authHeader;
+      const pass = window.prompt('Введите ADMIN_PASSWORD для доступа к API', '');
+      if (!pass) return null;
+      authHeader = `Basic ${btoa(`admin:${pass}`)}`;
+      return authHeader;
+    }
+
+    async function api(path, options = {}, allowPrompt = true) {
+      const headers = {
+        Accept: 'application/json',
+        ...(options.body ? { 'Content-Type': 'application/json' } : {}),
+        ...(options.headers || {})
+      };
+
+      if (authHeader) {
+        headers.Authorization = authHeader;
+      }
+
+      const res = await fetch(`${API_BASE}${path}`, {
+        ...options,
+        headers
+      });
+
+      if (res.status === 401 && allowPrompt) {
+        const nextAuth = collectAuthHeader();
+        if (nextAuth) {
+          return api(path, {
+            ...options,
+            headers: {
+              ...(options.headers || {}),
+              Authorization: nextAuth
+            }
+          }, false);
+        }
+      }
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.ok === false) {
+        throw new Error(data.error || `HTTP ${res.status}`);
+      }
+
+      return data;
+    }
+
+    async function searchTmdb() {
+      const q = queryInput.value.trim();
+      if (!q) {
+        setStatus(searchStatus, 'Введите название для поиска.', 'err');
+        return;
+      }
+
+      setStatus(searchStatus, 'Ищу в TMDb...');
+      searchResults.innerHTML = '';
+
+      try {
+        const params = new URLSearchParams({ q, type: typeInput.value, language: 'ru-RU' });
+        const data = await api(`/search?${params.toString()}`);
+        const results = data.results || data.data?.results || [];
+
+        if (!results.length) {
+          searchResults.innerHTML = '<div class="empty">Ничего не найдено.</div>';
+          setStatus(searchStatus, 'Совпадений нет.');
+          return;
+        }
+
+        searchResults.innerHTML = results.map((item) => {
+          const title = item.title || item.name || 'Без названия';
+          const year = (item.release_date || item.first_air_date || '').slice(0, 4) || '—';
+          const kind = typeLabel(item.media_type);
+          return `
+            <article class="search-item">
+              <div>
+                <p class="search-title">${escapeHtml(title)}</p>
+                <p class="search-meta">${kind} • ${escapeHtml(year)} • id ${item.id}</p>
+              </div>
+              <button class="btn" data-pick="${item.id}" data-type="${item.media_type}">Выбрать</button>
+            </article>
+          `;
+        }).join('');
+
+        setStatus(searchStatus, `Найдено: ${results.length}`, 'ok');
+      } catch (err) {
+        setStatus(searchStatus, `Ошибка поиска: ${err.message}`, 'err');
+        searchResults.innerHTML = '<div class="empty">Не удалось выполнить поиск.</div>';
+      }
+    }
+
+    async function loadDetails(id, mediaType) {
+      setStatus(addStatus, 'Загружаю детали...');
+      selectedWrap.className = '';
+      selectedWrap.textContent = 'Загрузка...';
+
+      try {
+        const params = new URLSearchParams({ id: String(id), type: mediaType, language: 'ru-RU' });
+        const data = await api(`/details?${params.toString()}`);
+        const details = data.details || data.data?.details;
+        const credits = data.credits || data.data?.credits || { cast: [] };
+
+        if (!details) {
+          throw new Error('Детали не получены');
+        }
+
+        selectedPayload = { details, credits, mediaType };
+
+        const title = getTitle(details) || 'Без названия';
+        const year = extractYear(details) || '—';
+        const genres = (details.genres || []).map((g) => g.name).filter(Boolean).join(', ') || 'Жанры не указаны';
+        const overview = details.overview || 'Описание отсутствует';
+
+        selectedWrap.className = 'selected';
+        selectedWrap.innerHTML = `
+          <img class="poster" src="${posterUrl(details.poster_path)}" alt="${escapeHtml(title)}" />
+          <div>
+            <h3 class="selected-title">${escapeHtml(title)}</h3>
+            <div class="selected-meta">${typeLabel(mediaType)} • ${year}</div>
+            <div class="selected-meta">Жанры: ${escapeHtml(genres)}</div>
+            <p class="selected-overview">${escapeHtml(overview)}</p>
+          </div>
+        `;
+
+        addFields.hidden = false;
+        setStatus(addStatus, 'Тайтл выбран. Можно добавлять в картотеку.', 'ok');
+      } catch (err) {
+        selectedPayload = null;
+        addFields.hidden = true;
+        selectedWrap.className = 'empty';
+        selectedWrap.textContent = 'Не удалось загрузить выбранный тайтл.';
+        setStatus(addStatus, `Ошибка: ${err.message}`, 'err');
+      }
+    }
+
+    async function addEntry() {
+      if (!selectedPayload) {
+        setStatus(addStatus, 'Сначала выберите медиа из TMDb.', 'err');
+        return;
+      }
+
+      const ratingValue = ratingInput.value;
+      if (ratingValue && (Number(ratingValue) < 0 || Number(ratingValue) > 10)) {
+        setStatus(addStatus, 'Оценка должна быть от 0 до 10.', 'err');
+        return;
+      }
+
+      setStatus(addStatus, 'Добавляю запись...');
+
+      try {
+        const payload = buildInsertPayload(selectedPayload);
+        await api('/admin', {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+
+        setStatus(addStatus, 'Запись добавлена.', 'ok');
+        commentInput.value = '';
+        ratingInput.value = '';
+        await loadEntries();
+      } catch (err) {
+        setStatus(addStatus, `Ошибка добавления: ${err.message}`, 'err');
+      }
+    }
+
+    function buildEntryCard(item) {
+      const title = item.title || item.original_title || 'Без названия';
+      const meta = `${typeLabel(item.media_type)} • ${item.year || '—'} • id ${item.id}`;
+      const rating = item.rating === null || item.rating === undefined ? '' : item.rating;
+      const status = Number(item.favorite) === 1 ? 'watched' : 'pending';
+      const isPublic = Number(item.is_public) === 1;
+
+      return `
+        <article class="entry" data-id="${item.id}">
+          <img src="${posterUrl(item.poster_path)}" alt="${escapeHtml(title)}" />
+          <div>
+            <h3>${escapeHtml(title)}</h3>
+            <p class="entry-sub">${escapeHtml(meta)}</p>
+            <div class="entry-grid">
+              <div class="field">
+                <label>Оценка</label>
+                <input type="number" min="0" max="10" step="0.1" data-role="rating" value="${escapeHtml(rating)}" />
+              </div>
+
+              <div class="field">
+                <label>Статус</label>
+                <select data-role="status">
+                  <option value="watched" ${status === 'watched' ? 'selected' : ''}>Просмотрено</option>
+                  <option value="pending" ${status === 'pending' ? 'selected' : ''}>В ожидании</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Публичность</label>
+                <select data-role="public">
+                  <option value="1" ${isPublic ? 'selected' : ''}>Публично</option>
+                  <option value="0" ${!isPublic ? 'selected' : ''}>Скрыто</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Комментарий</label>
+                <input type="text" data-role="comment" value="${escapeHtml(item.comment || '')}" />
+              </div>
+
+              <div class="entry-actions">
+                <button class="btn" data-action="save">Сохранить</button>
+                <button class="btn" data-action="delete">Удалить</button>
+              </div>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    async function loadEntries() {
+      setStatus(entriesStatus, 'Обновляю список...');
+      try {
+        const data = await api('/admin', { method: 'GET' });
+        const list = data.results || data.data?.results || [];
+
+        entriesMeta.textContent = `Записей: ${list.length}`;
+
+        if (!list.length) {
+          entries.innerHTML = '<div class="empty">Записей пока нет.</div>';
+          setStatus(entriesStatus, 'Список пуст.');
+          return;
+        }
+
+        entries.innerHTML = list.map(buildEntryCard).join('');
+        setStatus(entriesStatus, 'Список загружен.', 'ok');
+      } catch (err) {
+        entries.innerHTML = '<div class="empty">Не удалось загрузить записи.</div>';
+        setStatus(entriesStatus, `Ошибка: ${err.message}`, 'err');
+      }
+    }
+
+    async function saveEntry(card) {
+      const id = card.dataset.id;
+      const rating = card.querySelector('[data-role="rating"]').value;
+      const status = card.querySelector('[data-role="status"]').value;
+      const isPublic = card.querySelector('[data-role="public"]').value === '1';
+      const comment = card.querySelector('[data-role="comment"]').value;
+
+      try {
+        await api('/admin', {
+          method: 'PATCH',
+          body: JSON.stringify({
+            id,
+            rating: rating === '' ? null : Number(rating),
+            favorite: status === 'watched',
+            is_public: isPublic,
+            comment
+          })
+        });
+
+        setStatus(entriesStatus, `Запись ${id} обновлена.`, 'ok');
+      } catch (err) {
+        setStatus(entriesStatus, `Ошибка обновления ${id}: ${err.message}`, 'err');
+      }
+    }
+
+    async function deleteEntry(card) {
+      const id = card.dataset.id;
+      const sure = window.confirm('Удалить запись из картотеки?');
+      if (!sure) return;
+
+      try {
+        await api('/admin', {
+          method: 'DELETE',
+          body: JSON.stringify({ id })
+        });
+
+        card.remove();
+        entriesMeta.textContent = `Записей: ${Math.max(0, entries.children.length)}`;
+        if (!entries.children.length) {
+          entries.innerHTML = '<div class="empty">Записей пока нет.</div>';
+        }
+        setStatus(entriesStatus, `Запись ${id} удалена.`, 'ok');
+      } catch (err) {
+        setStatus(entriesStatus, `Ошибка удаления ${id}: ${err.message}`, 'err');
+      }
+    }
+
+    searchBtn.addEventListener('click', searchTmdb);
+    queryInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        searchTmdb();
+      }
+    });
+
+    searchResults.addEventListener('click', (event) => {
+      const btn = event.target.closest('button[data-pick]');
+      if (!btn) return;
+      loadDetails(btn.dataset.pick, btn.dataset.type);
+    });
+
+    addBtn.addEventListener('click', addEntry);
+    refreshBtn.addEventListener('click', loadEntries);
+
+    entries.addEventListener('click', (event) => {
+      const actionBtn = event.target.closest('button[data-action]');
+      if (!actionBtn) return;
+      const card = actionBtn.closest('.entry');
+      if (!card) return;
+
+      if (actionBtn.dataset.action === 'save') {
+        saveEntry(card);
+      }
+
+      if (actionBtn.dataset.action === 'delete') {
+        deleteEntry(card);
+      }
+    });
+
+    loadEntries();
+  </script>
+</body>
+</html>
