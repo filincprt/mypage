@@ -29,6 +29,78 @@
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border:1px solid #181615;border-radius:999px;text-decoration:none;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;transition:.2s ease}
     .btn.primary{background:#181615;color:#f7f5f0}
     .btn:hover{transform:translateY(-2px)}
+    .media-widget{
+      margin-top:0;
+      border:1px solid rgba(24,22,21,.1);
+      border-radius:22px;
+      background:#fffdfa;
+      padding:14px;
+      display:grid;
+      gap:12px;
+    }
+    .media-widget__head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .media-widget__title{
+      margin:0;
+      font-family:'Space Mono',monospace;
+      font-size:11px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:#7a7570;
+    }
+    .media-widget__grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:10px;
+    }
+    .mini-media{
+      border:1px solid rgba(24,22,21,.1);
+      border-radius:14px;
+      background:#fff;
+      overflow:hidden;
+      display:grid;
+      grid-template-rows:120px auto;
+    }
+    .mini-media__poster{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      background:#ebe5de;
+    }
+    .mini-media__body{
+      padding:8px;
+      display:grid;
+      gap:6px;
+    }
+    .mini-media__title{
+      margin:0;
+      font-size:18px;
+      font-weight:600;
+      line-height:1.05;
+      color:#181615;
+    }
+    .mini-media__meta{
+      margin:0;
+      font-family:'Space Mono',monospace;
+      font-size:10px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:#7a7570;
+    }
+    .media-widget__status{
+      margin:0;
+      font-family:'Space Mono',monospace;
+      font-size:11px;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      color:#7a7570;
+      min-height:14px;
+    }
     .art{
       border:1px solid rgba(24,22,21,.1);
       border-radius:28px;
@@ -39,6 +111,231 @@
       background:
         radial-gradient(circle at center, rgba(255,75,0,.08), transparent 58%),
         linear-gradient(180deg, rgba(255,75,0,.05), rgba(255,75,0,0));
+    }
+    .weather-card{
+      position:relative;
+      width:min(100%, 460px);
+      min-height:310px;
+      border-radius:24px;
+      overflow:hidden;
+      border:1px solid rgba(24,22,21,.14);
+      background:linear-gradient(180deg,#ffd8a6 0%,#f7c983 45%,#f4b566 100%);
+      box-shadow:0 16px 42px rgba(24,22,21,.14);
+      color:#fffdfa;
+      padding:18px;
+      isolation:isolate;
+    }
+    .weather-card.is-sunny{
+      background:linear-gradient(180deg,#ffd79f 0%,#f6b96b 48%,#f19a4a 100%);
+    }
+    .weather-card.is-cloudy{
+      background:linear-gradient(180deg,#a9b1bc 0%,#7d8896 48%,#697483 100%);
+    }
+    .weather-card.is-rainy{
+      background:linear-gradient(180deg,#6f7f92 0%,#4e5f75 50%,#3c4b5f 100%);
+    }
+    .weather-card.is-windy{
+      background:linear-gradient(180deg,#95a4af 0%,#6d7c89 46%,#5f6e7b 100%);
+    }
+    .weather-card.is-snowy{
+      background:linear-gradient(180deg,#d6e2f0 0%,#b8cadf 44%,#9cb1c9 100%);
+    }
+    .weather-card::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg,rgba(255,255,255,.13),rgba(0,0,0,.08));
+      pointer-events:none;
+      z-index:0;
+    }
+    .weather-icon,.rain,.wind-lines,.snow,.loading-state,.weather-top,.weather-error{
+      position:relative;
+      z-index:1;
+    }
+    .loading-state{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-family:'Space Mono',monospace;
+      font-size:11px;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      background:rgba(255,255,255,.2);
+      border:1px solid rgba(255,255,255,.3);
+      border-radius:999px;
+      padding:7px 10px;
+      backdrop-filter:blur(4px);
+    }
+    .loading-state::before{
+      content:'';
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:#fffdfa;
+      box-shadow:0 0 0 4px rgba(255,255,255,.24);
+      animation:pulse 1.2s ease infinite;
+    }
+    .weather-icon{
+      position:absolute;
+      left:16px;
+      top:54px;
+      width:190px;
+      height:130px;
+      pointer-events:none;
+    }
+    .weather-sun{
+      position:absolute;
+      top:20px;
+      left:70px;
+      width:62px;
+      height:62px;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 30%,#fff7da,#ffe277 52%,#f7b23e 100%);
+      box-shadow:0 0 0 10px rgba(255,228,136,.3),0 0 30px rgba(255,221,123,.45);
+      animation:floatSun 3.4s ease-in-out infinite;
+    }
+    .cloud{
+      position:absolute;
+      border-radius:999px;
+      background:linear-gradient(180deg,rgba(247,250,255,.95),rgba(216,226,236,.92));
+      box-shadow:inset 0 -6px 10px rgba(120,136,153,.25);
+    }
+    .weather-card.is-cloudy .cloud,
+    .weather-card.is-rainy .cloud,
+    .weather-card.is-windy .cloud{
+      background:linear-gradient(180deg,#dbe3ea,#abb8c6);
+      box-shadow:inset 0 -8px 12px rgba(81,93,107,.32);
+    }
+    .cloud::before,.cloud::after{
+      content:'';
+      position:absolute;
+      border-radius:50%;
+      background:inherit;
+    }
+    .cloud.one{top:28px;left:6px;width:140px;height:56px}
+    .cloud.one::before{width:54px;height:54px;left:14px;top:-25px}
+    .cloud.one::after{width:68px;height:68px;left:58px;top:-34px}
+    .cloud.two{top:62px;left:78px;width:112px;height:46px;opacity:.92}
+    .cloud.two::before{width:44px;height:44px;left:10px;top:-21px}
+    .cloud.two::after{width:52px;height:52px;left:48px;top:-25px}
+    .rain,.snow,.wind-lines{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+    }
+    .rain{opacity:0}
+    .weather-card.is-rainy .rain{opacity:1}
+    .drop{
+      position:absolute;
+      top:-18px;
+      width:2px;
+      height:16px;
+      border-radius:999px;
+      background:linear-gradient(180deg,rgba(214,236,255,.1),rgba(207,235,255,.95));
+      animation:rainFall 1s linear infinite;
+    }
+    .snow{opacity:0}
+    .weather-card.is-snowy .snow{opacity:1}
+    .flake{
+      position:absolute;
+      top:-12px;
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:rgba(255,255,255,.95);
+      box-shadow:0 0 8px rgba(255,255,255,.46);
+      animation:snowFall 6s linear infinite;
+    }
+    .wind-lines{opacity:0}
+    .weather-card.is-windy .wind-lines{opacity:1}
+    .wind-line{
+      position:absolute;
+      left:-30%;
+      width:44%;
+      height:2px;
+      border-radius:999px;
+      background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.86));
+      animation:windMove 2.1s ease-in-out infinite;
+    }
+    .wind-line:nth-child(1){top:84px}
+    .wind-line:nth-child(2){top:108px;animation-delay:.25s}
+    .wind-line:nth-child(3){top:132px;animation-delay:.5s}
+    .weather-top{
+      margin-top:170px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-end;
+    }
+    .weather-city{
+      margin:0;
+      font-size:28px;
+      line-height:.98;
+      font-weight:600;
+      text-shadow:0 3px 14px rgba(0,0,0,.24);
+    }
+    .weather-desc{
+      margin:6px 0 0;
+      font-family:'Space Mono',monospace;
+      font-size:11px;
+      letter-spacing:.09em;
+      text-transform:uppercase;
+      opacity:.92;
+    }
+    .weather-temp{
+      margin:0;
+      font-size:56px;
+      line-height:.86;
+      font-weight:700;
+      text-align:right;
+      text-shadow:0 4px 14px rgba(0,0,0,.2);
+    }
+    .weather-meta{
+      margin-top:8px;
+      display:grid;
+      gap:4px;
+      font-family:'Space Mono',monospace;
+      font-size:10px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      text-align:right;
+      opacity:.95;
+    }
+    .weather-error{
+      margin-top:10px;
+      min-height:14px;
+      font-family:'Space Mono',monospace;
+      font-size:10px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      color:#ffe4d3;
+    }
+    .weather-card.has-error{
+      background:linear-gradient(180deg,#86736a 0%,#685a53 50%,#4d433e 100%);
+    }
+    @keyframes pulse{
+      0%,100%{transform:scale(.9);opacity:.8}
+      50%{transform:scale(1.2);opacity:1}
+    }
+    @keyframes floatSun{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-6px)}
+    }
+    @keyframes rainFall{
+      0%{transform:translateY(0);opacity:0}
+      12%{opacity:1}
+      100%{transform:translateY(190px);opacity:0}
+    }
+    @keyframes snowFall{
+      0%{transform:translateY(0) translateX(0);opacity:0}
+      15%{opacity:1}
+      100%{transform:translateY(190px) translateX(18px);opacity:0}
+    }
+    @keyframes windMove{
+      0%{transform:translateX(0);opacity:0}
+      35%{opacity:1}
+      100%{transform:translateX(300%);opacity:0}
     }
     .dart-art{position:relative}
     .dartboard{
@@ -216,6 +513,7 @@
       .hero,.grid,.cert-wrap{grid-template-columns:1fr}
       .art{min-height:280px}
       .dartboard{width:min(88vw, 360px)}
+      .weather-card{width:min(100%,520px)}
     }
     @media (max-width:640px){
       .topbar .wrap{min-height:60px}
@@ -223,6 +521,17 @@
       .lead{font-size:19px}
       .card h3{font-size:28px}
       .card p{font-size:17px}
+      .media-widget__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .mini-media{grid-template-rows:100px auto}
+      .mini-media__title{font-size:16px}
+      .weather-card{min-height:286px;padding:14px}
+      .weather-icon{left:8px;top:48px;transform:scale(.9);transform-origin:top left}
+      .weather-top{margin-top:152px}
+      .weather-city{font-size:24px}
+      .weather-temp{font-size:46px}
+    }
+    @media (max-width:460px){
+      .media-widget__grid{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -232,6 +541,7 @@
       <a class="brand" href="#top">filin_cprt</a>
       <nav class="nav">
         <a href="#about">Обо мне</a>
+        <a href="#media">Витрина</a>
         <a href="#certificate">Сертификат</a>
         <a href="#contacts">Контакты</a>
       </nav>
@@ -247,7 +557,6 @@
         <div class="cta">
           <a class="btn primary" href="#label">Лейбл в разработке</a>
           <a class="btn" href="#contacts">Связаться</a>
-          <a class="btn" href="/catalog">Витрина Media</a>
         </div>
       </div>
       <div class="art" aria-label="Погода по местоположению">
@@ -297,8 +606,20 @@
       </div>
     </section>
 
+    <section id="media" class="section">
+      <p class="title"><span>03</span>Витрина Media</p>
+      <div class="media-widget" id="mediaWidget">
+        <div class="media-widget__head">
+          <p class="media-widget__title">Новое на витрине</p>
+          <a class="btn" href="/catalog">Открыть витрину</a>
+        </div>
+        <p class="media-widget__status" id="mediaWidgetStatus">Загрузка...</p>
+        <div class="media-widget__grid" id="mediaWidgetGrid"></div>
+      </div>
+    </section>
+
     <section id="certificate" class="section">
-      <p class="title"><span>03</span>Сертификат «4 Gb»</p>
+      <p class="title"><span>04</span>Сертификат «4 Gb»</p>
       <div class="cert-wrap">
         <div class="cert-form">
           <p class="muted" style="margin-top:0;font-size:20px;">Заполни данные, и система с максимально официальным лицом выдаст торжественный сертификат на 4 Gb интернет-доступа.</p>
@@ -329,7 +650,7 @@
     </section>
 
     <section id="contacts" class="section">
-      <p class="title"><span>04</span>Контакты</p>
+      <p class="title"><span>05</span>Контакты</p>
       <div class="links">
         <a class="link" href="https://github.com/filincprt" target="_blank" rel="noopener noreferrer"><strong>GitHub</strong><span>filincprt ↗</span></a>
         <a class="link" href="https://t.me/filin_cprt" target="_blank" rel="noopener noreferrer"><strong>Telegram</strong><span>@filin_cprt ↗</span></a>
@@ -554,18 +875,20 @@
     function setWeatherVisual(kind) {
       weatherCard.className = `weather-card is-${kind}`;
       weatherIcon.innerHTML = '';
+      rainLayer.innerHTML = '';
+      snowLayer.innerHTML = '';
 
       if (kind === 'sunny') {
         weatherIcon.innerHTML = '<div class="weather-sun"></div>';
       } else if (kind === 'cloudy') {
         weatherIcon.innerHTML = '<div class="cloud one"></div><div class="cloud two"></div>';
       } else if (kind === 'rainy') {
-        weatherIcon.innerHTML = '<div class="cloud one" style="top:24px;left:2px;width:140px;height:54px;"></div><div class="cloud two" style="top:56px;left:56px;width:126px;height:48px;"></div>';
+        weatherIcon.innerHTML = '<div class="cloud one"></div><div class="cloud two"></div>';
         buildRain();
       } else if (kind === 'windy') {
-        weatherIcon.innerHTML = '<div class="cloud one" style="top:38px;left:10px;width:132px;height:50px;opacity:.72"></div>';
+        weatherIcon.innerHTML = '<div class="cloud one"></div><div class="cloud two"></div>';
       } else if (kind === 'snowy') {
-        weatherIcon.innerHTML = '<div class="cloud one" style="top:30px;left:8px;width:136px;height:52px;opacity:.88"></div>';
+        weatherIcon.innerHTML = '<div class="cloud one"></div><div class="cloud two"></div>';
         buildSnow();
       } else {
         weatherIcon.innerHTML = '<div class="cloud one"></div>';
@@ -614,7 +937,77 @@
     setWeatherVisual('cloudy');
   }
 }
+
+    const MEDIA_API_BASE = 'https://irgvbrqwqpeqlokfkofw.supabase.co/functions/v1/api';
+    const MEDIA_IMAGE_BASE = 'https://irgvbrqwqpeqlokfkofw.supabase.co/functions/v1/api/image/w500';
+    const mediaWidget = document.getElementById('mediaWidget');
+    const mediaWidgetGrid = document.getElementById('mediaWidgetGrid');
+    const mediaWidgetStatus = document.getElementById('mediaWidgetStatus');
+
+    function mediaPoster(path) {
+      if (!path) {
+        return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600"><rect width="100%" height="100%" fill="%23ebe5de"/><text x="50%" y="50%" font-size="26" text-anchor="middle" fill="%23685f57" font-family="sans-serif">Нет постера</text></svg>';
+      }
+      if (path.startsWith('http://') || path.startsWith('https://')) return path;
+      return `${MEDIA_IMAGE_BASE}${path}`;
+    }
+
+    function mediaEscape(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function loadWidgetMarkup(items) {
+      mediaWidgetGrid.innerHTML = items.map((item) => {
+        const title = item.title || item.original_title || 'Без названия';
+        const year = item.year || '—';
+        const type = item.media_type === 'tv' ? 'Сериал' : 'Фильм';
+        return `
+          <article class="mini-media">
+            <img class="mini-media__poster" src="${mediaPoster(item.poster_path)}" alt="${mediaEscape(title)}" loading="lazy" />
+            <div class="mini-media__body">
+              <p class="mini-media__title">${mediaEscape(title)}</p>
+              <p class="mini-media__meta">${mediaEscape(type)} • ${mediaEscape(year)}</p>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    async function loadMediaWidget() {
+      if (!mediaWidget || !mediaWidgetGrid || !mediaWidgetStatus) return;
+
+      mediaWidgetStatus.textContent = 'Загрузка...';
+      mediaWidgetGrid.innerHTML = '';
+
+      try {
+        const res = await fetch(`${MEDIA_API_BASE}/public?sort=created_desc`, {
+          headers: { Accept: 'application/json' }
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data.ok === false) {
+          throw new Error(data.error || `HTTP ${res.status}`);
+        }
+
+        const items = (data.results || data.data?.results || []).slice(0, 3);
+        if (!items.length) {
+          mediaWidgetStatus.textContent = 'Пока пусто';
+          return;
+        }
+
+        loadWidgetMarkup(items);
+        mediaWidgetStatus.textContent = 'Последние добавленные';
+      } catch (err) {
+        mediaWidgetStatus.textContent = 'Не удалось загрузить';
+      }
+    }
+
     loadWeather();
+    loadMediaWidget();
   </script>
 </body>
 </html>

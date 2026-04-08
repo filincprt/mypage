@@ -3,311 +3,109 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>filincprt - Витрина</title>
+  <meta name="description" content="Публичная витрина media-картотеки filin_cprt" />
+  <title>filin_cprt - Витрина</title>
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #f2f0ec;
-      --surface: #fffdf9;
-      --ink: #1f1a16;
-      --muted: #74695f;
-      --line: #d9cfc5;
-      --accent: #c85016;
-      --accent-soft: #f4d6c8;
-      --shadow: 0 18px 44px rgba(33, 23, 15, 0.08);
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:#f7f5f0;color:#181615;font-family:'Cormorant Garamond',serif;overflow-x:hidden}
+    a{color:inherit}
+    .wrap{max-width:1220px;margin:0 auto;padding:0 24px}
+
+    .topbar{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:rgba(247,245,240,.9);border-bottom:1px solid rgba(24,22,21,.08)}
+    .topbar .wrap{display:flex;align-items:center;justify-content:space-between;min-height:72px;gap:18px}
+    .brand{font-family:'Space Mono',monospace;text-decoration:none;letter-spacing:.08em;font-size:14px;text-transform:uppercase}
+    .top-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 16px;border:1px solid #181615;border-radius:999px;text-decoration:none;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:transparent;cursor:pointer;transition:.2s ease;color:#181615}
+    .btn.primary{background:#181615;color:#f7f5f0}
+    .btn:hover{transform:translateY(-2px)}
+
+    .hero{padding:48px 0 20px}
+    .kicker{font-family:'Space Mono',monospace;color:#7a7570;text-transform:uppercase;letter-spacing:.2em;font-size:12px;margin:0 0 14px}
+    h1{margin:0;font-size:clamp(46px,7vw,88px);line-height:.9;font-weight:300;letter-spacing:-.03em}
+    h1 em{color:#ff4b00;font-style:italic;font-weight:600}
+    .lead{margin:20px 0 0;color:#5f5a55;font-size:22px;line-height:1.6;max-width:34rem}
+
+    .panel{border:1px solid rgba(24,22,21,.1);border-radius:24px;padding:20px;background:#fffdfa}
+    .panel + .panel{margin-top:14px}
+
+    .filters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;align-items:end}
+    .field{display:grid;gap:8px}
+    .field label{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7a7570}
+    .field select{height:44px;padding:0 12px;border:1px solid rgba(24,22,21,.14);border-radius:14px;background:#fff;color:#181615;font:inherit;outline:none}
+    .field select:focus{border-color:#ff4b00;box-shadow:0 0 0 3px rgba(255,75,0,.12)}
+
+    .meta{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#7a7570}
+
+    .loader{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#7a7570;margin:8px 2px 0}
+
+    .error,.empty{margin-top:12px;border-radius:18px;padding:16px;border:1px solid rgba(255,75,0,.25);background:rgba(255,75,0,.08);color:#8a2d04;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+
+    .grid{margin-top:14px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+    .card{border:1px solid rgba(24,22,21,.1);border-radius:18px;background:#fffdfa;overflow:hidden;display:grid;grid-template-rows:300px auto;box-shadow:0 10px 28px rgba(24,22,21,.06);transition:.2s ease}
+    .card:hover{transform:translateY(-2px);box-shadow:0 16px 38px rgba(24,22,21,.12)}
+    .poster{width:100%;height:100%;object-fit:cover;background:#ebe5de}
+    .body{padding:12px;display:grid;gap:8px}
+    .title-row{display:flex;gap:8px;justify-content:space-between;align-items:flex-start}
+    .title{margin:0;font-size:28px;line-height:1.02;font-weight:600}
+    .year{font-family:'Space Mono',monospace;font-size:11px;color:#7a7570;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;margin-top:4px}
+    .chips{display:flex;flex-wrap:wrap;gap:6px}
+    .chip{padding:6px 8px;border-radius:999px;border:1px solid rgba(24,22,21,.12);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:#fff}
+    .rating{width:fit-content;padding:6px 8px;border-radius:10px;background:rgba(255,75,0,.1);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+    .comment{margin:0;color:#5f5a55;font-size:17px;line-height:1.45;min-height:22px}
+
+    .table-wrap{margin-top:14px;border:1px solid rgba(24,22,21,.1);border-radius:18px;background:#fffdfa;overflow:auto}
+    table{width:100%;border-collapse:collapse;min-width:860px}
+    th,td{padding:12px 10px;border-bottom:1px solid rgba(24,22,21,.08);vertical-align:top;text-align:left}
+    th{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#7a7570;background:#fdf9f4;position:sticky;top:0}
+    td{font-size:17px;color:#241f1c;line-height:1.35}
+    .table-poster{width:52px;height:76px;object-fit:cover;border-radius:8px;border:1px solid rgba(24,22,21,.12);background:#ebe5de}
+    .table-title{font-size:22px;font-weight:600;line-height:1.08;margin:0}
+    .table-sub{font-family:'Space Mono',monospace;font-size:11px;color:#7a7570;letter-spacing:.08em;text-transform:uppercase;margin-top:5px}
+
+    footer{padding:28px 0 40px;border-top:1px solid rgba(24,22,21,.1);font-family:'Space Mono',monospace;color:#7a7570;font-size:12px;margin-top:34px}
+
+    @media (max-width:1080px){
+      .filters{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
     }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at 12% 0%, rgba(200, 80, 22, 0.12), transparent 32%),
-        radial-gradient(circle at 88% 10%, rgba(80, 132, 111, 0.1), transparent 34%),
-        var(--bg);
-      font-family: 'Manrope', sans-serif;
+    @media (max-width:820px){
+      .topbar .wrap{min-height:64px}
+      .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .card{grid-template-rows:260px auto}
     }
-
-    .container {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 20px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      padding: 14px 18px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      backdrop-filter: blur(10px);
-      background: rgba(255, 253, 249, 0.88);
-    }
-
-    .brand {
-      margin: 0;
-      font-family: 'Literata', serif;
-      font-size: clamp(24px, 3vw, 34px);
-      font-weight: 700;
-      letter-spacing: 0.01em;
-    }
-
-    .topbar a {
-      text-decoration: none;
-      color: var(--ink);
-      border: 1px solid var(--ink);
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: 0.2s ease;
-      white-space: nowrap;
-    }
-
-    .topbar a:hover {
-      transform: translateY(-1px);
-      background: var(--ink);
-      color: var(--surface);
-    }
-
-    .panel {
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      background: var(--surface);
-      box-shadow: var(--shadow);
-      padding: 16px;
-      margin-bottom: 18px;
-    }
-
-    .filters {
-      display: grid;
-      gap: 12px;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      align-items: end;
-    }
-
-    .field {
-      display: grid;
-      gap: 8px;
-    }
-
-    .field label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      font-weight: 800;
-    }
-
-    .field select {
-      width: 100%;
-      height: 44px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: #fff;
-      color: var(--ink);
-      padding: 0 12px;
-      font-size: 14px;
-      font-family: inherit;
-      outline: none;
-    }
-
-    .field button {
-      width: 100%;
-      height: 44px;
-      border: 1px solid var(--ink);
-      border-radius: 12px;
-      background: var(--ink);
-      color: var(--surface);
-      font-family: inherit;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      cursor: pointer;
-      transition: 0.2s ease;
-    }
-
-    .field button:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.05);
-    }
-
-    .field select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(200, 80, 22, 0.16);
-    }
-
-    .meta {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: center;
-      margin: 2px 0 4px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .grid {
-      display: grid;
-      gap: 14px;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-    .card {
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: var(--surface);
-      overflow: hidden;
-      display: grid;
-      grid-template-rows: 320px auto;
-      box-shadow: var(--shadow);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      animation: rise 0.34s ease both;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 24px 50px rgba(33, 23, 15, 0.14);
-    }
-
-    .poster {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      background: #e9e2db;
-    }
-
-    .card-body {
-      padding: 12px;
-      display: grid;
-      gap: 8px;
-    }
-
-    .title-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: start;
-    }
-
-    .title {
-      margin: 0;
-      font-family: 'Literata', serif;
-      font-size: 21px;
-      line-height: 1.1;
-      font-weight: 700;
-    }
-
-    .year {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--muted);
-      white-space: nowrap;
-      margin-top: 3px;
-    }
-
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .chip {
-      font-size: 11px;
-      line-height: 1;
-      padding: 7px 9px;
-      border-radius: 999px;
-      border: 1px solid #dfd4c9;
-      background: #fff;
-      color: #5e5348;
-      font-weight: 600;
-    }
-
-    .rating {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      color: var(--ink);
-      font-weight: 700;
-      width: fit-content;
-      border-radius: 9px;
-      padding: 6px 8px;
-      background: var(--accent-soft);
-    }
-
-    .comment {
-      margin: 0;
-      color: #4f463f;
-      font-size: 13px;
-      line-height: 1.45;
-      min-height: 18px;
-    }
-
-    .empty,
-    .error {
-      border: 1px dashed var(--line);
-      border-radius: 14px;
-      padding: 16px;
-      text-align: center;
-      color: var(--muted);
-      background: rgba(255, 253, 249, 0.7);
-    }
-
-    .error {
-      border-color: #d89f83;
-      color: #7c2f12;
-      background: #fff4ee;
-    }
-
-    .loader {
-      font-size: 13px;
-      color: var(--muted);
-      margin: 4px 0 10px;
-    }
-
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 1100px) {
-      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    @media (max-width: 760px) {
-      .topbar { position: static; }
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .card { grid-template-rows: 260px auto; }
-    }
-
-    @media (max-width: 520px) {
-      .grid { grid-template-columns: 1fr; }
-      .filters { grid-template-columns: 1fr; }
-      .container { padding: 14px; }
+    @media (max-width:640px){
+      .wrap{padding:0 14px}
+      .filters{grid-template-columns:1fr}
+      .grid{grid-template-columns:1fr}
+      .lead{font-size:19px}
+      .title{font-size:26px}
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header class="topbar">
-      <h1 class="brand">Личная витрина Media</h1>
-      <a href="/index.html">На главную</a>
-    </header>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/index.html">filin_cprt</a>
+      <div class="top-actions">
+        <a class="btn" href="/admin">Админка</a>
+        <a class="btn primary" href="/index.html">Главная</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <p class="kicker">Личная картотека</p>
+      <h1>Мой <em>киноархив</em></h1>
+      <p class="lead">Каталог фильмов и сериалов из личной коллекции с оценками, жанрами и комментариями.</p>
+    </section>
 
     <section class="panel">
       <div class="filters">
@@ -332,45 +130,59 @@
           <select id="sortFilter">
             <option value="created_desc">Сначала новые</option>
             <option value="created_asc">Сначала старые</option>
-            <option value="rating_desc">По оценке: выше</option>
-            <option value="rating_asc">По оценке: ниже</option>
+            <option value="rating_desc">Оценка: выше</option>
+            <option value="rating_asc">Оценка: ниже</option>
           </select>
         </div>
 
         <div class="field">
-          <label for="reloadBtn">Обновить</label>
-          <button id="reloadBtn" type="button">Обновить список</button>
+          <label for="viewFilter">Отображение</label>
+          <select id="viewFilter">
+            <option value="cards">Карточки</option>
+            <option value="table">Таблица</option>
+          </select>
         </div>
+
+        <div class="field">
+          <label for="reloadBtn">Данные</label>
+          <button id="reloadBtn" class="btn" type="button">Обновить</button>
+        </div>
+      </div>
+
+      <div class="meta">
+        <span id="countMeta">Записей: 0</span>
+        <span id="viewMeta">Режим: карточки</span>
       </div>
     </section>
 
-    <div class="meta">
-      <span id="countMeta">Записей: 0</span>
-    </div>
-
     <div id="loader" class="loader">Загрузка каталога...</div>
     <div id="error" class="error" hidden></div>
-    <div id="grid" class="grid"></div>
-  </div>
+    <div id="results"></div>
+  </main>
+
+  <footer>
+    <div class="wrap">© 2026 filin_cprt</div>
+  </footer>
 
   <script>
     const DEFAULT_API_BASE = 'https://irgvbrqwqpeqlokfkofw.supabase.co/functions/v1/api';
-    const API_BASE = window.location.origin.includes('workers.dev')
-      ? window.location.origin
-      : DEFAULT_API_BASE;
-
-    const TMDB_IMAGE = 'https://irgvbrqwqpeqlokfkofw.supabase.co/functions/v1/api/image/w500'
+    const API_BASE = window.location.origin.includes('workers.dev') ? window.location.origin : DEFAULT_API_BASE;
+    const TMDB_IMAGE = 'https://irgvbrqwqpeqlokfkofw.supabase.co/functions/v1/api/image/w500';
 
     const typeFilter = document.getElementById('typeFilter');
     const genreFilter = document.getElementById('genreFilter');
     const sortFilter = document.getElementById('sortFilter');
+    const viewFilter = document.getElementById('viewFilter');
     const reloadBtn = document.getElementById('reloadBtn');
 
-    const grid = document.getElementById('grid');
+    const results = document.getElementById('results');
     const loader = document.getElementById('loader');
     const errorEl = document.getElementById('error');
     const countMeta = document.getElementById('countMeta');
-    const sourceMeta = document.getElementById('sourceMeta');
+    const viewMeta = document.getElementById('viewMeta');
+
+    const VIEW_KEY = 'catalog_view_mode';
+    let currentItems = [];
 
     function escapeHtml(value) {
       return String(value ?? '')
@@ -395,16 +207,22 @@
     }
 
     function posterUrl(path) {
-      if (!path) return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="500" height="750"><rect width="100%" height="100%" fill="%23e8e1d9"/><text x="50%" y="50%" font-size="28" text-anchor="middle" fill="%23675e55" font-family="sans-serif">Нет постера</text></svg>';
+      if (!path) {
+        return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="500" height="750"><rect width="100%" height="100%" fill="%23e8e1d9"/><text x="50%" y="50%" font-size="28" text-anchor="middle" fill="%23675e55" font-family="sans-serif">Нет постера</text></svg>';
+      }
       if (path.startsWith('http://') || path.startsWith('https://')) return path;
       return `${TMDB_IMAGE}${path}`;
     }
 
-    async function api(path) {
-      const res = await fetch(`${API_BASE}${path}`, {
-        headers: { Accept: 'application/json' }
-      });
+    function formatDate(value) {
+      if (!value) return '—';
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return '—';
+      return date.toLocaleDateString('ru-RU');
+    }
 
+    async function api(path) {
+      const res = await fetch(`${API_BASE}${path}`, { headers: { Accept: 'application/json' } });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || data.ok === false) {
         throw new Error(data.error || `HTTP ${res.status}`);
@@ -415,8 +233,7 @@
     async function loadGenres() {
       const data = await api('/public/genres');
       const genres = data.genres || data.data?.genres || [];
-
-      const current = genreFilter.value;
+      const prev = genreFilter.value;
       genreFilter.innerHTML = '<option value="all">Все жанры</option>';
 
       for (const genre of genres) {
@@ -426,36 +243,29 @@
         genreFilter.append(option);
       }
 
-      if ([...genreFilter.options].some((option) => option.value === current)) {
-        genreFilter.value = current;
+      if ([...genreFilter.options].some((option) => option.value === prev)) {
+        genreFilter.value = prev;
       }
     }
 
     function renderCards(items) {
       if (!items.length) {
-        grid.innerHTML = '<div class="empty">По выбранным фильтрам ничего не найдено.</div>';
+        results.innerHTML = '<div class="empty">По выбранным фильтрам ничего не найдено.</div>';
         return;
       }
 
-      grid.innerHTML = items.map((item) => {
-        const genres = parseArray(item.genres || item.genres_json)
-          .map((g) => g && g.name ? g.name : '')
-          .filter(Boolean)
-          .slice(0, 3);
-
+      const html = items.map((item) => {
+        const genres = parseArray(item.genres || item.genres_json).map((g) => g?.name || '').filter(Boolean).slice(0, 3);
         const title = item.title || item.original_title || 'Без названия';
         const year = item.year || '—';
-        const rating = item.rating === null || item.rating === undefined || item.rating === ''
-          ? '—'
-          : Number(item.rating).toFixed(1);
-
+        const rating = item.rating === null || item.rating === undefined || item.rating === '' ? '—' : Number(item.rating).toFixed(1);
         const comment = item.comment ? escapeHtml(item.comment) : '';
         const typeLabel = item.media_type === 'tv' ? 'Сериал' : 'Фильм';
 
         return `
           <article class="card">
             <img class="poster" src="${posterUrl(item.poster_path)}" alt="Постер: ${escapeHtml(title)}" loading="lazy" />
-            <div class="card-body">
+            <div class="body">
               <div class="title-row">
                 <h2 class="title">${escapeHtml(title)}</h2>
                 <span class="year">${escapeHtml(year)}</span>
@@ -470,6 +280,67 @@
           </article>
         `;
       }).join('');
+
+      results.innerHTML = `<div class="grid">${html}</div>`;
+    }
+
+    function renderTable(items) {
+      if (!items.length) {
+        results.innerHTML = '<div class="empty">По выбранным фильтрам ничего не найдено.</div>';
+        return;
+      }
+
+      const rows = items.map((item) => {
+        const genres = parseArray(item.genres || item.genres_json).map((g) => g?.name || '').filter(Boolean).join(', ') || '—';
+        const title = item.title || item.original_title || 'Без названия';
+        const year = item.year || '—';
+        const rating = item.rating === null || item.rating === undefined || item.rating === '' ? '—' : Number(item.rating).toFixed(1);
+        const typeLabel = item.media_type === 'tv' ? 'Сериал' : 'Фильм';
+
+        return `
+          <tr>
+            <td><img class="table-poster" src="${posterUrl(item.poster_path)}" alt="${escapeHtml(title)}" loading="lazy" /></td>
+            <td>
+              <p class="table-title">${escapeHtml(title)}</p>
+              <p class="table-sub">${typeLabel}</p>
+            </td>
+            <td>${escapeHtml(year)}</td>
+            <td>${escapeHtml(genres)}</td>
+            <td>${rating}</td>
+            <td>${escapeHtml(item.comment || '')}</td>
+            <td>${formatDate(item.created_at)}</td>
+          </tr>
+        `;
+      }).join('');
+
+      results.innerHTML = `
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Постер</th>
+                <th>Название</th>
+                <th>Год</th>
+                <th>Жанры</th>
+                <th>Оценка</th>
+                <th>Комментарий</th>
+                <th>Добавлено</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderByView() {
+      const mode = viewFilter.value;
+      viewMeta.textContent = `Режим: ${mode === 'table' ? 'таблица' : 'карточки'}`;
+      if (mode === 'table') {
+        renderTable(currentItems);
+      } else {
+        renderCards(currentItems);
+      }
     }
 
     async function loadCatalog() {
@@ -483,11 +354,12 @@
 
       try {
         const data = await api(`/public?${params.toString()}`);
-        const items = data.results || data.data?.results || [];
-        countMeta.textContent = `Записей: ${items.length}`;
-        renderCards(items);
+        currentItems = data.results || data.data?.results || [];
+        countMeta.textContent = `Записей: ${currentItems.length}`;
+        renderByView();
       } catch (err) {
-        grid.innerHTML = '';
+        currentItems = [];
+        results.innerHTML = '';
         errorEl.hidden = false;
         errorEl.textContent = `Не удалось загрузить каталог: ${err.message}`;
       } finally {
@@ -495,9 +367,22 @@
       }
     }
 
+    function setupViewMode() {
+      const saved = localStorage.getItem(VIEW_KEY);
+      if (saved === 'cards' || saved === 'table') {
+        viewFilter.value = saved;
+      }
+      viewMeta.textContent = `Режим: ${viewFilter.value === 'table' ? 'таблица' : 'карточки'}`;
+    }
+
     typeFilter.addEventListener('change', loadCatalog);
     genreFilter.addEventListener('change', loadCatalog);
     sortFilter.addEventListener('change', loadCatalog);
+
+    viewFilter.addEventListener('change', () => {
+      localStorage.setItem(VIEW_KEY, viewFilter.value);
+      renderByView();
+    });
 
     reloadBtn.addEventListener('click', async () => {
       await loadGenres();
@@ -505,6 +390,7 @@
     });
 
     (async () => {
+      setupViewMode();
       await loadGenres();
       await loadCatalog();
     })();
