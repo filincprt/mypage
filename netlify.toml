@@ -1,0 +1,41 @@
+[build]
+  publish = "."
+
+# Проксируем все API-запросы к Supabase Edge Function
+# Замени YOUR_PROJECT_REF на ref твоего проекта Supabase
+
+[[redirects]]
+  from = "/public/genres"
+  to = "https://irgvbrqwqpeqlokfkofw.supabase.co/functions/v1/api/public/genres"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/public"
+  to = "https://irgvbrqwqpeqlokfkofw.supabase.co/functions/v1/api/public"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/admin"
+  to = "https://irgvbrqwqpeqlokfkofw.supabase.co/functions/v1/api/admin"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/search"
+  to = "https://irgvbrqwqpeqlokfkofw.supabase.co/functions/v1/api/search"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/details"
+  to = "https://irgvbrqwqpeqlokfkofw.supabase.co/functions/v1/api/details"
+  status = 200
+  force = true
+
+# /catalog → catalog.html (SPA-style)
+[[redirects]]
+  from = "/catalog"
+  to = "/catalog.html"
+  status = 200
