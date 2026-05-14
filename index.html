@@ -29,78 +29,6 @@
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border:1px solid #181615;border-radius:999px;text-decoration:none;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;transition:.2s ease}
     .btn.primary{background:#181615;color:#f7f5f0}
     .btn:hover{transform:translateY(-2px)}
-    .media-widget{
-      margin-top:0;
-      border:1px solid rgba(24,22,21,.1);
-      border-radius:22px;
-      background:#fffdfa;
-      padding:14px;
-      display:grid;
-      gap:12px;
-    }
-    .media-widget__head{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .media-widget__title{
-      margin:0;
-      font-family:'Space Mono',monospace;
-      font-size:11px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      color:#7a7570;
-    }
-    .media-widget__grid{
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:10px;
-    }
-    .mini-media{
-      border:1px solid rgba(24,22,21,.1);
-      border-radius:14px;
-      background:#fff;
-      overflow:hidden;
-      display:grid;
-      grid-template-rows:120px auto;
-    }
-    .mini-media__poster{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      background:#ebe5de;
-    }
-    .mini-media__body{
-      padding:8px;
-      display:grid;
-      gap:6px;
-    }
-    .mini-media__title{
-      margin:0;
-      font-size:18px;
-      font-weight:600;
-      line-height:1.05;
-      color:#181615;
-    }
-    .mini-media__meta{
-      margin:0;
-      font-family:'Space Mono',monospace;
-      font-size:10px;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      color:#7a7570;
-    }
-    .media-widget__status{
-      margin:0;
-      font-family:'Space Mono',monospace;
-      font-size:11px;
-      letter-spacing:.1em;
-      text-transform:uppercase;
-      color:#7a7570;
-      min-height:14px;
-    }
     .art{
       border:1px solid rgba(24,22,21,.1);
       border-radius:28px;
@@ -478,15 +406,6 @@
     .muted{color:#7a7570}
     .notice{border:1px solid rgba(255,75,0,.25);background:rgba(255,75,0,.08);border-radius:20px;padding:22px;font-size:21px;line-height:1.5}
     .notice strong{display:block;font-size:28px;line-height:1.1;margin-bottom:12px}
-    .cert-wrap{display:grid;grid-template-columns:1fr .95fr;gap:18px}
-    .cert-form{border:1px solid rgba(24,22,21,.1);border-radius:24px;padding:24px;background:#fffdfa}
-    .cert-form form{display:grid;gap:12px}
-    .cert-form label{display:grid;gap:8px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7a7570}
-    .cert-form input,.cert-form select{width:100%;padding:14px 14px;border:1px solid rgba(24,22,21,.14);border-radius:16px;background:#fff;font:inherit;color:#181615;outline:none}
-    .cert-form input:focus,.cert-form select:focus{border-color:#ff4b00;box-shadow:0 0 0 3px rgba(255,75,0,.12)}
-    .cert-preview{border:1px solid rgba(24,22,21,.1);border-radius:24px;padding:24px;background:#fffdfa;display:grid;gap:14px;align-content:start}
-    .cert-preview img{width:100%;border-radius:14px;border:1px solid rgba(24,22,21,.14);background:#fff}
-    .cert-actions{display:flex;flex-wrap:wrap;gap:10px}
     .tiny{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;color:#7a7570;text-transform:uppercase}
     .ad-wrap{
       border:1px solid rgba(24,22,21,.1);
@@ -510,7 +429,7 @@
     }
     footer{padding:28px 0 40px;border-top:1px solid rgba(24,22,21,.1);font-family:'Space Mono',monospace;color:#7a7570;font-size:12px}
     @media (max-width:900px){
-      .hero,.grid,.cert-wrap{grid-template-columns:1fr}
+      .hero,.grid{grid-template-columns:1fr}
       .art{min-height:280px}
       .dartboard{width:min(88vw, 360px)}
       .weather-card{width:min(100%,520px)}
@@ -549,17 +468,11 @@
       .lead{font-size:19px}
       .card h3{font-size:28px}
       .card p{font-size:17px}
-      .media-widget__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .mini-media{grid-template-rows:100px auto}
-      .mini-media__title{font-size:16px}
       .weather-card{min-height:286px;padding:14px}
       .weather-icon{left:8px;top:48px;transform:scale(.9);transform-origin:top left}
       .weather-top{margin-top:152px}
       .weather-city{font-size:24px}
       .weather-temp{font-size:46px}
-    }
-    @media (max-width:460px){
-      .media-widget__grid{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -569,8 +482,7 @@
       <a class="brand" href="#top">filin_cprt</a>
       <nav class="nav">
         <a href="#about">Обо мне</a>
-        <a href="#media">Витрина</a>
-        <a href="#certificate">Сертификат</a>
+        <a href="/catalog">Витрина</a>
         <a href="#contacts">Контакты</a>
       </nav>
     </div>
@@ -634,54 +546,12 @@
       </div>
     </section>
 
-    <section id="media" class="section">
-      <p class="title"><span>03</span>Витрина Media</p>
-      <div class="media-widget" id="mediaWidget">
-        <div class="media-widget__head">
-          <p class="media-widget__title">Новое на витрине</p>
-          <a class="btn" href="/catalog">Открыть витрину</a>
-        </div>
-        <p class="media-widget__status" id="mediaWidgetStatus">Загрузка...</p>
-        <div class="media-widget__grid" id="mediaWidgetGrid"></div>
-      </div>
-    </section>
-
-    <section id="certificate" class="section">
-      <p class="title"><span>04</span>Сертификат «4 Gb»</p>
-      <div class="cert-wrap">
-        <div class="cert-form">
-          <p class="muted" style="margin-top:0;font-size:20px;">Заполни данные, и система с максимально официальным лицом выдаст торжественный сертификат на 4 Gb интернет-доступа.</p>
-          <form id="certForm">
-            <label>Имя
-              <input type="text" id="firstName" required placeholder="Например, Иван">
-            </label>
-            <label>Фамилия
-              <input type="text" id="lastName" required placeholder="Например, Петров">
-            </label>
-            <label>Гражданство
-              <select id="citizenship" disabled>
-                <option selected>Российская Федерация</option>
-              </select>
-            </label>
-            <button class="btn primary" type="submit">Получить сертификат</button>
-          </form>
-        </div>
-        <div class="cert-preview">
-          <p class="tiny">Предпросмотр</p>
-          <img id="certImage" alt="Предпросмотр сертификата" hidden>
-          <p id="certEmpty" class="muted" style="margin:0">Здесь появится готовый сертификат и ссылка для скачивания.</p>
-          <div class="cert-actions">
-            <a class="btn" id="downloadLink" hidden download="sertifikat-4gb.png">Скачать сертификат</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section id="contacts" class="section">
       <p class="title"><span>05</span>Контакты</p>
       <div class="links">
         <a class="link" href="https://github.com/filincprt" target="_blank" rel="noopener noreferrer"><strong>GitHub</strong><span>filincprt ↗</span></a>
         <a class="link" href="https://t.me/filin_cprt" target="_blank" rel="noopener noreferrer"><strong>Telegram</strong><span>@filin_cprt ↗</span></a>
+        <a class="link" href="https://www.instagram.com/filin_cprt/" target="_blank" rel="noopener noreferrer"><strong>Instagram</strong><span>@filin_cprt ↗</span></a>
         <a class="link" href="mailto:internet@filincprt.ru" target="_blank" rel="noopener noreferrer"><strong>Email</strong><span>internet@filincprt.ru ↗</span></a>
         <a class="link" href="https://band.link/filincprtlable" target="_blank" rel="noopener noreferrer"><strong>BandLink</strong><span>filincprtlable ↗</span></a>
       </div>
@@ -693,143 +563,6 @@
   </footer>
 
   <script>
-    // --- CERTIFICATE ---
-    console.log('Скрипт загружен');
-
-    const certForm = document.getElementById('certForm');
-    console.log('Форма найдена?', certForm);
-
-    certForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      console.log('Кнопка нажата, submit сработал');
-
-      const firstName = document.getElementById('firstName').value;
-      const lastName = document.getElementById('lastName').value;
-      console.log('Имя:', firstName, 'Фамилия:', lastName);
-
-      try {
-        console.log('Начинаем рисовать сертификат...');
-        const dataUrl = await drawCertificate(firstName, lastName);
-        console.log('Сертификат получен, длина dataUrl:', dataUrl.length);
-
-        const certImage = document.getElementById('certImage');
-        const certEmpty = document.getElementById('certEmpty');
-        const downloadLink = document.getElementById('downloadLink');
-
-        certImage.src = dataUrl;
-        certImage.hidden = false;
-        certEmpty.hidden = true;
-        downloadLink.href = dataUrl;
-        downloadLink.hidden = false;
-        console.log('Сертификат отображён');
-      } catch (err) {
-        console.error('Ошибка:', err);
-        alert('Ошибка: ' + err.message);
-      }
-    });
-
-    async function drawCertificate(firstName, lastName) {
-      const fullName = `${firstName.trim()} ${lastName.trim()}`.trim();
-      const canvas = document.createElement('canvas');
-      canvas.width = 1500;
-      canvas.height = 1000;
-      const ctx = canvas.getContext('2d');
-
-      const logoImg = new Image();
-      logoImg.src = 'logo_mfi.png';
-      await new Promise((resolve, reject) => {
-        logoImg.onload = resolve;
-        logoImg.onerror = () => reject(new Error('Логотип не загружен. Проверь файл logo_mfi.png'));
-      });
-
-      ctx.fillStyle = '#fdf9f1';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = '#202020';
-      ctx.lineWidth = 8;
-      ctx.strokeRect(28, 28, canvas.width - 56, canvas.height - 56);
-      ctx.strokeStyle = '#ff4b00';
-      ctx.lineWidth = 2;
-      ctx.strokeRect(46, 46, canvas.width - 92, canvas.height - 92);
-
-      const logoMaxHeight = 175;
-      const logoTop = 55;
-      const logoAspect = logoImg.width / logoImg.height;
-      const logoHeight = logoMaxHeight;
-      const logoWidth = logoHeight * logoAspect;
-      const logoX = (canvas.width - logoWidth) / 2;
-      const logoY = logoTop;
-
-      ctx.drawImage(logoImg, logoX, logoY, logoWidth, logoHeight);
-
-      const titleY = logoY + logoHeight + 25;
-
-      ctx.fillStyle = '#202020';
-      ctx.textAlign = 'center';
-
-      ctx.font = '700 36px "Space Mono", monospace';
-      ctx.fillText('МИНИСТЕРСТВО СТАБИЛЬНОГО ИНТЕРНЕТА', canvas.width / 2, titleY);
-
-      ctx.font = '400 28px "Space Mono", monospace';
-      ctx.fillText(
-        'СЕРТИФИКАТ № 4GB-' + Math.floor(Math.random() * 90000 + 10000),
-        canvas.width / 2,
-        titleY + 60
-      );
-
-      ctx.font = '600 76px "Cormorant Garamond", serif';
-      ctx.fillStyle = '#ff4b00';
-      ctx.fillText('«ДОСТУП В ИНТЕРНЕТ 4 Gb»', canvas.width / 2, titleY + 170);
-
-      ctx.fillStyle = '#202020';
-      ctx.font = '500 46px "Cormorant Garamond", serif';
-      ctx.fillText('Настоящим удостоверяется, что гражданин(ка)', canvas.width / 2, titleY + 260);
-
-      ctx.font = '700 70px "Cormorant Garamond", serif';
-      ctx.fillText(fullName.toUpperCase(), canvas.width / 2, titleY + 350);
-
-      ctx.font = '500 42px "Cormorant Garamond", serif';
-      ctx.fillText('официально получает стратегический запас трафика', canvas.width / 2, titleY + 430);
-      ctx.fillText('в размере 4 гигабайта для великих интернет-дел.', canvas.width / 2, titleY + 485);
-
-      ctx.font = '400 34px "Cormorant Garamond", serif';
-      ctx.fillText(
-        'Разрешается пользоваться свободным Интернетом на территории Российской Федерации',
-        canvas.width / 2,
-        titleY + 575
-      );
-      ctx.fillText(
-        'без каких-либо блокировок, не боясь сесть на пару лет.',
-        canvas.width / 2,
-        titleY + 620
-      );
-
-      ctx.textAlign = 'left';
-      ctx.font = '700 28px "Space Mono", monospace';
-      ctx.textBaseline = 'middle';
-
-      const labelText = 'Подпись уполномоченного: ';
-      const y = 920;
-      ctx.fillText(labelText, 100, y);
-
-      const signImg = new Image();
-      signImg.src = 'podpis.png';
-      await new Promise((resolve, reject) => {
-        signImg.onload = resolve;
-        signImg.onerror = () => reject(new Error('Картинка подписи недоступна. Проверь файл podpis.png'));
-      });
-
-      const textWidth = ctx.measureText(labelText).width;
-      const imgX = 100 + textWidth;
-      const imgHeight = 20;
-      const imgY = y - imgHeight / 2;
-      ctx.drawImage(signImg, imgX, imgY, 100, imgHeight);
-
-      ctx.textAlign = 'right';
-      ctx.fillText(new Date().toLocaleDateString('ru-RU'), canvas.width - 100, 920);
-
-      return canvas.toDataURL('image/png');
-    }
-
     // --- WEATHER WIDGET ---
     const weatherCard = document.getElementById('weatherCard');
     const weatherLoading = document.getElementById('weatherLoading');
@@ -966,76 +699,7 @@
   }
 }
 
-    const MEDIA_API_BASE = 'https://irgvbrqwqpeqlokfkofw.supabase.co/functions/v1/api';
-    const MEDIA_IMAGE_BASE = 'https://irgvbrqwqpeqlokfkofw.supabase.co/functions/v1/api/image/w500';
-    const mediaWidget = document.getElementById('mediaWidget');
-    const mediaWidgetGrid = document.getElementById('mediaWidgetGrid');
-    const mediaWidgetStatus = document.getElementById('mediaWidgetStatus');
-
-    function mediaPoster(path) {
-      if (!path) {
-        return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600"><rect width="100%" height="100%" fill="%23ebe5de"/><text x="50%" y="50%" font-size="26" text-anchor="middle" fill="%23685f57" font-family="sans-serif">Нет постера</text></svg>';
-      }
-      if (path.startsWith('http://') || path.startsWith('https://')) return path;
-      return `${MEDIA_IMAGE_BASE}${path}`;
-    }
-
-    function mediaEscape(value) {
-      return String(value ?? '')
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#39;');
-    }
-
-    function loadWidgetMarkup(items) {
-      mediaWidgetGrid.innerHTML = items.map((item) => {
-        const title = item.title || item.original_title || 'Без названия';
-        const year = item.year || '—';
-        const type = item.media_type === 'tv' ? 'Сериал' : 'Фильм';
-        return `
-          <article class="mini-media">
-            <img class="mini-media__poster" src="${mediaPoster(item.poster_path)}" alt="${mediaEscape(title)}" loading="lazy" />
-            <div class="mini-media__body">
-              <p class="mini-media__title">${mediaEscape(title)}</p>
-              <p class="mini-media__meta">${mediaEscape(type)} • ${mediaEscape(year)}</p>
-            </div>
-          </article>
-        `;
-      }).join('');
-    }
-
-    async function loadMediaWidget() {
-      if (!mediaWidget || !mediaWidgetGrid || !mediaWidgetStatus) return;
-
-      mediaWidgetStatus.textContent = 'Загрузка...';
-      mediaWidgetGrid.innerHTML = '';
-
-      try {
-        const res = await fetch(`${MEDIA_API_BASE}/public?sort=created_desc`, {
-          headers: { Accept: 'application/json' }
-        });
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok || data.ok === false) {
-          throw new Error(data.error || `HTTP ${res.status}`);
-        }
-
-        const items = (data.results || data.data?.results || []).slice(0, 3);
-        if (!items.length) {
-          mediaWidgetStatus.textContent = 'Пока пусто';
-          return;
-        }
-
-        loadWidgetMarkup(items);
-        mediaWidgetStatus.textContent = 'Последние добавленные';
-      } catch (err) {
-        mediaWidgetStatus.textContent = 'Не удалось загрузить';
-      }
-    }
-
     loadWeather();
-    loadMediaWidget();
   </script>
 </body>
 </html>
