@@ -1,4 +1,4 @@
-﻿export default {
+export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const path = normalizePath(url.pathname);
@@ -10,6 +10,10 @@
     try {
       if (path === '/catalog' && request.method === 'GET') {
         return serveAsset(request, env, '/catalog.html');
+      }
+
+      if (path === '/veronika' && request.method === 'GET') {
+        return serveAsset(request, env, '/veronika.html');
       }
 
       if (path === '/admin.html' && request.method === 'GET') {
