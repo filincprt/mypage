@@ -30,7 +30,7 @@
     @keyframes slowPulse{0%,100%{transform:scale(.96);opacity:.7}50%{transform:scale(1.04);opacity:1}}@keyframes floatCard{0%,100%{translate:0 0}50%{translate:0 -14px}}@keyframes twinkle{0%,100%{transform:scale(.94) rotate(0deg);opacity:.45}50%{transform:scale(1.08) rotate(8deg);opacity:.9}}
     @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
     @media (max-width:920px){.hero,.story{grid-template-columns:1fr}.hero{padding-top:44px}.hero-card{min-height:500px}.visits{grid-template-columns:1fr 1fr}.memory-grid{grid-template-columns:1fr}}
-    @media (max-width:640px){.wrap{padding:0 15px}.topbar .wrap{min-height:64px}.nav{font-size:11px}.btn{padding:10px 12px}.lead{font-size:21px}.hero-card{min-height:430px}.photo{border-width:8px}.photo.main{width:92%;height:285px}.photo.small{width:58%;height:190px}.badge{right:10px;bottom:26px;width:160px}.visits{grid-template-columns:1fr}.place{width:282px}.place img{height:200px}.text-card p{font-size:23px}.text-card::before{display:none}.lightbox{padding:14px}.lightbox img{border-width:7px}}
+    @media (max-width:640px){.wrap{padding:0 15px}.topbar .wrap{min-height:64px}.nav{font-size:11px}.btn{padding:10px 12px}.lead{font-size:21px}.hero-card{min-height:430px}.photo{border-width:8px}.photo.main{width:92%;height:285px}.photo.small{width:58%;height:190px}.badge{right:10px;bottom:26px;width:160px}.visits{grid-template-columns:1fr}.place{width:282px}.place img{height:200px;cursor:grab}.text-card p{font-size:23px}.text-card::before{display:none}.lightbox{display:none!important}}
   </style>
 </head>
 <body>
@@ -126,9 +126,12 @@
   <script>
     const scroller = document.querySelector('#collageScroller');
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const mobileLightboxQuery = window.matchMedia('(max-width: 640px)');
     let autoScrollFrame;
     let paused = false;
     let isDragging = false;
+    let didDrag = false;
+    let pressedImage = null;
     let startX = 0;
     let startScrollLeft = 0;
 
@@ -151,6 +154,8 @@
       scroller.addEventListener('focusout', () => { paused = false; });
       scroller.addEventListener('pointerdown', (event) => {
         isDragging = true;
+        didDrag = false;
+        pressedImage = event.target.closest('.place img');
         paused = true;
         startX = event.clientX;
         startScrollLeft = scroller.scrollLeft;
@@ -159,15 +164,21 @@
       });
       scroller.addEventListener('pointermove', (event) => {
         if (!isDragging) return;
+        const distance = event.clientX - startX;
+        if (Math.abs(distance) < 6) return;
+        didDrag = true;
         event.preventDefault();
-        scroller.scrollLeft = startScrollLeft - (event.clientX - startX);
+        scroller.scrollLeft = startScrollLeft - distance;
       });
       function stopDragging(event) {
         if (!isDragging) return;
         isDragging = false;
         paused = false;
         scroller.classList.remove('is-dragging');
+        if (!didDrag && pressedImage) openLightbox(pressedImage);
+        pressedImage = null;
         if (scroller.hasPointerCapture(event.pointerId)) scroller.releasePointerCapture(event.pointerId);
+        window.setTimeout(() => { didDrag = false; }, 0);
       }
       scroller.addEventListener('pointerup', stopDragging);
       scroller.addEventListener('pointercancel', stopDragging);
@@ -185,16 +196,26 @@
       paused = false;
     }
 
+    function openLightbox(image) {
+      if (mobileLightboxQuery.matches || didDrag) return;
+      paused = true;
+      lightboxImage.src = image.src;
+      lightboxImage.alt = image.alt;
+      lightboxCaption.textContent = image.alt;
+      lightbox.classList.add('is-open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      lightboxClose.focus();
+    }
+
     document.querySelectorAll('.place img').forEach((image) => {
-      image.addEventListener('click', () => {
-        paused = true;
-        lightboxImage.src = image.src;
-        lightboxImage.alt = image.alt;
-        lightboxCaption.textContent = image.alt;
-        lightbox.classList.add('is-open');
-        lightbox.setAttribute('aria-hidden', 'false');
-        lightboxClose.focus();
+      image.addEventListener('click', (event) => {
+        event.stopPropagation();
+        openLightbox(image);
       });
+    });
+
+    mobileLightboxQuery.addEventListener('change', () => {
+      if (mobileLightboxQuery.matches && lightbox.classList.contains('is-open')) closeLightbox();
     });
 
     lightboxClose.addEventListener('click', closeLightbox);
