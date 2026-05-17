@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Рассказ школьницы о городе России Владикавказе" />
+  <title>Города России. Владикавказ</title>
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:#f7f5f0;color:#201916;font-family:'Cormorant Garamond',serif;overflow-x:hidden}
+    a{color:inherit}.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+    .topbar{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:rgba(247,245,240,.9);border-bottom:1px solid rgba(32,25,22,.08)}
+    .topbar .wrap{display:flex;align-items:center;justify-content:space-between;min-height:72px;gap:16px}.brand{font-family:'Space Mono',monospace;text-decoration:none;letter-spacing:.08em;font-size:14px}.nav{display:flex;gap:12px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.12em}.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 16px;border:1px solid #201916;border-radius:999px;text-decoration:none;transition:.25s ease;background:rgba(255,255,255,.35)}.btn.primary{background:#201916;color:#f7f5f0}.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(32,25,22,.12)}
+
+    .hero{position:relative;isolation:isolate;min-height:calc(100vh - 72px);display:grid;grid-template-columns:1.03fr .97fr;align-items:center;gap:42px;padding:64px 0 72px}.hero::before{content:'';position:absolute;inset:24px -18vw auto auto;width:62vw;height:62vw;max-height:720px;border-radius:50%;background:radial-gradient(circle,rgba(0,57,166,.16),transparent 59%);z-index:-1;animation:slowPulse 7s ease-in-out infinite}.hero::after{content:'';position:absolute;left:-12vw;bottom:18px;width:48vw;height:48vw;border-radius:50%;background:radial-gradient(circle,rgba(213,43,30,.14),transparent 62%);z-index:-1;animation:slowPulse 8s ease-in-out infinite reverse}.ribbon{display:inline-flex;align-items:center;gap:10px;margin:0 0 18px;padding:9px 12px;border-radius:999px;background:#fffdfa;border:1px solid rgba(32,25,22,.1);font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#6a625c;box-shadow:0 14px 30px rgba(32,25,22,.08)}.flag{width:42px;height:25px;border-radius:6px;overflow:hidden;border:1px solid rgba(32,25,22,.12);box-shadow:0 6px 16px rgba(32,25,22,.12)}.flag span{display:block;height:33.333%}.flag span:nth-child(1){background:#fff}.flag span:nth-child(2){background:#0039a6}.flag span:nth-child(3){background:#d52b1e}h1{font-size:clamp(54px,8.5vw,118px);line-height:.9;margin:0;font-weight:400;letter-spacing:-.04em}h1 em{display:block;color:#b91f18;font-style:italic;font-weight:700;text-shadow:0 16px 36px rgba(185,31,24,.16)}.lead{max-width:39rem;font-size:25px;line-height:1.55;color:#5f5852;margin:28px 0 0}.hero-card{position:relative;min-height:560px}.photo{position:absolute;overflow:hidden;border:12px solid #fffdfa;border-radius:28px;background:#e6ded5;box-shadow:0 28px 70px rgba(32,25,22,.2);animation:floatCard 5.5s ease-in-out infinite}.photo img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.04) contrast(1.02)}.photo.main{right:0;top:22px;width:82%;height:360px;transform:rotate(2deg)}.photo.small{left:0;bottom:32px;width:53%;height:250px;transform:rotate(-7deg);animation-delay:-1.4s}.badge{position:absolute;right:36px;bottom:64px;width:190px;padding:18px;border-radius:24px;background:#201916;color:#fffdfa;box-shadow:0 18px 45px rgba(32,25,22,.2);font-family:'Space Mono',monospace;font-size:12px;line-height:1.6;letter-spacing:.08em;text-transform:uppercase;animation:floatCard 4.8s ease-in-out infinite reverse}.badge strong{display:block;color:#ffd25f;font-size:28px;line-height:1;margin-bottom:8px}
+
+    section{padding:54px 0}.section-title{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:22px}.kicker{font-family:'Space Mono',monospace;color:#7a7069;text-transform:uppercase;letter-spacing:.2em;font-size:12px;margin:0 0 10px}h2{font-size:clamp(38px,5vw,68px);line-height:.95;margin:0;font-weight:600;letter-spacing:-.025em}.story{display:grid;grid-template-columns:.78fr 1.22fr;gap:18px}.fact-card,.text-card,.visit-card{border:1px solid rgba(32,25,22,.1);border-radius:28px;background:#fffdfa;padding:26px;box-shadow:0 16px 38px rgba(32,25,22,.06)}.fact-card{background:linear-gradient(135deg,#fffdfa 0%,#fff3e1 62%,rgba(213,43,30,.08) 100%)}.fact{display:grid;gap:5px;padding:15px 0;border-bottom:1px solid rgba(32,25,22,.09)}.fact:last-child{border-bottom:0}.fact b{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#9d281f}.fact span{font-size:24px;line-height:1.2}.text-card{position:relative;overflow:hidden;padding:30px}.text-card::before{content:'мой дневник';position:absolute;right:-34px;top:26px;transform:rotate(12deg);font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:rgba(0,57,166,.28);border:1px solid rgba(0,57,166,.18);border-radius:999px;padding:10px 42px;background:rgba(255,255,255,.55)}.text-card p{margin:0 0 20px;font-size:27px;line-height:1.58;color:#4f4740}.text-card p:first-of-type::first-letter{float:left;font-size:78px;line-height:.8;margin:10px 10px 0 0;color:#b91f18;font-weight:700}.text-card p:last-child{margin-bottom:0}.memory-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:20px 0}.memory{border-radius:18px;padding:14px;background:linear-gradient(135deg,rgba(255,210,95,.18),rgba(255,255,255,.85));border:1px solid rgba(32,25,22,.08);font-size:20px;line-height:1.25}.memory b{display:block;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9d281f;margin-bottom:6px}
+
+    .collage-wrap{position:relative;margin-top:14px;padding:10px 0 32px;overflow-x:auto;overflow-y:hidden;cursor:grab;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:#b91f18 rgba(32,25,22,.08);touch-action:pan-x}.collage-wrap.is-dragging{cursor:grabbing;scroll-snap-type:none;user-select:none}.collage-wrap::-webkit-scrollbar{height:10px}.collage-wrap::-webkit-scrollbar-track{background:rgba(32,25,22,.08);border-radius:999px}.collage-wrap::-webkit-scrollbar-thumb{background:linear-gradient(90deg,#0039a6,#d52b1e);border-radius:999px}.collage{display:flex;gap:22px;width:max-content;padding:8px 8px 20px}.place{width:330px;min-height:400px;flex:0 0 auto;scroll-snap-align:center;border-radius:30px;background:#fffdfa;border:1px solid rgba(32,25,22,.12);box-shadow:0 20px 52px rgba(32,25,22,.12);overflow:hidden;transform:rotate(var(--tilt));transition:.25s ease}.place:hover{transform:rotate(0deg) translateY(-8px)}.place img{width:100%;height:230px;object-fit:cover;display:block;cursor:zoom-in}.place div{padding:18px}.place h3{font-size:30px;line-height:1;margin:0 0 10px}.place p{font-size:18px;line-height:1.42;color:#5f5852;margin:0}.gallery-hint{margin-top:8px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7a7069}
+
+    .lightbox{position:fixed;inset:0;z-index:60;display:none;place-items:center;padding:28px;background:rgba(15,12,10,.82);backdrop-filter:blur(10px)}.lightbox.is-open{display:grid}.lightbox img{max-width:min(1100px,94vw);max-height:82vh;border:12px solid #fffdfa;border-radius:28px;box-shadow:0 30px 90px rgba(0,0,0,.35);object-fit:contain;background:#fffdfa}.lightbox button{position:absolute;right:28px;top:24px;width:46px;height:46px;border:1px solid rgba(255,255,255,.4);border-radius:999px;background:#fffdfa;color:#201916;font-size:28px;line-height:1;cursor:pointer}.lightbox p{margin:14px 0 0;color:#fffdfa;font-size:22px;text-align:center}
+
+    .visits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.visit-card{position:relative;overflow:hidden;min-height:210px}.visit-card::before{content:'★';position:absolute;right:20px;top:10px;color:rgba(0,57,166,.12);font-size:86px;line-height:1;animation:twinkle 2.6s ease-in-out infinite}.visit-card h3{font-size:31px;margin:0 0 12px;line-height:1}.visit-card p{margin:0;color:#5f5852;font-size:19px;line-height:1.45}.patriot{margin-top:18px;border-radius:30px;padding:24px;border:1px solid rgba(32,25,22,.1);background:linear-gradient(90deg,rgba(255,255,255,.9),rgba(0,57,166,.08),rgba(213,43,30,.12));font-size:25px;line-height:1.45;color:#3c332d}.patriot b{color:#9d281f}footer{padding:30px 0 44px;border-top:1px solid rgba(32,25,22,.1);font-family:'Space Mono',monospace;color:#7a7069;font-size:12px;margin-top:34px}
+
+    @keyframes slowPulse{0%,100%{transform:scale(.96);opacity:.7}50%{transform:scale(1.04);opacity:1}}@keyframes floatCard{0%,100%{translate:0 0}50%{translate:0 -14px}}@keyframes twinkle{0%,100%{transform:scale(.94) rotate(0deg);opacity:.45}50%{transform:scale(1.08) rotate(8deg);opacity:.9}}
+    @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+    @media (max-width:920px){.hero,.story{grid-template-columns:1fr}.hero{padding-top:44px}.hero-card{min-height:500px}.visits{grid-template-columns:1fr 1fr}.memory-grid{grid-template-columns:1fr}}
+    @media (max-width:640px){.wrap{padding:0 15px}.topbar .wrap{min-height:64px}.nav{font-size:11px}.btn{padding:10px 12px}.lead{font-size:21px}.hero-card{min-height:430px}.photo{border-width:8px}.photo.main{width:92%;height:285px}.photo.small{width:58%;height:190px}.badge{right:10px;bottom:26px;width:160px}.visits{grid-template-columns:1fr}.place{width:282px}.place img{height:200px;cursor:zoom-in}.text-card p{font-size:23px}.text-card::before{display:none}.lightbox{padding:10px;align-items:center;overflow:hidden}.lightbox img{width:auto;max-width:calc(100vw - 24px);max-height:calc(100dvh - 118px);border-width:6px;border-radius:18px}.lightbox button{right:12px;top:10px;width:42px;height:42px}.lightbox p{max-width:calc(100vw - 24px);font-size:17px;line-height:1.25}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/index.html">filin_cprt</a>
+      <nav class="nav" aria-label="Навигация">
+        <a class="btn" href="/index.html">Главная</a>
+        <a class="btn primary" href="/catalog">Киноархив</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <div class="ribbon"><span class="flag" aria-label="Флаг России"><span></span><span></span><span></span></span> рассказ школьницы</div>
+        <h1>Города России. <em>Владикавказ</em></h1>
+        <p class="lead">Я родилась во Владикавказе и прожила там первые пару лет. Конечно, я была маленькой, но дома часто пересматривала фотографии и слушала рассказы родных. Поэтому для меня этот город - не просто точка на карте, а тёплое место, где начинается моя история.</p>
+      </div>
+      <div class="hero-card" aria-label="Фотоколлаж Владикавказа">
+        <figure class="photo main"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BA%D0%B0%D0%B2%D0%BA%D0%B0%D0%B7._%D0%93%D0%BE%D1%80%D0%B0_%D0%A1%D1%82%D0%BE%D0%BB%D0%BE%D0%B2%D0%B0%D1%8F.jpg/500px-%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BA%D0%B0%D0%B2%D0%BA%D0%B0%D0%B7._%D0%93%D0%BE%D1%80%D0%B0_%D0%A1%D1%82%D0%BE%D0%BB%D0%BE%D0%B2%D0%B0%D1%8F.jpg?width=1100" alt="Река Терек и мечеть Мухтарова во Владикавказе"></figure>
+        <figure class="photo small"><img src="https://www.avito.st/static/b2b-hub/images/Btgn13FSHo1FPOSbHKzbKx2hrbdR991yGTuKohYj.png?width=800" alt="Проспект Мира во Владикавказе"></figure>
+        <div class="badge"><strong>1784</strong> год основания города</div>
+      </div>
+    </section>
+
+    <section id="story">
+      <div class="section-title">
+        <div><p class="kicker">коротко и от сердца</p><h2>Мой маленький рассказ</h2></div>
+      </div>
+      <div class="story">
+        <aside class="fact-card" aria-label="Факты о Владикавказе">
+          <div class="fact"><b>Основан</b><span>6 мая 1784 года как крепость Владикавказ.</span></div>
+          <div class="fact"><b>Где находится</b><span>На Северном Кавказе, по обоим берегам реки Терек.</span></div>
+          <div class="fact"><b>Статус</b><span>Столица Республики Северная Осетия - Алания.</span></div>
+          <div class="fact"><b>Мой образ</b><span>Горы рядом, шум Терека, старые улицы и гордость за Россию.</span></div>
+        </aside>
+        <article class="text-card">
+          <p>Владикавказ расположен очень красиво: город стоит у подножия Кавказских гор, а через него течёт быстрый Терек. Когда я смотрю на фотографии, мне кажется, что горы там как большие защитники города. Даже название звучит сильно и торжественно.</p>
+          <div class="memory-grid" aria-label="Мои ассоциации с городом">
+            <div class="memory"><b>Звук</b>шумная вода Терека</div>
+            <div class="memory"><b>Вид</b>гора Столовая над городом</div>
+            <div class="memory"><b>Чувство</b>гордость за родное место</div>
+          </div>
+          <p>Город основали в 1784 году. Сначала это была крепость, которая имела важное значение на юге России. Сейчас Владикавказ современный и живой, но в нём хорошо чувствуется история: старинные здания, широкие улицы, памятники и музеи напоминают, как много поколений людей здесь жили, трудились и защищали свою Родину.</p>
+          <p>Мне нравится думать, что Владикавказ соединяет разные культуры и традиции. Здесь говорят о гостеприимстве, уважении к старшим, любви к семье и к своей стране. Для школьного рассказа я бы сказала так: этот город учит гордиться местом, где ты родился, и бережно относиться к истории России.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="places">
+      <div class="section-title">
+        <div><p class="kicker">музеи, памятники, места</p><h2>Что стоит увидеть</h2></div>
+      </div>
+      <p class="gallery-hint">Коллаж сам двигается. Его можно листать пальцем или курсором, а фото открывается крупнее по нажатию.</p>
+      <div class="collage-wrap" id="collageScroller" aria-label="Прокручиваемый коллаж достопримечательностей" tabindex="0">
+        <div class="collage">
+          <article class="place" style="--tilt:-2.5deg"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Vladikavkaz.%20Prospekt%20Mira%20%28Mira%20avenue%29%20PA150338%202575.jpg?width=800" alt="Проспект Мира во Владикавказе"><div><h3>Проспект Мира</h3><p>Туристы почти всегда идут сюда гулять: красивые фасады, уютная атмосфера и ощущение старого города.</p></div></article>
+          <article class="place" style="--tilt:2deg"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Terek%20Mosque.JPG?width=800" alt="Мечеть Мухтарова на берегу Терека"><div><h3>Мечеть Мухтарова</h3><p>Одна из самых узнаваемых достопримечательностей города. Особенно красиво она смотрится рядом с Тереком.</p></div></article>
+          <article class="place" style="--tilt:-1.5deg"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Vladikavkaz.%20Prospekt%20Mira%20%28Mira%20avenue%29.%20M.%20S.%20Tuganov%20Art%20Museum%20PA150347%202900.jpg?width=800" alt="Художественный музей имени М. С. Туганова"><div><h3>Музей им. Туганова</h3><p>В художественном музее можно увидеть картины и узнать больше об искусстве Северной Осетии.</p></div></article>
+          <article class="place" style="--tilt:2.7deg"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/%D0%9A%D0%BE%D1%81%D1%82%D0%B0%20%D0%A5%D0%B5%D1%82%D0%B0%D0%B3%D1%83%D1%80%D0%BE%D0%B2%D1%83.jpg?width=800" alt="Памятник Коста Хетагурову"><div><h3>Памятник Коста</h3><p>Коста Хетагуров - важный поэт и художник для Осетии. Его имя часто встречается в городе.</p></div></article>
+          <article class="place" style="--tilt:-2deg"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Vladikavkaz.%20Terek%20River%20PA160770%202575.jpg?width=800" alt="Река Терек во Владикавказе"><div><h3>Набережная Терека</h3><p>Здесь приятно гулять, слушать реку и смотреть на горы. Для меня это самый живой звук города.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="tourists">
+      <div class="section-title">
+        <div><p class="kicker">обычный маршрут гостей</p><h2>Куда туристы идут в первую очередь</h2></div>
+      </div>
+      <div class="visits">
+        <article class="visit-card"><h3>Гуляют по центру</h3><p>Проспект Мира, старинные дома и кафе помогают почувствовать характер Владикавказа без сложных экскурсий.</p></article>
+        <article class="visit-card"><h3>Фотографируют Терек</h3><p>Мосты, набережная и вид на мечеть Мухтарова - это кадры, которые часто увозят с собой на память.</p></article>
+        <article class="visit-card"><h3>Заходят в музеи</h3><p>Национальный музей Республики Северная Осетия - Алания, Дом-музей Коста Хетагурова и художественный музей имени М. С. Туганова рассказывают о культуре края.</p></article>
+      </div>
+      <div class="patriot">Я горжусь, что в России есть такие разные и красивые города. <b>Владикавказ</b> для меня - это южные ворота нашей страны, город у гор, где прошлое и настоящее стоят рядом, как крепкие друзья.</div>
+    </section>
+  </main>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Увеличенное фото">
+    <button type="button" id="lightboxClose" aria-label="Закрыть фото">×</button>
+    <div>
+      <img id="lightboxImage" alt="">
+      <p id="lightboxCaption"></p>
+    </div>
+  </div>
+
+  <footer>
+    <div class="wrap">Страница подготовлена как школьный рассказ о городе России Владикавказе.</div>
+  </footer>
+
+  <script>
+    const scroller = document.querySelector('#collageScroller');
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let autoScrollFrame;
+    let paused = false;
+    let isDragging = false;
+    let didDrag = false;
+    let pressedImage = null;
+    let startX = 0;
+    let startScrollLeft = 0;
+
+    function animateScroller() {
+      if (!scroller || mediaQuery.matches) return;
+      if (!paused && !isDragging) {
+        const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+        if (maxScroll > 0) {
+          scroller.scrollLeft = scroller.scrollLeft >= maxScroll - 1 ? 0 : scroller.scrollLeft + 0.45;
+        }
+      }
+      autoScrollFrame = requestAnimationFrame(animateScroller);
+    }
+
+    if (scroller) {
+      animateScroller();
+      scroller.addEventListener('mouseenter', () => { paused = true; });
+      scroller.addEventListener('mouseleave', () => { paused = false; });
+      scroller.addEventListener('focusin', () => { paused = true; });
+      scroller.addEventListener('focusout', () => { paused = false; });
+      scroller.addEventListener('pointerdown', (event) => {
+        isDragging = true;
+        didDrag = false;
+        pressedImage = event.target.closest('.place img');
+        paused = true;
+        startX = event.clientX;
+        startScrollLeft = scroller.scrollLeft;
+        scroller.classList.add('is-dragging');
+        scroller.setPointerCapture(event.pointerId);
+      });
+      scroller.addEventListener('pointermove', (event) => {
+        if (!isDragging) return;
+        const distance = event.clientX - startX;
+        if (Math.abs(distance) < 6) return;
+        didDrag = true;
+        event.preventDefault();
+        scroller.scrollLeft = startScrollLeft - distance;
+      });
+      function stopDragging(event) {
+        if (!isDragging) return;
+        isDragging = false;
+        paused = false;
+        scroller.classList.remove('is-dragging');
+        if (!didDrag && pressedImage) openLightbox(pressedImage);
+        pressedImage = null;
+        if (scroller.hasPointerCapture(event.pointerId)) scroller.releasePointerCapture(event.pointerId);
+        window.setTimeout(() => { didDrag = false; }, 0);
+      }
+      scroller.addEventListener('pointerup', stopDragging);
+      scroller.addEventListener('pointercancel', stopDragging);
+    }
+
+    const lightbox = document.querySelector('#lightbox');
+    const lightboxImage = document.querySelector('#lightboxImage');
+    const lightboxCaption = document.querySelector('#lightboxCaption');
+    const lightboxClose = document.querySelector('#lightboxClose');
+
+    function closeLightbox() {
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      lightboxImage.removeAttribute('src');
+      paused = false;
+    }
+
+    function openLightbox(image) {
+      if (didDrag) return;
+      paused = true;
+      lightboxImage.src = image.src;
+      lightboxImage.alt = image.alt;
+      lightboxCaption.textContent = image.alt;
+      lightbox.classList.add('is-open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      lightboxClose.focus();
+    }
+
+    document.querySelectorAll('.place img').forEach((image) => {
+      image.addEventListener('click', (event) => {
+        event.stopPropagation();
+        openLightbox(image);
+      });
+    });
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && lightbox.classList.contains('is-open')) closeLightbox();
+    });
+    window.addEventListener('beforeunload', () => cancelAnimationFrame(autoScrollFrame));
+  </script>
+</body>
+</html>
