@@ -55,9 +55,14 @@
     .title-row{display:flex;gap:8px;justify-content:space-between;align-items:flex-start}
     .title{margin:0;font-size:28px;line-height:1.02;font-weight:600}
     .year{font-family:'Space Mono',monospace;font-size:11px;color:#7a7570;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;margin-top:4px}
-    .chips{display:flex;flex-wrap:wrap;gap:6px}
-    .chip{padding:6px 10px;border-radius:999px;border:none;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:#f0ebe4;color:#181615}
-    .rating{width:fit-content;padding:6px 8px;border-radius:10px;background:rgba(255,75,0,.1);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+    .chips{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:8px;margin-top:4px}
+    .chip-type{display:inline-block;padding:4px 8px;border-radius:6px;background:rgba(255,75,0,.12);color:#ff4b00;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+    .chip-genres{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+    .chip{padding:4px 8px;border-radius:6px;border:1px solid rgba(255,75,0,.2);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,75,0,.06);color:#8a2d04}
+    .rating{display:flex;align-items:center;gap:4px;margin-top:4px}
+    .stars{display:flex;gap:2px;font-size:14px;line-height:1}
+    .star{color:#ddd;cursor:default}
+    .star.filled{color:#ff4b00}
     .comment{margin:0;color:#5f5a55;font-size:17px;line-height:1.45;min-height:22px}
 
     .table-wrap{margin-top:14px;border:1px solid rgba(24,22,21,.1);border-radius:18px;background:#fffdfa;overflow:auto}
@@ -258,7 +263,11 @@
         const genres = parseArray(item.genres || item.genres_json).map((g) => g?.name || '').filter(Boolean).slice(0, 3);
         const title = item.title || item.original_title || 'Без названия';
         const year = item.year || '—';
-        const rating = item.rating === null || item.rating === undefined || item.rating === '' ? '—' : Number(item.rating).toFixed(1);
+        const rating = item.rating === null || item.rating === undefined || item.rating === '' ? 0 : Number(item.rating);
+        const ratingInt = Math.round(Math.max(0, Math.min(10, rating * 2)));
+        const filledStars = ratingInt;
+        const emptyStars = 10 - filledStars;
+        const starsHtml = '★'.repeat(filledStars) + '☆'.repeat(emptyStars);
         const comment = item.comment ? escapeHtml(item.comment) : '';
         const typeLabel = item.media_type === 'tv' ? 'Сериал' : 'Фильм';
 
@@ -271,10 +280,15 @@
                 <span class="year">${escapeHtml(year)}</span>
               </div>
               <div class="chips">
-                <span class="chip">${typeLabel}</span>
-                ${genres.map((name) => `<span class="chip">${escapeHtml(name)}</span>`).join('')}
+                <span class="chip-type">${typeLabel}</span>
+                <div class="chip-genres">
+                  ${genres.map((name) => `<span class="chip">${escapeHtml(name)}</span>`).join('')}
+                </div>
               </div>
-              <div class="rating">Оценка: ${rating}</div>
+              <div class="rating">
+                <span class="stars">${starsHtml}</span>
+                <span style="font-family:'Space Mono',monospace;font-size:9px;color:#7a7570;letter-spacing:.08em">${rating.toFixed(1)}</span>
+              </div>
               <p class="comment">${comment}</p>
             </div>
           </article>
