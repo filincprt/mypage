@@ -118,7 +118,12 @@
     }
     .auth-overlay{position:fixed;inset:0;background:rgba(247,245,240,.98);display:flex;align-items:center;justify-content:center;z-index:999;backdrop-filter:blur(2px)}
     .auth-overlay.hidden{display:none}
-    .auth-form{width:100%;max-width:420px;background:#fffdfa;border:1px solid rgba(24,22,21,.1);border-radius:28px;padding:32px;box-shadow:0 20px 60px rgba(24,22,21,.08)}
+    .auth-stub{width:100%;max-width:560px;background:#fffdfa;border:1px solid rgba(24,22,21,.1);border-radius:28px;padding:64px 32px;box-shadow:0 20px 60px rgba(24,22,21,.08);text-align:center}
+    .auth-stub h2{margin:0 0 18px;font-size:48px;line-height:1.05;font-weight:600;color:#181615}
+    .auth-stub p{margin:0 0 32px;color:#5f5a55;font-size:20px;line-height:1.6}
+    .auth-stub .btn{width:100%;padding:16px 18px;font-size:13px}
+    .auth-form{width:100%;max-width:420px;background:#fffdfa;border:1px solid rgba(24,22,21,.1);border-radius:28px;padding:32px;box-shadow:0 20px 60px rgba(24,22,21,.08);display:none}
+    .auth-form.show{display:block}
     .auth-form h2{margin:0 0 12px;font-size:32px;line-height:1.05;font-weight:600}
     .auth-form p{margin:0 0 24px;color:#5f5a55;font-size:18px;line-height:1.5}
     .auth-form .field{margin-bottom:16px}
@@ -130,17 +135,24 @@
 </head>
 <body>
   <div id="authOverlay" class="auth-overlay">
-    <div class="auth-form">
-      <h2>Доступ запрещен</h2>
-      <p>Эта страница требует аутентификации. Введите пароль для доступа.</p>
-      <div id="authError" class="auth-error"></div>
-      <form id="authForm">
-        <div class="field">
-          <input id="authPassword" type="password" placeholder="Пароль" required autofocus />
-        </div>
-        <button class="btn accent" type="submit" style="width:100%">Проверить доступ</button>
-      </form>
+    <div id="authStub" class="auth-stub">
+      <h2>⛔ Доступ запрещён!</h2>
+      <p>Административная панель требует пароля для входа.</p>
+      <button id="authToggleBtn" class="btn accent" type="button">Ввести пароль</button>
     </div>
+    <form id="authForm">
+      <div class="modal-head" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div>
+          <h2 style="margin:0">Вход</h2>
+        </div>
+        <button id="authCloseBtn" class="close" type="button" style="border:0;background:none;font-size:28px;cursor:pointer;padding:0;line-height:1">×</button>
+      </div>
+      <div id="authError" class="auth-error"></div>
+      <div class="field">
+        <input id="authPassword" type="password" placeholder="Пароль" required autofocus />
+      </div>
+      <button class="btn accent" type="submit" style="width:100%">Проверить</button>
+    </form>
   </div>
 
   <header class="topbar">
@@ -268,9 +280,12 @@
   <script>
     // --- AUTH GUARD ---
     const authOverlay = document.getElementById('authOverlay');
+    const authStub = document.getElementById('authStub');
     const authForm = document.getElementById('authForm');
     const authPassword = document.getElementById('authPassword');
     const authError = document.getElementById('authError');
+    const authToggleBtn = document.getElementById('authToggleBtn');
+    const authCloseBtn = document.getElementById('authCloseBtn');
     const mainContent = document.querySelector('main.wrap');
     
     function showAuthError(message) {
@@ -280,6 +295,19 @@
     
     function hideAuthError() {
       authError.classList.remove('show');
+    }
+    
+    function showAuthForm() {
+      authStub.style.display = 'none';
+      authForm.classList.add('show');
+      authPassword.focus();
+    }
+    
+    function hideAuthForm() {
+      authForm.classList.remove('show');
+      authStub.style.display = 'block';
+      authPassword.value = '';
+      hideAuthError();
     }
     
     function grantAccess() {
@@ -300,6 +328,9 @@
       }
       return false;
     }
+    
+    authToggleBtn.addEventListener('click', showAuthForm);
+    authCloseBtn.addEventListener('click', hideAuthForm);
     
     authForm.addEventListener('submit', async (e) => {
       e.preventDefault();
