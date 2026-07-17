@@ -57,10 +57,11 @@
     .year{font-family:'Space Mono',monospace;font-size:13px;color:#7a7570;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;margin-top:4px;margin-right:5px}
     .chip-genres{display:flex;flex-wrap:wrap;gap:6px;align-items:center;flex:1}
     .chip{padding:4px 8px;border-radius:6px;border:1px solid rgba(255,75,0,.2);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,75,0,.06);color:#8a2d04;white-space:nowrap}
-    .rating{display:flex;align-items:center;gap:2px;margin-top:2px}
-    .stars{display:inline-flex;gap:0px;font-size:25px;line-height:1}
-    .star{color:#ddd;cursor:default}
-    .star.filled{color:#ff4b00}
+    .rating{display:flex;align-items:center;gap:6px;margin-top:2px}
+    .stars{font-size:25px;line-height:1;letter-spacing:-2px}
+    .stars.empty{color:#ddd}
+    .stars.full{color:#ff4b00}
+    .rating-number{font-family:'Space Mono',monospace;font-size:16px;color:#7a7570;letter-spacing:.08em}
     .comment{margin:4px 0 0;color:#5f5a55;font-size:17px;line-height:1.45;min-height:22px}
 
     .table-wrap{margin-top:14px;border:1px solid rgba(24,22,21,.1);border-radius:18px;background:#fffdfa;overflow:auto}
@@ -263,10 +264,8 @@
         const year = item.year || '—';
         const rating = item.rating === null || item.rating === undefined || item.rating === '' ? 0 : Number(item.rating);
         const ratingInt = Math.round(Math.max(0, Math.min(10, rating * 2)));
-        const filledStars = ratingInt;
-        const emptyStars = 10 - filledStars;
-        const starsArray = Array(filledStars).fill('<span class="star filled">★</span>').concat(Array(emptyStars).fill('<span class="star">☆</span>'));
-        const starsHtml = starsArray.join('');
+        const filledStars = '★'.repeat(ratingInt);
+        const emptyStars = '☆'.repeat(10 - ratingInt);
         const comment = item.comment ? escapeHtml(item.comment) : '';
         const typeLabel = item.media_type === 'tv' ? 'Сериал' : 'Фильм';
 
@@ -285,8 +284,8 @@
                 </div>
               </div>
               <div class="rating">
-                <span class="stars">${starsHtml}</span>
-                <span style="font-family:'Space Mono',monospace;font-size:16px;color:#7a7570;letter-spacing:.08em">${rating.toFixed(1)}</span>
+                <span class="stars full">${filledStars}</span><span class="stars empty">${emptyStars}</span>
+                <span class="rating-number">${rating.toFixed(1)}</span>
               </div>
               <p class="comment">${comment}</p>
             </div>

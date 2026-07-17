@@ -119,23 +119,36 @@
     .auth-overlay{position:fixed;inset:0;background:rgba(247,245,240,.98);display:flex;align-items:center;justify-content:center;z-index:999;backdrop-filter:blur(2px)}
     .auth-overlay.hidden{display:none}
     .auth-backdrop{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center}
-    .auth-backdrop-text{font-size:64px;font-weight:700;color:rgba(24,22,21,.08);letter-spacing:-.05em;white-space:nowrap;text-align:center;line-height:1}
+    .auth-backdrop-text{font-size:64px;font-weight:700;color:rgba(24,22,21,.08);letter-spacing:-.05em;white-space:pre;text-align:center;line-height:1.2;opacity:1;transition:opacity .3s ease}
+    .auth-backdrop-text.hidden{opacity:0;pointer-events:none}
+    .auth-form-wrapper{width:100%;max-width:420px;background:#fffdfa;border:1px solid rgba(24,22,21,.1);border-radius:28px;padding:32px;box-shadow:0 20px 60px rgba(24,22,21,.08);position:relative;z-index:1}
+    #authForm h2{margin:0 0 8px;font-size:32px;line-height:1.05;font-weight:600}
+    #authForm p{margin:0 0 24px;color:#7a7570;font-size:13px}
+    #authForm .field{margin-bottom:16px}
+    #authForm input{width:100%;padding:12px 14px;border:1px solid rgba(24,22,21,.14);border-radius:14px;background:#fff;color:#181615;font:inherit;outline:none}
+    #authForm input:focus{border-color:#ff4b00;box-shadow:0 0 0 3px rgba(255,75,0,.12)}
+    .auth-error{margin:0 0 16px;padding:12px 14px;border-radius:12px;background:rgba(255,75,0,.1);border:1px solid rgba(255,75,0,.25);color:#8a2d04;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;display:none}
+    .auth-error.show{display:block}
   </style>
 </head>
 <body>
   <div id="authOverlay" class="auth-overlay">
     <div class="auth-backdrop">
-      <div class="auth-backdrop-text">⛔<br>Доступ<br>запрещён!</div>
+      <div class="auth-backdrop-text" id="authBackdropText">⛔
+Доступ
+запрещён!</div>
     </div>
-    <form id="authForm">
-      <h2 style="margin:0 0 8px">Вход</h2>
-      <p style="margin:0 0 24px;color:#7a7570;font-size:13px">Введите пароль</p>
-      <div id="authError" class="auth-error"></div>
-      <div class="field">
-        <input id="authPassword" type="password" placeholder="Пароль" required autofocus />
-      </div>
-      <button class="btn accent" type="submit" style="width:100%">Проверить</button>
-    </form>
+    <div class="auth-form-wrapper">
+      <form id="authForm">
+        <h2>Вход</h2>
+        <p>Введите пароль</p>
+        <div id="authError" class="auth-error"></div>
+        <div class="field">
+          <input id="authPassword" type="password" placeholder="Пароль" required autofocus />
+        </div>
+        <button class="btn accent" type="submit" style="width:100%">Проверить</button>
+      </form>
+    </div>
   </div>
 
   <header class="topbar">
@@ -263,7 +276,30 @@
   <script>
     // --- AUTH GUARD ---
     const authOverlay = document.getElementById('authOverlay');
+    const authForm = document.getElementById('authForm');
+    const authPassword = document.getElementById('authPassword');
+    const authError = document.getElementById('authError');
+    const authBackdropText = document.getElementById('authBackdropText');
     const mainContent = document.querySelector('main.wrap');
+    
+    function showAuthError(message) {
+      authError.textContent = message;
+      authError.classList.add('show');
+    }
+    
+    function hideAuthError() {
+      authError.classList.remove('show');
+    }
+    
+    function grantAccess() {
+      localStorage.setItem('admin_auth', Date.now().toString());
+      authBackdropText.classList.add('hidden');
+      authForm.style.opacity = '0';
+      setTimeout(() => {
+        authOverlay.classList.add('hidden');
+        mainContent.style.display = '';
+      }, 300);
+    }
     
     function checkAuth() {
       const lastAuth = localStorage.getItem('admin_auth');
@@ -279,11 +315,40 @@
       return false;
     }
     
-    // Показываем заглушку "Доступ запрещён" если не авторизованы
+    authForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideAuthError();
+      const password = authPassword.value.trim();
+      
+      if (!password) {
+        showAuthError('Пароль не может быть пустым');
+        return;
+      }
+      
+      try {
+        const response = await fetch(`${window.location.origin.includes('workers.dev') ? window.location.origin : 'https://irgvbrqwqpeqlokfkofw.supabase.co/functions/v1/api'}/admin/auth`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password })
+        });
+        
+        const data = await response.json().catch(() => ({}));
+        
+        if (response.ok && data.ok !== false) {
+          grantAccess();
+        } else {
+          showAuthError(data.error || 'Неверный пароль');
+          authPassword.value = '';
+          authPassword.focus();
+        }
+      } catch (err) {
+        console.error('Auth error:', err);
+        showAuthError('Ошибка при проверке пароля. Попробуйте позже.');
+      }
+    });
+    
     if (!checkAuth()) {
       mainContent.style.display = 'none';
-      // Для реальной аутентификации нужно использовать другой механизм
-      // (например, при клике на фон или через отдельную страницу входа)
     }
     
     // --- MAIN APP ---
