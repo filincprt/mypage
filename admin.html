@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
@@ -17,6 +17,18 @@
     a{color:inherit}
     .wrap{max-width:1220px;margin:0 auto;padding:0 24px}
 
+    /* ── Gate ── */
+    .gate{position:fixed;inset:0;z-index:200;background:#f7f5f0;display:flex;align-items:center;justify-content:center;padding:24px}
+    .gate-inner{text-align:center;max-width:460px;width:100%;display:flex;flex-direction:column;align-items:center;gap:18px}
+    .gate-brand{font-family:'Space Mono',monospace;text-decoration:none;letter-spacing:.08em;font-size:13px;text-transform:uppercase;color:#7a7570;margin-bottom:12px}
+    .gate-icon{width:76px;height:76px;border-radius:50%;background:rgba(255,75,0,.1);border:1px solid rgba(255,75,0,.22);display:flex;align-items:center;justify-content:center;color:#ff4b00}
+    .gate-kicker{font-family:'Space Mono',monospace;color:#7a7570;text-transform:uppercase;letter-spacing:.2em;font-size:11px;margin:0}
+    .gate-heading{margin:0;font-size:clamp(44px,10vw,76px);line-height:.9;font-weight:300;letter-spacing:-.03em}
+    .gate-heading em{color:#ff4b00;font-style:italic;font-weight:600}
+    .gate-lead{color:#5f5a55;font-size:20px;line-height:1.55;margin:0;max-width:28rem}
+    .gate-error{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9e2f0f;margin:0;background:rgba(255,75,0,.08);border:1px solid rgba(255,75,0,.2);border-radius:10px;padding:10px 14px}
+
+    /* ── Topbar & base ── */
     .topbar{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:rgba(247,245,240,.9);border-bottom:1px solid rgba(24,22,21,.08)}
     .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:72px}
     .brand{font-family:'Space Mono',monospace;text-decoration:none;letter-spacing:.08em;font-size:14px;text-transform:uppercase}
@@ -90,7 +102,7 @@
 
     footer{padding:28px 0 40px;border-top:1px solid rgba(24,22,21,.1);font-family:'Space Mono',monospace;color:#7a7570;font-size:12px;margin-top:34px}
 
-    @media (max-width:1080px){
+    @media(max-width:1080px){
       .row{grid-template-columns:1fr 1fr}
       .row .btn{width:100%}
       .add-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -100,7 +112,7 @@
       .csv-grid{grid-template-columns:1fr 1fr}
       .csv-item__actions{grid-template-columns:1fr}
     }
-    @media (max-width:760px){
+    @media(max-width:760px){
       .topbar .wrap{min-height:64px}
       .selected{grid-template-columns:1fr}
       .poster{width:170px;height:238px}
@@ -109,7 +121,7 @@
       .entry-grid{grid-template-columns:1fr}
       .csv-grid{grid-template-columns:1fr}
     }
-    @media (max-width:640px){
+    @media(max-width:640px){
       .wrap{padding:0 14px}
       .row{grid-template-columns:1fr}
       .add-grid{grid-template-columns:1fr}
@@ -119,173 +131,53 @@
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="wrap">
-      <a class="brand" href="/index.html">filin_cprt</a>
-      <div class="top-actions">
-        <a class="btn" href="/catalog">Витрина</a>
-        <a class="btn primary" href="/index.html">Главная</a>
+
+  <!-- ══ GATE: visible until auth, removed from DOM after success ══ -->
+  <div id="gate" class="gate">
+    <div class="gate-inner">
+      <a class="gate-brand" href="/index.html">filin_cprt</a>
+
+      <div class="gate-icon">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          <circle cx="12" cy="16" r="1" fill="currentColor" stroke="none"/>
+        </svg>
       </div>
+
+      <p class="gate-kicker">Ограниченный доступ</p>
+      <h2 class="gate-heading">Вход <em>воспрещён!</em></h2>
+      <p class="gate-lead">Административная панель доступна только авторизованным пользователям.</p>
+
+      <p id="gateError" class="gate-error" hidden></p>
+
+      <button class="btn accent" id="loginBtn" type="button" style="margin-top:6px;padding:14px 28px;font-size:13px">
+        Войти в систему
+      </button>
     </div>
-  </header>
+  </div>
 
-  <main class="wrap">
-    <section class="hero">
-      <p class="kicker">Управление библиотекой</p>
-      <h1>Киноархив -  <em>админка</em></h1>
-      <p class="lead">Поиск в TMDb, добавление записей в картотеку и редактирование публичной витрины в одном интерфейсе.</p>
-    </section>
-
-    <section class="section">
-      <article class="panel">
-        <h2 class="panel-title">01 Поиск в TMDb</h2>
-        <div class="row">
-          <div class="field">
-            <label for="queryInput">Название</label>
-            <input id="queryInput" type="text" placeholder="Введите фильм или сериал" />
-          </div>
-          <div class="field">
-            <label for="typeInput">Тип</label>
-            <select id="typeInput">
-              <option value="all">Фильмы и сериалы</option>
-              <option value="movie">Фильм</option>
-              <option value="tv">Сериал</option>
-            </select>
-          </div>
-          <button id="searchBtn" class="btn accent" type="button">Найти</button>
-        </div>
-        <p class="status" id="searchStatus"></p>
-        <div id="searchResults" class="search-results"></div>
-      </article>
-
-      <article class="panel">
-        <h2 class="panel-title">02 Добавление в картотеку</h2>
-        <div id="selectedWrap" class="empty">Сначала выберите media из результатов поиска.</div>
-
-        <div id="addFields" class="add-grid" hidden>
-          <div class="field">
-            <label for="ratingInput">Оценка (0-10)</label>
-            <input id="ratingInput" type="number" min="0" max="10" step="0.1" placeholder="8.5" />
-          </div>
-
-          <div class="field">
-            <label for="statusInput">Статус</label>
-            <select id="statusInput">
-              <option value="watched">Просмотрено</option>
-              <option value="pending">В ожидании</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="publicInput">Публичность</label>
-            <select id="publicInput">
-              <option value="1">Показывать</option>
-              <option value="0">Скрыть</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="commentInput">Комментарий</label>
-            <input id="commentInput" type="text" placeholder="Короткий комментарий" />
-          </div>
-
-          <button id="addBtn" class="btn accent" type="button">Добавить в картотеку</button>
-        </div>
-
-        <p class="status" id="addStatus"></p>
-      </article>
-
-      <article class="panel">
-        <h2 class="panel-title">03 Импорт из CSV (Кинопоиск)</h2>
-        <div class="csv-controls">
-          <div class="field">
-            <label for="csvFileInput">CSV файл</label>
-            <input id="csvFileInput" type="file" accept=".csv,text/csv" />
-          </div>
-          <div class="field">
-            <label for="csvPublicInput">Публичность</label>
-            <select id="csvPublicInput">
-              <option value="1">Показывать в витрине</option>
-              <option value="0">Скрыть из витрины</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="csvStatusInput">Статус</label>
-            <select id="csvStatusInput">
-              <option value="watched">Просмотрено</option>
-              <option value="pending">В ожидании</option>
-            </select>
-          </div>
-          <button id="csvAnalyzeBtn" class="btn accent" type="button">Проверить CSV</button>
-          <button id="csvImportMatchedBtn" class="btn" type="button" disabled>Импортировать найденные</button>
-          <button id="csvImportReviewReadyBtn" class="btn" type="button" disabled>Импортировать подтвержденные</button>
-        </div>
-        <p class="status" id="csvStatus"></p>
-        <p class="csv-summary" id="csvSummary">CSV не обработан.</p>
-        <div id="csvReviewList" class="csv-list"></div>
-      </article>
-
-      <article class="panel">
-        <div class="entries-head">
-          <h2 class="panel-title" style="margin:0">04 Все записи</h2>
-          <button id="refreshBtn" class="btn" type="button">Обновить список</button>
-        </div>
-        <p class="entries-meta" id="entriesMeta">Записей: 0</p>
-        <div id="entries" class="entries"></div>
-        <p class="status" id="entriesStatus"></p>
-      </article>
-    </section>
-  </main>
-
-  <footer>
-    <div class="wrap">© 2026 filin_cprt</div>
-  </footer>
+  <!-- ══ APP: empty until successful auth — admin HTML injected here ══ -->
+  <div id="app" hidden></div>
 
   <script>
     const DEFAULT_API_BASE = 'https://irgvbrqwqpeqlokfkofw.supabase.co/functions/v1/api';
     const API_BASE = window.location.origin.includes('workers.dev') ? window.location.origin : DEFAULT_API_BASE;
     const TMDB_IMAGE = 'https://irgvbrqwqpeqlokfkofw.supabase.co/functions/v1/api/image/w500';
 
-    const queryInput = document.getElementById('queryInput');
-    const typeInput = document.getElementById('typeInput');
-    const searchBtn = document.getElementById('searchBtn');
-    const searchStatus = document.getElementById('searchStatus');
-    const searchResults = document.getElementById('searchResults');
-
-    const selectedWrap = document.getElementById('selectedWrap');
-    const addFields = document.getElementById('addFields');
-    const ratingInput = document.getElementById('ratingInput');
-    const statusInput = document.getElementById('statusInput');
-    const publicInput = document.getElementById('publicInput');
-    const commentInput = document.getElementById('commentInput');
-    const addBtn = document.getElementById('addBtn');
-    const addStatus = document.getElementById('addStatus');
-
-    const refreshBtn = document.getElementById('refreshBtn');
-    const entries = document.getElementById('entries');
-    const entriesMeta = document.getElementById('entriesMeta');
-    const entriesStatus = document.getElementById('entriesStatus');
-
-    const csvFileInput = document.getElementById('csvFileInput');
-    const csvPublicInput = document.getElementById('csvPublicInput');
-    const csvStatusInput = document.getElementById('csvStatusInput');
-    const csvAnalyzeBtn = document.getElementById('csvAnalyzeBtn');
-    const csvImportMatchedBtn = document.getElementById('csvImportMatchedBtn');
-    const csvImportReviewReadyBtn = document.getElementById('csvImportReviewReadyBtn');
-    const csvStatus = document.getElementById('csvStatus');
-    const csvSummary = document.getElementById('csvSummary');
-    const csvReviewList = document.getElementById('csvReviewList');
-
-    let selectedPayload = null;
     let authHeader = null;
-    const csvState = {
-      total: 0,
-      duplicates: 0,
-      ready: [],
-      review: [],
-      importedAuto: 0,
-      importedManual: 0
-    };
+    let selectedPayload = null;
+    const csvState = { total: 0, duplicates: 0, ready: [], review: [], importedAuto: 0, importedManual: 0 };
+
+    // DOM refs — assigned inside initAdmin() after template injection
+    let queryInput, typeInput, searchBtn, searchStatus, searchResults,
+        selectedWrap, addFields, ratingInput, statusInput, publicInput,
+        commentInput, addBtn, addStatus,
+        refreshBtn, entries, entriesMeta, entriesStatus,
+        csvFileInput, csvPublicInput, csvStatusInput, csvAnalyzeBtn,
+        csvImportMatchedBtn, csvImportReviewReadyBtn, csvStatus, csvSummary, csvReviewList;
+
+    // ── Utilities ───────────────────────────────────────────────────────────
 
     function escapeHtml(value) {
       return String(value ?? '')
@@ -311,30 +203,20 @@
       el.textContent = text;
     }
 
-    function typeLabel(mediaType) {
-      return mediaType === 'tv' ? 'Сериал' : 'Фильм';
-    }
+    function typeLabel(mediaType) { return mediaType === 'tv' ? 'Сериал' : 'Фильм'; }
 
     function extractYear(details) {
       const date = details.release_date || details.first_air_date || '';
       return date ? Number(String(date).slice(0, 4)) : null;
     }
 
-    function getTitle(details) {
-      return details.title || details.name || '';
-    }
-
-    function getOriginalTitle(details) {
-      return details.original_title || details.original_name || '';
-    }
+    function getTitle(details) { return details.title || details.name || ''; }
+    function getOriginalTitle(details) { return details.original_title || details.original_name || ''; }
 
     function getCountries(details) {
-      if (Array.isArray(details.production_countries) && details.production_countries.length) {
-        return details.production_countries;
-      }
-      if (Array.isArray(details.origin_country) && details.origin_country.length) {
+      if (Array.isArray(details.production_countries) && details.production_countries.length) return details.production_countries;
+      if (Array.isArray(details.origin_country) && details.origin_country.length)
         return details.origin_country.map((code) => ({ iso_3166_1: code, name: code }));
-      }
       return [];
     }
 
@@ -348,11 +230,7 @@
         year: extractYear(bundle.details),
         poster_path: bundle.details.poster_path || '',
         overview: bundle.details.overview || '',
-        cast: (bundle.credits.cast || []).slice(0, 20).map((c) => ({
-          id: c.id,
-          name: c.name,
-          character: c.character
-        })),
+        cast: (bundle.credits.cast || []).slice(0, 20).map((c) => ({ id: c.id, name: c.name, character: c.character })),
         genres: bundle.details.genres || [],
         countries: getCountries(bundle.details),
         rating: ratingInput.value ? Number(ratingInput.value) : null,
@@ -365,7 +243,7 @@
     function normalizeTitle(value) {
       return String(value || '')
         .toLowerCase()
-        .replace(/['’`"]/g, '')
+        .replace(/[''`"]/g, '')
         .replace(/[^\p{L}\p{N}]+/gu, ' ')
         .trim();
     }
@@ -382,7 +260,7 @@
     }
 
     function parseRatingValue(value10, value5) {
-      const parse = (value) => Number(String(value || '').replace(',', '.'));
+      const parse = (v) => Number(String(v || '').replace(',', '.'));
       const fromTen = parse(value10);
       if (Number.isFinite(fromTen)) return Math.max(0, Math.min(10, fromTen));
       const fromFive = parse(value5);
@@ -405,14 +283,9 @@
     async function readCsvText(file) {
       const bytes = await file.arrayBuffer();
       const utf8 = new TextDecoder('utf-8').decode(bytes).replace(/^\uFEFF/, '');
-
       if (!looksMojibake(utf8)) return utf8;
-
-      try {
-        return new TextDecoder('windows-1251').decode(bytes).replace(/^\uFEFF/, '');
-      } catch {
-        return utf8;
-      }
+      try { return new TextDecoder('windows-1251').decode(bytes).replace(/^\uFEFF/, ''); }
+      catch { return utf8; }
     }
 
     function detectDelimiter(firstLine) {
@@ -423,45 +296,26 @@
 
     function parseCsvRows(text, delimiter) {
       const rows = [];
-      let row = [];
-      let field = '';
-      let inQuotes = false;
-
+      let row = [], field = '', inQuotes = false;
       for (let i = 0; i < text.length; i += 1) {
-        const ch = text[i];
-        const next = text[i + 1];
-
+        const ch = text[i], next = text[i + 1];
         if (ch === '"') {
-          if (inQuotes && next === '"') {
-            field += '"';
-            i += 1;
-          } else {
-            inQuotes = !inQuotes;
-          }
+          if (inQuotes && next === '"') { field += '"'; i += 1; }
+          else inQuotes = !inQuotes;
           continue;
         }
-
-        if (!inQuotes && ch === delimiter) {
-          row.push(field);
-          field = '';
-          continue;
-        }
-
+        if (!inQuotes && ch === delimiter) { row.push(field); field = ''; continue; }
         if (!inQuotes && (ch === '\n' || ch === '\r')) {
           if (ch === '\r' && next === '\n') i += 1;
           row.push(field);
           if (row.some((cell) => String(cell).trim() !== '')) rows.push(row);
-          row = [];
-          field = '';
+          row = []; field = '';
           continue;
         }
-
         field += ch;
       }
-
       row.push(field);
       if (row.some((cell) => String(cell).trim() !== '')) rows.push(row);
-
       return rows;
     }
 
@@ -470,13 +324,10 @@
       const delimiter = detectDelimiter(firstLine);
       const rows = parseCsvRows(text, delimiter);
       if (!rows.length) return [];
-
       const headers = rows[0].map((x) => String(x || '').trim());
       return rows.slice(1).map((cols) => {
         const obj = {};
-        headers.forEach((header, idx) => {
-          obj[header] = String(cols[idx] || '').trim();
-        });
+        headers.forEach((h, idx) => { obj[h] = String(cols[idx] || '').trim(); });
         return obj;
       });
     }
@@ -499,7 +350,6 @@
       const titleOriginal = rowField(row, ['Name', 'OriginalName']);
       const query = String(titleRu || titleOriginal || '').trim();
       if (!query) return null;
-
       return {
         uid: `csv-${Date.now()}-${index}`,
         rowIndex: index + 2,
@@ -531,37 +381,22 @@
     function buildExistingKeySet(list) {
       const set = new Set();
       for (const entry of list) {
-        const item = {
-          media_type: entry.media_type || 'movie',
-          year: parseYearValue(entry.year),
-          titleRu: entry.title || '',
-          titleOriginal: entry.original_title || '',
-          query: entry.title || entry.original_title || ''
-        };
+        const item = { media_type: entry.media_type || 'movie', year: parseYearValue(entry.year), titleRu: entry.title || '', titleOriginal: entry.original_title || '', query: entry.title || entry.original_title || '' };
         for (const key of itemKeys(item)) set.add(key);
       }
       return set;
     }
 
-    function tmdbResultYear(result) {
-      return parseYearValue(result.release_date || result.first_air_date || '');
-    }
+    function tmdbResultYear(result) { return parseYearValue(result.release_date || result.first_air_date || ''); }
 
     function matchScore(item, result) {
       const queryNorm = normalizeTitle(item.query);
-      const candidateTitles = [
-        result.title,
-        result.name,
-        result.original_title,
-        result.original_name
-      ].map(normalizeTitle).filter(Boolean);
-
+      const candidateTitles = [result.title, result.name, result.original_title, result.original_name].map(normalizeTitle).filter(Boolean);
       let score = 0;
       for (const title of candidateTitles) {
         if (title === queryNorm) score = Math.max(score, 46);
         else if (title.includes(queryNorm) || queryNorm.includes(title)) score = Math.max(score, 30);
       }
-
       const y = tmdbResultYear(result);
       if (item.year && y) {
         const diff = Math.abs(item.year - y);
@@ -570,7 +405,6 @@
         else if (diff === 2) score += 6;
         else score -= 12;
       }
-
       if (result.media_type === item.media_type) score += 12;
       return score;
     }
@@ -578,22 +412,15 @@
     async function findBestTmdbMatch(item) {
       const queries = [...new Set([item.titleRu, item.titleOriginal, item.query].map((x) => String(x || '').trim()).filter(Boolean))];
       const all = [];
-
       for (const q of queries) {
         const params = new URLSearchParams({ q, type: item.media_type, language: 'ru-RU' });
         const data = await api(`/search?${params.toString()}`);
         const results = data.results || data.data?.results || [];
         for (const r of results) {
-          all.push({
-            ...r,
-            media_type: r.media_type || item.media_type,
-            _score: matchScore(item, { ...r, media_type: r.media_type || item.media_type })
-          });
+          all.push({ ...r, media_type: r.media_type || item.media_type, _score: matchScore(item, { ...r, media_type: r.media_type || item.media_type }) });
         }
       }
-
       if (!all.length) return null;
-
       all.sort((a, b) => b._score - a._score);
       const best = all[0];
       if (!best || best._score < 55) return null;
@@ -601,20 +428,15 @@
     }
 
     function resetCsvState() {
-      csvState.total = 0;
-      csvState.duplicates = 0;
-      csvState.ready = [];
-      csvState.review = [];
-      csvState.importedAuto = 0;
-      csvState.importedManual = 0;
+      csvState.total = 0; csvState.duplicates = 0; csvState.ready = [];
+      csvState.review = []; csvState.importedAuto = 0; csvState.importedManual = 0;
     }
 
     function confirmedReviewCount() {
-      return [...csvReviewList.querySelectorAll('.csv-item')]
-        .filter((card) => {
-          const result = card.querySelector('[data-role="result"]');
-          return result && result.value;
-        }).length;
+      return [...csvReviewList.querySelectorAll('.csv-item')].filter((card) => {
+        const result = card.querySelector('[data-role="result"]');
+        return result && result.value;
+      }).length;
     }
 
     function updateReviewImportButton() {
@@ -633,16 +455,11 @@
 
     function reviewOptionLabel(result) {
       const title = result.title || result.name || result.original_title || result.original_name || 'Без названия';
-      const year = tmdbResultYear(result) || '—';
-      return `${title} (${year})`;
+      return `${title} (${tmdbResultYear(result) || '—'})`;
     }
 
     function renderReviewList() {
-      if (!csvState.review.length) {
-        csvReviewList.innerHTML = '';
-        return;
-      }
-
+      if (!csvState.review.length) { csvReviewList.innerHTML = ''; return; }
       csvReviewList.innerHTML = csvState.review.map((item) => `
         <article class="csv-item" data-uid="${item.uid}">
           <div class="csv-item__head">
@@ -653,49 +470,17 @@
             <span class="csv-badge">Нужно подтверждение</span>
           </div>
           <div class="csv-grid">
-            <div class="field">
-              <label>Поисковый запрос</label>
-              <input data-role="query" value="${escapeHtml(item.query)}" />
-            </div>
-            <div class="field">
-              <label>Тип</label>
-              <select data-role="type">
-                <option value="movie" ${item.media_type === 'movie' ? 'selected' : ''}>Фильм</option>
-                <option value="tv" ${item.media_type === 'tv' ? 'selected' : ''}>Сериал</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Год</label>
-              <input data-role="year" type="number" min="1900" max="2100" value="${item.year || ''}" />
-            </div>
-            <div class="field">
-              <label>Оценка</label>
-              <input data-role="rating" type="number" min="0" max="10" step="0.1" value="${item.rating ?? ''}" />
-            </div>
-            <div class="field">
-              <label>Статус</label>
-              <select data-role="favorite">
-                <option value="watched" ${item.favorite ? 'selected' : ''}>Просмотрено</option>
-                <option value="pending" ${!item.favorite ? 'selected' : ''}>В ожидании</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Публичность</label>
-              <select data-role="public">
-                <option value="1" ${item.is_public ? 'selected' : ''}>Публично</option>
-                <option value="0" ${!item.is_public ? 'selected' : ''}>Скрыто</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Комментарий</label>
-              <input data-role="comment" value="${escapeHtml(item.comment)}" />
-            </div>
+            <div class="field"><label>Поисковый запрос</label><input data-role="query" value="${escapeHtml(item.query)}" /></div>
+            <div class="field"><label>Тип</label><select data-role="type"><option value="movie" ${item.media_type === 'movie' ? 'selected' : ''}>Фильм</option><option value="tv" ${item.media_type === 'tv' ? 'selected' : ''}>Сериал</option></select></div>
+            <div class="field"><label>Год</label><input data-role="year" type="number" min="1900" max="2100" value="${item.year || ''}" /></div>
+            <div class="field"><label>Оценка</label><input data-role="rating" type="number" min="0" max="10" step="0.1" value="${item.rating ?? ''}" /></div>
+            <div class="field"><label>Статус</label><select data-role="favorite"><option value="watched" ${item.favorite ? 'selected' : ''}>Просмотрено</option><option value="pending" ${!item.favorite ? 'selected' : ''}>В ожидании</option></select></div>
+            <div class="field"><label>Публичность</label><select data-role="public"><option value="1" ${item.is_public ? 'selected' : ''}>Публично</option><option value="0" ${!item.is_public ? 'selected' : ''}>Скрыто</option></select></div>
+            <div class="field"><label>Комментарий</label><input data-role="comment" value="${escapeHtml(item.comment)}" /></div>
           </div>
           <div class="csv-item__actions">
             <button class="btn" type="button" data-action="csv-search">Найти в TMDb</button>
-            <select data-role="result">
-              <option value="">Выберите результат поиска</option>
-            </select>
+            <select data-role="result"><option value="">Выберите результат поиска</option></select>
             <button class="btn accent" type="button" data-action="csv-add">Добавить</button>
           </div>
           <p class="status csv-item__status" data-base-class="status csv-item__status" data-role="statusLine"></p>
@@ -704,93 +489,49 @@
     }
 
     async function buildPayloadFromMatch(match, overrides) {
-      const params = new URLSearchParams({
-        id: String(match.id),
-        type: match.media_type,
-        language: 'ru-RU'
-      });
+      const params = new URLSearchParams({ id: String(match.id), type: match.media_type, language: 'ru-RU' });
       const data = await api(`/details?${params.toString()}`);
       const details = data.details || data.data?.details;
       const credits = data.credits || data.data?.credits || { cast: [] };
       if (!details) throw new Error('Не удалось загрузить детали TMDb');
-
       return {
-        source: 'tmdb',
-        source_id: String(details.id || ''),
-        media_type: match.media_type,
-        title: getTitle(details),
-        original_title: getOriginalTitle(details),
+        source: 'tmdb', source_id: String(details.id || ''), media_type: match.media_type,
+        title: getTitle(details), original_title: getOriginalTitle(details),
         year: extractYear(details) || overrides.year || null,
-        poster_path: details.poster_path || '',
-        overview: details.overview || '',
+        poster_path: details.poster_path || '', overview: details.overview || '',
         cast: (credits.cast || []).slice(0, 20).map((c) => ({ id: c.id, name: c.name, character: c.character })),
-        genres: details.genres || [],
-        countries: getCountries(details),
-        rating: overrides.rating,
-        favorite: overrides.favorite,
-        comment: overrides.comment,
-        is_public: overrides.is_public
+        genres: details.genres || [], countries: getCountries(details),
+        rating: overrides.rating, favorite: overrides.favorite,
+        comment: overrides.comment, is_public: overrides.is_public
       };
     }
 
     async function analyzeCsvImport() {
       const file = csvFileInput.files?.[0];
-      if (!file) {
-        setStatus(csvStatus, 'Выберите CSV файл.', 'err');
-        return;
-      }
-
-      resetCsvState();
-      renderReviewList();
-      updateCsvSummary();
+      if (!file) { setStatus(csvStatus, 'Выберите CSV файл.', 'err'); return; }
+      resetCsvState(); renderReviewList(); updateCsvSummary();
       setStatus(csvStatus, 'Читаю CSV файл...');
-
       try {
         const text = await readCsvText(file);
         const rows = parseCsvTable(text);
-        const defaults = {
-          is_public: csvPublicInput.value === '1',
-          favorite: csvStatusInput.value === 'watched'
-        };
-
+        const defaults = { is_public: csvPublicInput.value === '1', favorite: csvStatusInput.value === 'watched' };
         const parsed = rows.map((row, idx) => rowToImportItem(row, idx, defaults)).filter(Boolean);
         csvState.total = parsed.length;
-
-        if (!parsed.length) {
-          setStatus(csvStatus, 'В файле не найдено подходящих строк.', 'err');
-          updateCsvSummary();
-          return;
-        }
-
+        if (!parsed.length) { setStatus(csvStatus, 'В файле не найдено подходящих строк.', 'err'); updateCsvSummary(); return; }
         const existingData = await api('/admin', { method: 'GET' });
         const existingList = existingData.results || existingData.data?.results || [];
         const existingKeys = buildExistingKeySet(existingList);
-
         for (let i = 0; i < parsed.length; i += 1) {
           const item = parsed[i];
           item.comment = buildImportComment(item);
-
-          if (itemKeys(item).some((k) => existingKeys.has(k))) {
-            csvState.duplicates += 1;
-            continue;
-          }
-
+          if (itemKeys(item).some((k) => existingKeys.has(k))) { csvState.duplicates += 1; continue; }
           setStatus(csvStatus, `Проверяю TMDb: ${i + 1}/${parsed.length}`);
           let match = null;
-          try {
-            match = await findBestTmdbMatch(item);
-          } catch {
-            match = null;
-          }
-          if (match) {
-            csvState.ready.push({ ...item, match });
-          } else {
-            csvState.review.push(item);
-          }
+          try { match = await findBestTmdbMatch(item); } catch { match = null; }
+          if (match) csvState.ready.push({ ...item, match });
+          else csvState.review.push(item);
         }
-
-        renderReviewList();
-        updateCsvSummary();
+        renderReviewList(); updateCsvSummary();
         setStatus(csvStatus, 'Анализ CSV завершен.', 'ok');
       } catch (err) {
         setStatus(csvStatus, `Ошибка импорта CSV: ${err.message}`, 'err');
@@ -798,16 +539,10 @@
     }
 
     async function importMatchedFromCsv() {
-      if (!csvState.ready.length) {
-        setStatus(csvStatus, 'Нет записей для автоимпорта.', 'err');
-        return;
-      }
-
+      if (!csvState.ready.length) { setStatus(csvStatus, 'Нет записей для автоимпорта.', 'err'); return; }
       let imported = 0;
       const queue = [...csvState.ready];
-      csvState.ready = [];
-      updateCsvSummary();
-
+      csvState.ready = []; updateCsvSummary();
       for (let i = 0; i < queue.length; i += 1) {
         const item = queue[i];
         setStatus(csvStatus, `Автоимпорт: ${i + 1}/${queue.length}`);
@@ -815,50 +550,32 @@
           const payload = await buildPayloadFromMatch(item.match, item);
           await api('/admin', { method: 'POST', body: JSON.stringify(payload) });
           imported += 1;
-        } catch {
-          csvState.review.push(item);
-        }
+        } catch { csvState.review.push(item); }
       }
-
       csvState.importedAuto += imported;
-      renderReviewList();
-      updateCsvSummary();
+      renderReviewList(); updateCsvSummary();
       await loadEntries();
       setStatus(csvStatus, `Автоимпорт завершен. Добавлено: ${imported}`, 'ok');
     }
 
-    function reviewItemByUid(uid) {
-      return csvState.review.find((item) => item.uid === uid);
-    }
+    function reviewItemByUid(uid) { return csvState.review.find((item) => item.uid === uid); }
 
     async function searchCsvReviewItem(card) {
       const uid = card.dataset.uid;
       const item = reviewItemByUid(uid);
       if (!item) return;
-
       const query = card.querySelector('[data-role="query"]').value.trim();
       const type = card.querySelector('[data-role="type"]').value;
       const resultSelect = card.querySelector('[data-role="result"]');
       const line = card.querySelector('[data-role="statusLine"]');
-
-      if (!query) {
-        setStatus(line, 'Введите поисковый запрос.', 'err');
-        return;
-      }
-
+      if (!query) { setStatus(line, 'Введите поисковый запрос.', 'err'); return; }
       setStatus(line, 'Ищу варианты...');
-
       try {
         const params = new URLSearchParams({ q: query, type, language: 'ru-RU' });
         const data = await api(`/search?${params.toString()}`);
         const results = (data.results || data.data?.results || []).slice(0, 10).map((x) => ({ ...x, media_type: x.media_type || type }));
-
         resultSelect.innerHTML = '<option value="">Выберите результат поиска</option>';
-        if (!results.length) {
-          setStatus(line, 'Ничего не найдено.', 'err');
-          return;
-        }
-
+        if (!results.length) { setStatus(line, 'Ничего не найдено.', 'err'); return; }
         results.forEach((result, idx) => {
           const option = document.createElement('option');
           option.value = `${result.id}|${result.media_type}`;
@@ -866,9 +583,7 @@
           if (idx === 0) option.selected = true;
           resultSelect.append(option);
         });
-
-        item.query = query;
-        item.media_type = type;
+        item.query = query; item.media_type = type;
         updateReviewImportButton();
         setStatus(line, `Найдено вариантов: ${results.length}`, 'ok');
       } catch (err) {
@@ -880,7 +595,6 @@
       const uid = card.dataset.uid;
       const item = reviewItemByUid(uid);
       if (!item) return false;
-
       const resultValue = card.querySelector('[data-role="result"]').value;
       const query = card.querySelector('[data-role="query"]').value.trim();
       const type = card.querySelector('[data-role="type"]').value;
@@ -890,33 +604,20 @@
       const isPublic = card.querySelector('[data-role="public"]').value === '1';
       const comment = card.querySelector('[data-role="comment"]').value.trim();
       const line = card.querySelector('[data-role="statusLine"]');
-
-      if (!resultValue) {
-        setStatus(line, 'Сначала выберите результат TMDb.', 'err');
-        return false;
-      }
-
+      if (!resultValue) { setStatus(line, 'Сначала выберите результат TMDb.', 'err'); return false; }
       const [id, mediaType] = resultValue.split('|');
       const rating = ratingRaw === '' ? null : Math.max(0, Math.min(10, Number(ratingRaw)));
-
       try {
         setStatus(line, 'Добавляю запись...');
         const payload = await buildPayloadFromMatch({ id, media_type: mediaType || type }, {
-          year,
-          rating: Number.isFinite(rating) ? rating : null,
-          favorite,
-          is_public: isPublic,
+          year, rating: Number.isFinite(rating) ? rating : null, favorite, is_public: isPublic,
           comment: comment || buildImportComment({ watchDate: item.watchDate })
         });
         await api('/admin', { method: 'POST', body: JSON.stringify(payload) });
-
         csvState.review = csvState.review.filter((x) => x.uid !== uid);
         csvState.importedManual += 1;
-        card.remove();
-        updateCsvSummary();
-        if (!options.skipLoadEntries) {
-          await loadEntries();
-        }
+        card.remove(); updateCsvSummary();
+        if (!options.skipLoadEntries) await loadEntries();
         return true;
       } catch (err) {
         setStatus(line, `Ошибка добавления: ${err.message}`, 'err');
@@ -929,101 +630,53 @@
         const result = card.querySelector('[data-role="result"]');
         return result && result.value;
       });
-
-      if (!cards.length) {
-        setStatus(csvStatus, 'Нет подтвержденных карточек для импорта.', 'err');
-        return;
-      }
-
+      if (!cards.length) { setStatus(csvStatus, 'Нет подтвержденных карточек для импорта.', 'err'); return; }
       let imported = 0;
       for (let i = 0; i < cards.length; i += 1) {
         setStatus(csvStatus, `Пакетный импорт подтвержденных: ${i + 1}/${cards.length}`);
         const ok = await addCsvReviewItem(cards[i], { skipLoadEntries: true });
         if (ok) imported += 1;
       }
-
-      await loadEntries();
-      updateCsvSummary();
+      await loadEntries(); updateCsvSummary();
       setStatus(csvStatus, `Пакетный импорт завершен. Добавлено: ${imported}`, imported > 0 ? 'ok' : 'err');
     }
 
-    function collectAuthHeader() {
-      if (authHeader) return authHeader;
-      const pass = window.prompt('Введите ADMIN_PASSWORD для доступа к API', '');
-      if (!pass) return null;
-      authHeader = `Basic ${btoa(`admin:${pass}`)}`;
-      return authHeader;
-    }
+    // ── API (uses authHeader set by gate) ───────────────────────────────────
 
-    async function api(path, options = {}, allowPrompt = true) {
+    async function api(path, options = {}) {
       const headers = {
         Accept: 'application/json',
         ...(options.body ? { 'Content-Type': 'application/json' } : {}),
+        ...(authHeader ? { Authorization: authHeader } : {}),
         ...(options.headers || {})
       };
-
-      if (authHeader) {
-        headers.Authorization = authHeader;
-      }
-
       const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
-
-      if (res.status === 401 && allowPrompt) {
-        const nextAuth = collectAuthHeader();
-        if (nextAuth) {
-          return api(path, {
-            ...options,
-            headers: {
-              ...(options.headers || {}),
-              Authorization: nextAuth
-            }
-          }, false);
-        }
-      }
-
+      if (res.status === 401) throw new Error('Сессия истекла. Обновите страницу.');
       const data = await res.json().catch(() => ({}));
-      if (!res.ok || data.ok === false) {
-        throw new Error(data.error || `HTTP ${res.status}`);
-      }
+      if (!res.ok || data.ok === false) throw new Error(data.error || `HTTP ${res.status}`);
       return data;
     }
 
+    // ── Admin actions ───────────────────────────────────────────────────────
+
     async function searchTmdb() {
       const q = queryInput.value.trim();
-      if (!q) {
-        setStatus(searchStatus, 'Введите название для поиска.', 'err');
-        return;
-      }
-
+      if (!q) { setStatus(searchStatus, 'Введите название для поиска.', 'err'); return; }
       setStatus(searchStatus, 'Ищу в TMDb...');
       searchResults.innerHTML = '';
-
       try {
         const params = new URLSearchParams({ q, type: typeInput.value, language: 'ru-RU' });
         const data = await api(`/search?${params.toString()}`);
         const results = data.results || data.data?.results || [];
-
         if (!results.length) {
           searchResults.innerHTML = '<div class="empty">Ничего не найдено.</div>';
-          setStatus(searchStatus, 'Совпадений нет.');
-          return;
+          setStatus(searchStatus, 'Совпадений нет.'); return;
         }
-
         searchResults.innerHTML = results.map((item) => {
           const title = item.title || item.name || 'Без названия';
           const year = (item.release_date || item.first_air_date || '').slice(0, 4) || '—';
-          const kind = typeLabel(item.media_type);
-          return `
-            <article class="search-item">
-              <div>
-                <p class="search-title">${escapeHtml(title)}</p>
-                <p class="search-meta">${kind} • ${escapeHtml(year)} • id ${item.id}</p>
-              </div>
-              <button class="btn" data-pick="${item.id}" data-type="${item.media_type}">Выбрать</button>
-            </article>
-          `;
+          return `<article class="search-item"><div><p class="search-title">${escapeHtml(title)}</p><p class="search-meta">${typeLabel(item.media_type)} • ${escapeHtml(year)} • id ${item.id}</p></div><button class="btn" data-pick="${item.id}" data-type="${item.media_type}">Выбрать</button></article>`;
         }).join('');
-
         setStatus(searchStatus, `Найдено: ${results.length}`, 'ok');
       } catch (err) {
         setStatus(searchStatus, `Ошибка поиска: ${err.message}`, 'err');
@@ -1033,24 +686,18 @@
 
     async function loadDetails(id, mediaType) {
       setStatus(addStatus, 'Загружаю детали...');
-      selectedWrap.className = 'empty';
-      selectedWrap.textContent = 'Загрузка...';
-
+      selectedWrap.className = 'empty'; selectedWrap.textContent = 'Загрузка...';
       try {
         const params = new URLSearchParams({ id: String(id), type: mediaType, language: 'ru-RU' });
         const data = await api(`/details?${params.toString()}`);
         const details = data.details || data.data?.details;
         const credits = data.credits || data.data?.credits || { cast: [] };
-
         if (!details) throw new Error('Детали не получены');
-
         selectedPayload = { details, credits, mediaType };
-
         const title = getTitle(details) || 'Без названия';
         const year = extractYear(details) || '—';
         const genres = (details.genres || []).map((g) => g.name).filter(Boolean).join(', ') || 'Жанры не указаны';
         const overview = details.overview || 'Описание отсутствует';
-
         selectedWrap.className = 'selected';
         selectedWrap.innerHTML = `
           <img class="poster" src="${posterUrl(details.poster_path)}" alt="${escapeHtml(title)}" />
@@ -1061,43 +708,29 @@
             <p class="selected-overview">${escapeHtml(overview)}</p>
           </div>
         `;
-
         addFields.hidden = false;
         setStatus(addStatus, 'Тайтл выбран. Можно добавлять в картотеку.', 'ok');
       } catch (err) {
-        selectedPayload = null;
-        addFields.hidden = true;
-        selectedWrap.className = 'empty';
-        selectedWrap.textContent = 'Не удалось загрузить выбранный тайтл.';
+        selectedPayload = null; addFields.hidden = true;
+        selectedWrap.className = 'empty'; selectedWrap.textContent = 'Не удалось загрузить выбранный тайтл.';
         setStatus(addStatus, `Ошибка: ${err.message}`, 'err');
       }
     }
 
     async function addEntry() {
-      if (!selectedPayload) {
-        setStatus(addStatus, 'Сначала выберите media из TMDb.', 'err');
-        return;
-      }
-
+      if (!selectedPayload) { setStatus(addStatus, 'Сначала выберите media из TMDb.', 'err'); return; }
       const ratingValue = ratingInput.value;
       if (ratingValue && (Number(ratingValue) < 0 || Number(ratingValue) > 10)) {
-        setStatus(addStatus, 'Оценка должна быть от 0 до 10.', 'err');
-        return;
+        setStatus(addStatus, 'Оценка должна быть от 0 до 10.', 'err'); return;
       }
-
       setStatus(addStatus, 'Добавляю запись...');
-
       try {
         const payload = buildInsertPayload(selectedPayload);
         await api('/admin', { method: 'POST', body: JSON.stringify(payload) });
-
         setStatus(addStatus, 'Запись добавлена.', 'ok');
-        commentInput.value = '';
-        ratingInput.value = '';
+        commentInput.value = ''; ratingInput.value = '';
         await loadEntries();
-      } catch (err) {
-        setStatus(addStatus, `Ошибка добавления: ${err.message}`, 'err');
-      }
+      } catch (err) { setStatus(addStatus, `Ошибка добавления: ${err.message}`, 'err'); }
     }
 
     function buildEntryCard(item) {
@@ -1106,7 +739,6 @@
       const rating = item.rating === null || item.rating === undefined ? '' : item.rating;
       const status = Number(item.favorite) === 1 ? 'watched' : 'pending';
       const isPublic = Number(item.is_public) === 1;
-
       return `
         <article class="entry" data-id="${item.id}">
           <img src="${posterUrl(item.poster_path)}" alt="${escapeHtml(title)}" />
@@ -1114,32 +746,10 @@
             <h3>${escapeHtml(title)}</h3>
             <p class="entry-sub">${escapeHtml(meta)}</p>
             <div class="entry-grid">
-              <div class="field">
-                <label>Оценка</label>
-                <input type="number" min="0" max="10" step="0.1" data-role="rating" value="${escapeHtml(rating)}" />
-              </div>
-
-              <div class="field">
-                <label>Статус</label>
-                <select data-role="status">
-                  <option value="watched" ${status === 'watched' ? 'selected' : ''}>Просмотрено</option>
-                  <option value="pending" ${status === 'pending' ? 'selected' : ''}>В ожидании</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <label>Публичность</label>
-                <select data-role="public">
-                  <option value="1" ${isPublic ? 'selected' : ''}>Публично</option>
-                  <option value="0" ${!isPublic ? 'selected' : ''}>Скрыто</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <label>Комментарий</label>
-                <input type="text" data-role="comment" value="${escapeHtml(item.comment || '')}" />
-              </div>
-
+              <div class="field"><label>Оценка</label><input type="number" min="0" max="10" step="0.1" data-role="rating" value="${escapeHtml(rating)}" /></div>
+              <div class="field"><label>Статус</label><select data-role="status"><option value="watched" ${status === 'watched' ? 'selected' : ''}>Просмотрено</option><option value="pending" ${status === 'pending' ? 'selected' : ''}>В ожидании</option></select></div>
+              <div class="field"><label>Публичность</label><select data-role="public"><option value="1" ${isPublic ? 'selected' : ''}>Публично</option><option value="0" ${!isPublic ? 'selected' : ''}>Скрыто</option></select></div>
+              <div class="field"><label>Комментарий</label><input type="text" data-role="comment" value="${escapeHtml(item.comment || '')}" /></div>
               <div class="entry-actions">
                 <button class="btn" data-action="save">Сохранить</button>
                 <button class="btn" data-action="delete">Удалить</button>
@@ -1155,15 +765,8 @@
       try {
         const data = await api('/admin', { method: 'GET' });
         const list = data.results || data.data?.results || [];
-
         entriesMeta.textContent = `Записей: ${list.length}`;
-
-        if (!list.length) {
-          entries.innerHTML = '<div class="empty">Записей пока нет.</div>';
-          setStatus(entriesStatus, 'Список пуст.');
-          return;
-        }
-
+        if (!list.length) { entries.innerHTML = '<div class="empty">Записей пока нет.</div>'; setStatus(entriesStatus, 'Список пуст.'); return; }
         entries.innerHTML = list.map(buildEntryCard).join('');
         setStatus(entriesStatus, 'Список загружен.', 'ok');
       } catch (err) {
@@ -1178,101 +781,221 @@
       const status = card.querySelector('[data-role="status"]').value;
       const isPublic = card.querySelector('[data-role="public"]').value === '1';
       const comment = card.querySelector('[data-role="comment"]').value;
-
       try {
-        await api('/admin', {
-          method: 'PATCH',
-          body: JSON.stringify({
-            id,
-            rating: rating === '' ? null : Number(rating),
-            favorite: status === 'watched',
-            is_public: isPublic,
-            comment
-          })
-        });
-
+        await api('/admin', { method: 'PATCH', body: JSON.stringify({ id, rating: rating === '' ? null : Number(rating), favorite: status === 'watched', is_public: isPublic, comment }) });
         setStatus(entriesStatus, `Запись ${id} обновлена.`, 'ok');
-      } catch (err) {
-        setStatus(entriesStatus, `Ошибка обновления ${id}: ${err.message}`, 'err');
-      }
+      } catch (err) { setStatus(entriesStatus, `Ошибка обновления ${id}: ${err.message}`, 'err'); }
     }
 
     async function deleteEntry(card) {
       const id = card.dataset.id;
-      const sure = window.confirm('Удалить запись из картотеки?');
-      if (!sure) return;
-
+      if (!window.confirm('Удалить запись из картотеки?')) return;
       try {
         await api('/admin', { method: 'DELETE', body: JSON.stringify({ id }) });
-
         card.remove();
         const left = entries.querySelectorAll('.entry').length;
         entriesMeta.textContent = `Записей: ${left}`;
-        if (!left) {
-          entries.innerHTML = '<div class="empty">Записей пока нет.</div>';
-        }
+        if (!left) entries.innerHTML = '<div class="empty">Записей пока нет.</div>';
         setStatus(entriesStatus, `Запись ${id} удалена.`, 'ok');
+      } catch (err) { setStatus(entriesStatus, `Ошибка удаления ${id}: ${err.message}`, 'err'); }
+    }
+
+    // ── Admin HTML template (NOT in DOM until auth passes) ──────────────────
+
+    function adminHTMLTemplate() {
+      return `
+        <header class="topbar">
+          <div class="wrap">
+            <a class="brand" href="/index.html">filin_cprt</a>
+            <div class="top-actions">
+              <a class="btn" href="/catalog">Витрина</a>
+              <a class="btn primary" href="/index.html">Главная</a>
+            </div>
+          </div>
+        </header>
+
+        <main class="wrap">
+          <section class="hero">
+            <p class="kicker">Управление библиотекой</p>
+            <h1>Киноархив — <em>админка</em></h1>
+            <p class="lead">Поиск в TMDb, добавление записей в картотеку и редактирование публичной витрины в одном интерфейсе.</p>
+          </section>
+
+          <section class="section">
+            <article class="panel">
+              <h2 class="panel-title">01 Поиск в TMDb</h2>
+              <div class="row">
+                <div class="field"><label for="queryInput">Название</label><input id="queryInput" type="text" placeholder="Введите фильм или сериал" /></div>
+                <div class="field"><label for="typeInput">Тип</label><select id="typeInput"><option value="all">Фильмы и сериалы</option><option value="movie">Фильм</option><option value="tv">Сериал</option></select></div>
+                <button id="searchBtn" class="btn accent" type="button">Найти</button>
+              </div>
+              <p class="status" id="searchStatus"></p>
+              <div id="searchResults" class="search-results"></div>
+            </article>
+
+            <article class="panel">
+              <h2 class="panel-title">02 Добавление в картотеку</h2>
+              <div id="selectedWrap" class="empty">Сначала выберите media из результатов поиска.</div>
+              <div id="addFields" class="add-grid" hidden>
+                <div class="field"><label for="ratingInput">Оценка (0-10)</label><input id="ratingInput" type="number" min="0" max="10" step="0.1" placeholder="8.5" /></div>
+                <div class="field"><label for="statusInput">Статус</label><select id="statusInput"><option value="watched">Просмотрено</option><option value="pending">В ожидании</option></select></div>
+                <div class="field"><label for="publicInput">Публичность</label><select id="publicInput"><option value="1">Показывать</option><option value="0">Скрыть</option></select></div>
+                <div class="field"><label for="commentInput">Комментарий</label><input id="commentInput" type="text" placeholder="Короткий комментарий" /></div>
+                <button id="addBtn" class="btn accent" type="button">Добавить в картотеку</button>
+              </div>
+              <p class="status" id="addStatus"></p>
+            </article>
+
+            <article class="panel">
+              <h2 class="panel-title">03 Импорт из CSV (Кинопоиск)</h2>
+              <div class="csv-controls">
+                <div class="field"><label for="csvFileInput">CSV файл</label><input id="csvFileInput" type="file" accept=".csv,text/csv" /></div>
+                <div class="field"><label for="csvPublicInput">Публичность</label><select id="csvPublicInput"><option value="1">Показывать в витрине</option><option value="0">Скрыть из витрины</option></select></div>
+                <div class="field"><label for="csvStatusInput">Статус</label><select id="csvStatusInput"><option value="watched">Просмотрено</option><option value="pending">В ожидании</option></select></div>
+                <button id="csvAnalyzeBtn" class="btn accent" type="button">Проверить CSV</button>
+                <button id="csvImportMatchedBtn" class="btn" type="button" disabled>Импортировать найденные</button>
+                <button id="csvImportReviewReadyBtn" class="btn" type="button" disabled>Импортировать подтвержденные</button>
+              </div>
+              <p class="status" id="csvStatus"></p>
+              <p class="csv-summary" id="csvSummary">CSV не обработан.</p>
+              <div id="csvReviewList" class="csv-list"></div>
+            </article>
+
+            <article class="panel">
+              <div class="entries-head">
+                <h2 class="panel-title" style="margin:0">04 Все записи</h2>
+                <button id="refreshBtn" class="btn" type="button">Обновить список</button>
+              </div>
+              <p class="entries-meta" id="entriesMeta">Записей: 0</p>
+              <div id="entries" class="entries"></div>
+              <p class="status" id="entriesStatus"></p>
+            </article>
+          </section>
+        </main>
+
+        <footer>
+          <div class="wrap">© 2026 filin_cprt</div>
+        </footer>
+      `;
+    }
+
+    // ── Init admin UI after successful auth ─────────────────────────────────
+
+    function initAdmin() {
+      queryInput    = document.getElementById('queryInput');
+      typeInput     = document.getElementById('typeInput');
+      searchBtn     = document.getElementById('searchBtn');
+      searchStatus  = document.getElementById('searchStatus');
+      searchResults = document.getElementById('searchResults');
+
+      selectedWrap  = document.getElementById('selectedWrap');
+      addFields     = document.getElementById('addFields');
+      ratingInput   = document.getElementById('ratingInput');
+      statusInput   = document.getElementById('statusInput');
+      publicInput   = document.getElementById('publicInput');
+      commentInput  = document.getElementById('commentInput');
+      addBtn        = document.getElementById('addBtn');
+      addStatus     = document.getElementById('addStatus');
+
+      refreshBtn    = document.getElementById('refreshBtn');
+      entries       = document.getElementById('entries');
+      entriesMeta   = document.getElementById('entriesMeta');
+      entriesStatus = document.getElementById('entriesStatus');
+
+      csvFileInput            = document.getElementById('csvFileInput');
+      csvPublicInput          = document.getElementById('csvPublicInput');
+      csvStatusInput          = document.getElementById('csvStatusInput');
+      csvAnalyzeBtn           = document.getElementById('csvAnalyzeBtn');
+      csvImportMatchedBtn     = document.getElementById('csvImportMatchedBtn');
+      csvImportReviewReadyBtn = document.getElementById('csvImportReviewReadyBtn');
+      csvStatus               = document.getElementById('csvStatus');
+      csvSummary              = document.getElementById('csvSummary');
+      csvReviewList           = document.getElementById('csvReviewList');
+
+      searchBtn.addEventListener('click', searchTmdb);
+      queryInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); searchTmdb(); } });
+      searchResults.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-pick]');
+        if (btn) loadDetails(btn.dataset.pick, btn.dataset.type);
+      });
+      addBtn.addEventListener('click', addEntry);
+      refreshBtn.addEventListener('click', loadEntries);
+      csvAnalyzeBtn.addEventListener('click', analyzeCsvImport);
+      csvImportMatchedBtn.addEventListener('click', importMatchedFromCsv);
+      csvImportReviewReadyBtn.addEventListener('click', importConfirmedReviewItems);
+      entries.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-action]');
+        if (!btn) return;
+        const card = btn.closest('.entry');
+        if (!card) return;
+        if (btn.dataset.action === 'save') saveEntry(card);
+        if (btn.dataset.action === 'delete') deleteEntry(card);
+      });
+      csvReviewList.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-action]');
+        if (!btn) return;
+        const card = btn.closest('.csv-item');
+        if (!card) return;
+        if (btn.dataset.action === 'csv-search') searchCsvReviewItem(card);
+        if (btn.dataset.action === 'csv-add') addCsvReviewItem(card);
+      });
+      csvReviewList.addEventListener('change', (e) => {
+        if (e.target.matches('[data-role="result"]')) updateReviewImportButton();
+      });
+
+      loadEntries();
+    }
+
+    // ── Auth gate logic ─────────────────────────────────────────────────────
+
+    function makeBasicAuth(pass) {
+      try { return `Basic ${btoa(`admin:${pass}`)}`; }
+      catch { return `Basic ${btoa(unescape(encodeURIComponent(`admin:${pass}`)))}`; }
+    }
+
+    async function verifyPassword(pass) {
+      const header = makeBasicAuth(pass);
+      const res = await fetch(`${API_BASE}/admin`, {
+        method: 'GET',
+        headers: { Accept: 'application/json', Authorization: header }
+      });
+      if (res.ok) { authHeader = header; return true; }
+      return false;
+    }
+
+    async function tryLogin() {
+      const gateError = document.getElementById('gateError');
+      gateError.hidden = true;
+
+      const pass = window.prompt('Введите пароль администратора:', '');
+      if (pass === null) return; // Cancelled — stay on gate
+
+      if (!pass.trim()) {
+        gateError.textContent = 'Пароль не может быть пустым.';
+        gateError.hidden = false;
+        return;
+      }
+
+      try {
+        const ok = await verifyPassword(pass);
+        if (ok) {
+          document.getElementById('gate').remove();
+          const app = document.getElementById('app');
+          app.innerHTML = adminHTMLTemplate();
+          app.removeAttribute('hidden');
+          initAdmin();
+        } else {
+          gateError.textContent = 'Неверный пароль. Попробуйте снова.';
+          gateError.hidden = false;
+          setTimeout(tryLogin, 400);
+        }
       } catch (err) {
-        setStatus(entriesStatus, `Ошибка удаления ${id}: ${err.message}`, 'err');
+        gateError.textContent = `Ошибка соединения: ${err.message}`;
+        gateError.hidden = false;
       }
     }
 
-    searchBtn.addEventListener('click', searchTmdb);
-    queryInput.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        searchTmdb();
-      }
-    });
-
-    searchResults.addEventListener('click', (event) => {
-      const btn = event.target.closest('button[data-pick]');
-      if (!btn) return;
-      loadDetails(btn.dataset.pick, btn.dataset.type);
-    });
-
-    addBtn.addEventListener('click', addEntry);
-    refreshBtn.addEventListener('click', loadEntries);
-    csvAnalyzeBtn.addEventListener('click', analyzeCsvImport);
-    csvImportMatchedBtn.addEventListener('click', importMatchedFromCsv);
-    csvImportReviewReadyBtn.addEventListener('click', importConfirmedReviewItems);
-
-    entries.addEventListener('click', (event) => {
-      const actionBtn = event.target.closest('button[data-action]');
-      if (!actionBtn) return;
-      const card = actionBtn.closest('.entry');
-      if (!card) return;
-
-      if (actionBtn.dataset.action === 'save') {
-        saveEntry(card);
-      }
-      if (actionBtn.dataset.action === 'delete') {
-        deleteEntry(card);
-      }
-    });
-
-    csvReviewList.addEventListener('click', (event) => {
-      const button = event.target.closest('button[data-action]');
-      if (!button) return;
-      const card = button.closest('.csv-item');
-      if (!card) return;
-
-      if (button.dataset.action === 'csv-search') {
-        searchCsvReviewItem(card);
-      }
-      if (button.dataset.action === 'csv-add') {
-        addCsvReviewItem(card);
-      }
-    });
-
-    csvReviewList.addEventListener('change', (event) => {
-      if (event.target.matches('[data-role="result"]')) {
-        updateReviewImportButton();
-      }
-    });
-
-    updateCsvSummary();
-    loadEntries();
+    document.getElementById('loginBtn').addEventListener('click', tryLogin);
   </script>
 </body>
 </html>
