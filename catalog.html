@@ -57,11 +57,11 @@
     .year{font-family:'Space Mono',monospace;font-size:13px;color:#7a7570;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;margin-top:4px;margin-right:5px}
     .chip-genres{display:flex;flex-wrap:wrap;gap:6px;align-items:center;flex:1}
     .chip{padding:4px 8px;border-radius:6px;border:1px solid rgba(255,75,0,.2);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,75,0,.06);color:#8a2d04;white-space:nowrap}
-    .rating{display:flex;align-items:center;gap:4px;margin-top:4px}
-    .stars{display:flex;gap:2px;font-size:25px;line-height:1}
+    .rating{display:flex;align-items:center;gap:2px;margin-top:2px}
+    .stars{display:inline-flex;gap:0px;font-size:25px;line-height:1}
     .star{color:#ddd;cursor:default}
     .star.filled{color:#ff4b00}
-    .comment{margin:0;color:#5f5a55;font-size:17px;line-height:1.45;min-height:22px}
+    .comment{margin:4px 0 0;color:#5f5a55;font-size:17px;line-height:1.45;min-height:22px}
 
     .table-wrap{margin-top:14px;border:1px solid rgba(24,22,21,.1);border-radius:18px;background:#fffdfa;overflow:auto}
     table{width:100%;border-collapse:collapse;min-width:860px}
@@ -265,7 +265,8 @@
         const ratingInt = Math.round(Math.max(0, Math.min(10, rating * 2)));
         const filledStars = ratingInt;
         const emptyStars = 10 - filledStars;
-        const starsHtml = '★'.repeat(filledStars) + '☆'.repeat(emptyStars);
+        const starsArray = Array(filledStars).fill('<span class="star filled">★</span>').concat(Array(emptyStars).fill('<span class="star">☆</span>'));
+        const starsHtml = starsArray.join('');
         const comment = item.comment ? escapeHtml(item.comment) : '';
         const typeLabel = item.media_type === 'tv' ? 'Сериал' : 'Фильм';
 

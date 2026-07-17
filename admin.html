@@ -120,14 +120,6 @@
     .auth-overlay.hidden{display:none}
     .auth-backdrop{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center}
     .auth-backdrop-text{font-size:64px;font-weight:700;color:rgba(24,22,21,.08);letter-spacing:-.05em;white-space:nowrap;text-align:center;line-height:1}
-    .auth-form{width:100%;max-width:420px;background:#fffdfa;border:1px solid rgba(24,22,21,.1);border-radius:28px;padding:32px;box-shadow:0 20px 60px rgba(24,22,21,.08);position:relative;z-index:1}
-    .auth-form h2{margin:0 0 12px;font-size:32px;line-height:1.05;font-weight:600}
-    .auth-form p{margin:0 0 24px;color:#5f5a55;font-size:18px;line-height:1.5}
-    .auth-form .field{margin-bottom:16px}
-    .auth-form input{width:100%;padding:12px 14px;border:1px solid rgba(24,22,21,.14);border-radius:14px;background:#fff;color:#181615;font:inherit;outline:none}
-    .auth-form input:focus{border-color:#ff4b00;box-shadow:0 0 0 3px rgba(255,75,0,.12)}
-    .auth-error{margin:0 0 16px;padding:12px 14px;border-radius:12px;background:rgba(255,75,0,.1);border:1px solid rgba(255,75,0,.25);color:#8a2d04;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;display:none}
-    .auth-error.show{display:block}
   </style>
 </head>
 <body>
@@ -271,32 +263,15 @@
   <script>
     // --- AUTH GUARD ---
     const authOverlay = document.getElementById('authOverlay');
-    const authForm = document.getElementById('authForm');
-    const authPassword = document.getElementById('authPassword');
-    const authError = document.getElementById('authError');
     const mainContent = document.querySelector('main.wrap');
-    
-    function showAuthError(message) {
-      authError.textContent = message;
-      authError.classList.add('show');
-    }
-    
-    function hideAuthError() {
-      authError.classList.remove('show');
-    }
-    
-    function grantAccess() {
-      localStorage.setItem('admin_auth', Date.now().toString());
-      authOverlay.classList.add('hidden');
-      mainContent.style.display = '';
-    }
     
     function checkAuth() {
       const lastAuth = localStorage.getItem('admin_auth');
       if (lastAuth) {
         const diff = Date.now() - Number(lastAuth);
         if (diff < 86400000) {
-          grantAccess();
+          authOverlay.classList.add('hidden');
+          mainContent.style.display = '';
           return true;
         }
         localStorage.removeItem('admin_auth');
@@ -304,41 +279,11 @@
       return false;
     }
     
-    authForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      hideAuthError();
-      const password = authPassword.value.trim();
-      
-      if (!password) {
-        showAuthError('Пароль не может быть пустым');
-        return;
-      }
-      
-      try {
-        const response = await fetch(`${window.location.origin.includes('workers.dev') ? window.location.origin : 'https://irgvbrqwqpeqlokfkofw.supabase.co/functions/v1/api'}/admin/auth`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password })
-        });
-        
-        const data = await response.json().catch(() => ({}));
-        
-        if (response.ok && data.ok !== false) {
-          grantAccess();
-        } else {
-          showAuthError(data.error || 'Неверный пароль');
-          authPassword.value = '';
-          authPassword.focus();
-        }
-      } catch (err) {
-        console.error('Auth error:', err);
-        showAuthError('Ошибка при проверке пароля. Попробуйте позже.');
-      }
-    });
-    
+    // Показываем заглушку "Доступ запрещён" если не авторизованы
     if (!checkAuth()) {
       mainContent.style.display = 'none';
-      authPassword.focus();
+      // Для реальной аутентификации нужно использовать другой механизм
+      // (например, при клике на фон или через отдельную страницу входа)
     }
     
     // --- MAIN APP ---
