@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
@@ -55,14 +55,20 @@
     .title-row{display:flex;gap:8px;justify-content:space-between;align-items:flex-start}
     .title{margin:0;font-size:28px;line-height:1.02;font-weight:600}
     .year{font-family:'Space Mono',monospace;font-size:11px;color:#7a7570;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;margin-top:4px}
-    .chips{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:8px;margin-top:4px}
-    .chip-type{display:inline-block;padding:4px 8px;border-radius:6px;background:rgba(255,75,0,.12);color:#ff4b00;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
-    .chip-genres{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+
+    /* FIX 1: chips — единый flex-контейнер с переносом */
+    .chips{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:4px}
+
+    .chip-type{display:inline-block;padding:4px 8px;border-radius:6px;background:rgba(255,75,0,.12);color:#ff4b00;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;flex-shrink:0}
     .chip{padding:4px 8px;border-radius:6px;border:1px solid rgba(255,75,0,.2);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,75,0,.06);color:#8a2d04}
-    .rating{display:flex;align-items:center;gap:4px;margin-top:4px}
-    .stars{display:flex;gap:2px;font-size:14px;line-height:1}
+
+    /* FIX 2+3: звёзды и число — одинаковый размер 16px */
+    .rating{display:flex;align-items:center;gap:6px;margin-top:4px}
+    .stars{display:flex;gap:2px;font-size:16px;line-height:1}
     .star{color:#ddd;cursor:default}
     .star.filled{color:#ff4b00}
+    .rating-num{font-family:'Space Mono',monospace;font-size:16px;color:#7a7570;letter-spacing:.04em}
+
     .comment{margin:0;color:#5f5a55;font-size:17px;line-height:1.45;min-height:22px}
 
     .table-wrap{margin-top:14px;border:1px solid rgba(24,22,21,.1);border-radius:18px;background:#fffdfa;overflow:auto}
@@ -253,6 +259,13 @@
       }
     }
 
+    /* FIX 2: строим звёзды через отдельные <span> — классы .star / .star.filled реально применяются */
+    function buildStars(filledCount) {
+      return Array.from({ length: 10 }, (_, i) =>
+        `<span class="star${i < filledCount ? ' filled' : ''}">★</span>`
+      ).join('');
+    }
+
     function renderCards(items) {
       if (!items.length) {
         results.innerHTML = '<div class="empty">По выбранным фильтрам ничего не найдено.</div>';
@@ -264,10 +277,8 @@
         const title = item.title || item.original_title || 'Без названия';
         const year = item.year || '—';
         const rating = item.rating === null || item.rating === undefined || item.rating === '' ? 0 : Number(item.rating);
-        const ratingInt = Math.round(Math.max(0, Math.min(10, rating * 2)));
-        const filledStars = ratingInt;
-        const emptyStars = 10 - filledStars;
-        const starsHtml = '★'.repeat(filledStars) + '☆'.repeat(emptyStars);
+        /* rating хранится в шкале 0–5 → умножаем на 2 для получения 0–10 заполненных звёзд */
+        const filledStars = Math.round(Math.max(0, Math.min(10, rating * 2)));
         const comment = item.comment ? escapeHtml(item.comment) : '';
         const typeLabel = item.media_type === 'tv' ? 'Сериал' : 'Фильм';
 
@@ -279,15 +290,15 @@
                 <h2 class="title">${escapeHtml(title)}</h2>
                 <span class="year">${escapeHtml(year)}</span>
               </div>
+              <!-- FIX 1: chip-type и жанровые чипы — в одном flex-контейнере без вложенных div -->
               <div class="chips">
                 <span class="chip-type">${typeLabel}</span>
-                <div class="chip-genres">
-                  ${genres.map((name) => `<span class="chip">${escapeHtml(name)}</span>`).join('')}
-                </div>
+                ${genres.map((name) => `<span class="chip">${escapeHtml(name)}</span>`).join('')}
               </div>
+              <!-- FIX 2+3: звёзды через span-элементы, размер 16px у обоих -->
               <div class="rating">
-                <span class="stars">${starsHtml}</span>
-                <span style="font-family:'Space Mono',monospace;font-size:9px;color:#7a7570;letter-spacing:.08em">${rating.toFixed(1)}</span>
+                <span class="stars">${buildStars(filledStars)}</span>
+                <span class="rating-num">${rating.toFixed(1)}</span>
               </div>
               <p class="comment">${comment}</p>
             </div>
