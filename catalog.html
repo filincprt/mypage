@@ -54,10 +54,8 @@
     .body{padding:12px;display:grid;gap:8px}
     .title-row{display:flex;gap:8px;justify-content:space-between;align-items:flex-start}
     .title{margin:0;font-size:28px;line-height:1.02;font-weight:600}
-    .year{font-family:'Space Mono',monospace;font-size:11px;color:#7a7570;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;margin-top:4px}
-    .chips{display:flex;align-items:center;gap:8px;margin-top:4px;flex-wrap:nowrap}
-    .chip-type{display:inline-block;padding:4px 8px;border-radius:6px;background:rgba(255,75,0,.12);color:#ff4b00;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;flex-shrink:0}
-    .chip-genres{display:flex;flex-wrap:wrap;gap:6px;align-items:center;flex:1;min-width:0}
+    .year{font-family:'Space Mono',monospace;font-size:13px;color:#7a7570;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;margin-top:4px;margin-right:5px}
+    .chip-genres{display:flex;flex-wrap:wrap;gap:6px;align-items:center;flex:1}
     .chip{padding:4px 8px;border-radius:6px;border:1px solid rgba(255,75,0,.2);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,75,0,.06);color:#8a2d04;white-space:nowrap}
     .rating{display:flex;align-items:center;gap:4px;margin-top:4px}
     .stars{display:flex;gap:2px;font-size:25px;line-height:1}
@@ -280,14 +278,14 @@
                 <span class="year">${escapeHtml(year)}</span>
               </div>
               <div class="chips">
-                <span class="chip-type">${typeLabel}</span>
                 <div class="chip-genres">
+                  <span class="chip" style="background:rgba(255,75,0,.12);color:#ff4b00;font-weight:600;border:1px solid rgba(255,75,0,.2)">${typeLabel}</span>
                   ${genres.map((name) => `<span class="chip">${escapeHtml(name)}</span>`).join('')}
                 </div>
               </div>
               <div class="rating">
                 <span class="stars">${starsHtml}</span>
-                <span style="font-family:'Space Mono',monospace;font-size:25px;color:#7a7570;letter-spacing:.08em">${rating.toFixed(1)}</span>
+                <span style="font-family:'Space Mono',monospace;font-size:16px;color:#7a7570;letter-spacing:.08em">${rating.toFixed(1)}</span>
               </div>
               <p class="comment">${comment}</p>
             </div>
