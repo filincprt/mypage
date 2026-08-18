@@ -168,6 +168,25 @@
     let authHeader = null;
     let selectedPayload = null;
     const csvState = { total: 0, duplicates: 0, ready: [], review: [], importedAuto: 0, importedManual: 0 };
+    const VIEW_STATUS_IDS = { will_watch: 1, watching: 2, dropped: 3, watched: 4 };
+    const STATUS_KEY_BY_ID = { 1: 'will_watch', 2: 'watching', 3: 'dropped', 4: 'watched' };
+    const STATUS_LABELS = { 1: 'Буду смотреть', 2: 'Смотрю сейчас', 3: 'Забросил', 4: 'Просмотрено' };
+
+    function normalizeViewStatusValue(value) {
+      if (value === null || value === undefined || value === '') return 1;
+      const asNum = Number(value);
+      if (Number.isFinite(asNum) && asNum >= 1 && asNum <= 4) return Math.round(asNum);
+      const str = String(value).trim();
+      return VIEW_STATUS_IDS[str] ?? 1;
+    }
+
+    function getStatusKeyFromValue(value) {
+      return STATUS_KEY_BY_ID[normalizeViewStatusValue(value)] || 'will_watch';
+    }
+
+    function getStatusLabelFromValue(value) {
+      return STATUS_LABELS[normalizeViewStatusValue(value)] || 'Буду смотреть';
+    }
 
     // DOM refs — assigned inside initAdmin() after template injection
     let queryInput, typeInput, searchBtn, searchStatus, searchResults,
@@ -234,8 +253,8 @@
         genres: bundle.details.genres || [],
         countries: getCountries(bundle.details),
         rating: ratingInput.value ? Number(ratingInput.value) : null,
-        favorite: statusInput.value === 'watched',
-        view_status: statusInput.value || null,
+        favorite: Number(statusInput.value) === VIEW_STATUS_IDS.watched,
+        view_status: Number(statusInput.value) || null,
         comment: commentInput.value.trim(),
         is_public: publicInput.value === '1'
       };
@@ -476,10 +495,10 @@
             <div class="field"><label>Год</label><input data-role="year" type="number" min="1900" max="2100" value="${item.year || ''}" /></div>
             <div class="field"><label>Оценка</label><input data-role="rating" type="number" min="0" max="10" step="0.1" value="${item.rating ?? ''}" /></div>
             <div class="field"><label>Статус</label><select data-role="status">
-                  <option value="will_watch" ${!item.view_status && !item.favorite ? 'selected' : item.view_status === 'will_watch' ? 'selected' : ''}>Буду смотреть</option>
-                  <option value="watching" ${item.view_status === 'watching' ? 'selected' : ''}>Смотрю сейчас</option>
-                  <option value="dropped" ${item.view_status === 'dropped' ? 'selected' : ''}>Забросил</option>
-                  <option value="watched" ${item.view_status === 'watched' || item.favorite ? 'selected' : ''}>Просмотрено</option>
+                  <option value="1" ${normalizeViewStatusValue(item.view_status ?? item.favorite ?? 1) === 1 ? 'selected' : ''}>Буду смотреть</option>
+                  <option value="2" ${normalizeViewStatusValue(item.view_status ?? item.favorite ?? 1) === 2 ? 'selected' : ''}>Смотрю сейчас</option>
+                  <option value="3" ${normalizeViewStatusValue(item.view_status ?? item.favorite ?? 1) === 3 ? 'selected' : ''}>Забросил</option>
+                  <option value="4" ${normalizeViewStatusValue(item.view_status ?? item.favorite ?? 1) === 4 ? 'selected' : ''}>Просмотрено</option>
                 </select></div>
             <div class="field"><label>Публичность</label><select data-role="public"><option value="1" ${item.is_public ? 'selected' : ''}>Публично</option><option value="0" ${!item.is_public ? 'selected' : ''}>Скрыто</option></select></div>
             <div class="field"><label>Комментарий</label><input data-role="comment" value="${escapeHtml(item.comment)}" /></div>
@@ -745,7 +764,8 @@
       const title = item.title || item.original_title || 'Без названия';
       const meta = `${typeLabel(item.media_type)} • ${item.year || '—'} • id ${item.id}`;
       const rating = item.rating === null || item.rating === undefined ? '' : item.rating;
-      const status = item.view_status || (Number(item.favorite) === 1 ? 'watched' : 'will_watch');
+      const statusValue = normalizeViewStatusValue(item.view_status ?? item.favorite ?? 'will_watch');
+      const status = getStatusKeyFromValue(statusValue);
       const isPublic = Number(item.is_public) === 1;
       return `
         <article class="entry" data-id="${item.id}">
@@ -756,10 +776,10 @@
             <div class="entry-grid">
               <div class="field"><label>Оценка</label><input type="number" min="0" max="10" step="0.1" data-role="rating" value="${escapeHtml(rating)}" /></div>
               <div class="field"><label>Статус</label><select data-role="status">
-                   <option value="will_watch" ${status === 'will_watch' ? 'selected' : ''}>Буду смотреть</option>
-                   <option value="watching" ${status === 'watching' ? 'selected' : ''}>Смотрю сейчас</option>
-                   <option value="dropped" ${status === 'dropped' ? 'selected' : ''}>Забросил</option>
-                   <option value="watched" ${status === 'watched' ? 'selected' : ''}>Просмотрено</option>
+                   <option value="1" ${status === 'will_watch' ? 'selected' : ''}>Буду смотреть</option>
+                   <option value="2" ${status === 'watching' ? 'selected' : ''}>Смотрю сейчас</option>
+                   <option value="3" ${status === 'dropped' ? 'selected' : ''}>Забросил</option>
+                   <option value="4" ${status === 'watched' ? 'selected' : ''}>Просмотрено</option>
                  </select></div>
               <div class="field"><label>Публичность</label><select data-role="public"><option value="1" ${isPublic ? 'selected' : ''}>Публично</option><option value="0" ${!isPublic ? 'selected' : ''}>Скрыто</option></select></div>
               <div class="field"><label>Комментарий</label><input type="text" data-role="comment" value="${escapeHtml(item.comment || '')}" /></div>
@@ -792,9 +812,10 @@
       const id = card.dataset.id;
       const rating = card.querySelector('[data-role="rating"]').value;
       const status = card.querySelector('[data-role="status"]').value;
+      const statusId = Number(status);
       const isPublic = card.querySelector('[data-role="public"]').value === '1';
       const comment = card.querySelector('[data-role="comment"]').value;
-      const payload = { id, rating: rating === '' ? null : Number(rating), favorite: status === 'watched', view_status: status, is_public: isPublic, comment };
+      const payload = { id, rating: rating === '' ? null : Number(rating), favorite: statusId === VIEW_STATUS_IDS.watched, view_status: statusId || null, is_public: isPublic, comment };
       try {
         // log payload for debugging; server response is returned and shown below
         // eslint-disable-next-line no-console
@@ -885,10 +906,10 @@
               <div id="addFields" class="add-grid" hidden>
                 <div class="field"><label for="ratingInput">Оценка (0-10)</label><input id="ratingInput" type="number" min="0" max="10" step="0.1" placeholder="8.5" /></div>
                 <div class="field"><label for="statusInput">Статус</label><select id="statusInput">
-               <option value="will_watch">Буду смотреть</option>
-               <option value="watching">Смотрю сейчас</option>
-               <option value="dropped">Забросил</option>
-               <option value="watched">Просмотрено</option>
+               <option value="1">Буду смотреть</option>
+               <option value="2">Смотрю сейчас</option>
+               <option value="3">Забросил</option>
+               <option value="4">Просмотрено</option>
              </select></div>
                 <div class="field"><label for="publicInput">Публичность</label><select id="publicInput"><option value="1">Показывать</option><option value="0">Скрыть</option></select></div>
                 <div class="field"><label for="commentInput">Комментарий</label><input id="commentInput" type="text" placeholder="Короткий комментарий" /></div>
@@ -903,10 +924,10 @@
                 <div class="field"><label for="csvFileInput">CSV файл</label><input id="csvFileInput" type="file" accept=".csv,text/csv" /></div>
                 <div class="field"><label for="csvPublicInput">Публичность</label><select id="csvPublicInput"><option value="1">Показывать в витрине</option><option value="0">Скрыть из витрины</option></select></div>
                 <div class="field"><label for="csvStatusInput">Статус</label><select id="csvStatusInput">
-               <option value="will_watch">Буду смотреть</option>
-               <option value="watching">Смотрю сейчас</option>
-               <option value="dropped">Забросил</option>
-               <option value="watched">Просмотрено</option>
+               <option value="1">Буду смотреть</option>
+               <option value="2">Смотрю сейчас</option>
+               <option value="3">Забросил</option>
+               <option value="4">Просмотрено</option>
              </select></div>
                 <button id="csvAnalyzeBtn" class="btn accent" type="button">Проверить CSV</button>
                 <button id="csvImportMatchedBtn" class="btn" type="button" disabled>Импортировать найденные</button>

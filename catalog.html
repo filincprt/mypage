@@ -282,7 +282,13 @@
 
     /* Helpers for view status (uses view_status column or legacy favorite) */
     function getViewStatus(item) {
-      const v = String(item?.view_status || '').trim();
+      const raw = item?.view_status;
+      const asNumber = Number(raw);
+      if (Number.isFinite(asNumber) && asNumber >= 1 && asNumber <= 4) {
+        const map = { 1: 'will_watch', 2: 'watching', 3: 'dropped', 4: 'watched' };
+        return map[asNumber] || 'will_watch';
+      }
+      const v = String(raw || '').trim();
       if (['will_watch', 'watching', 'dropped', 'watched'].includes(v)) return v;
       if (Number(item?.favorite) === 1) return 'watched';
       return 'will_watch';
