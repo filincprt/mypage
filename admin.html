@@ -805,6 +805,29 @@
         // Refresh admin entries so UI reflects stored values
         await loadEntries();
         setStatus(entriesStatus, `Запись ${id} обновлена.`, 'ok');
+
+        // Fallback: try direct REST PATCH to Supabase in case the edge function did not persist view_status
+        (async () => {
+          try {
+            const supabaseBase = DEFAULT_API_BASE.replace('/functions/v1/api', '');
+            const restUrl = `${supabaseBase}/rest/v1/entries?id=eq.${encodeURIComponent(id)}`;
+            const restBody = { view_status: payload.view_status ?? payload.viewStatus ?? null, favorite: payload.favorite };
+            // Use authHeader if available; this may or may not be accepted by Supabase REST depending on configuration
+            const restHeaders = { 'Content-Type': 'application/json', Prefer: 'return=representation' };
+            if (authHeader) restHeaders.Authorization = authHeader;
+            const restRes = await fetch(restUrl, { method: 'PATCH', headers: restHeaders, body: JSON.stringify(restBody) });
+            const restText = await restRes.text().catch(() => '');
+            // eslint-disable-next-line no-console
+            console.log('Direct REST PATCH status', restRes.status, restText);
+            if (restRes.ok) {
+              // reload entries to pick up direct change
+              await loadEntries();
+            }
+          } catch (err) {
+            // eslint-disable-next-line no-console
+            console.log('Direct REST PATCH failed', err);
+          }
+        })();
       } catch (err) {
         setStatus(entriesStatus, `Ошибка обновления ${id}: ${err.message}`, 'err');
       }
