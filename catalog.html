@@ -76,9 +76,13 @@
     .star.filled{color:#ff4b00}
     .rating-num{font-family:'Space Mono',monospace;font-size:16px;color:#7a7570;letter-spacing:.04em}
 
-    .comment-toggle{margin-top:auto;padding:9px 10px;border:1px solid rgba(24,22,21,.12);border-radius:12px;background:#f5f2ee;color:#221f1d;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:.2s ease}
+    .comment-toggle{margin-top:auto;padding:9px 10px;border:1px solid rgba(24,22,21,.12);border-radius:12px;background:#f5f2ee;color:#221f1d;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:.18s ease}
     .comment-toggle:hover{transform:translateY(-1px);border-color:rgba(24,22,21,.2)}
-    .comment-toggle.empty{cursor:default;opacity:.7}
+        .comment-toggle.empty{cursor:default;opacity:.6}
+        /* highlight when comment exists: emoji + bottom accent */
+        .comment-toggle:not(.empty){background:#fff;border-color:rgba(24,22,21,.14);box-shadow:0 6px 18px rgba(0,0,0,0.04);position:relative}
+        .comment-toggle:not(.empty)::before{content:'💬';margin-right:6px;display:inline-block}
+        .comment-toggle:not(.empty)::after{content:'';position:absolute;left:8px;right:8px;bottom:-4px;height:4px;border-radius:6px;background:linear-gradient(90deg, rgba(255,122,0,0.18), rgba(16,110,58,0.18));pointer-events:none}
     .comment-layer{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);z-index:20}
     .comment-layer.open{display:flex}
     .comment-box{max-width:82%;padding:20px 18px;border:1px solid rgba(24,22,21,.12);border-radius:18px;background:rgba(255,255,255,.92);box-shadow:0 18px 36px rgba(24,22,21,.12);text-align:center}

@@ -776,10 +776,10 @@
             <div class="entry-grid">
               <div class="field"><label>Оценка</label><input type="number" min="0" max="10" step="0.1" data-role="rating" value="${escapeHtml(rating)}" /></div>
               <div class="field"><label>Статус</label><select data-role="status">
-                   <option value="1" ${status === 'will_watch' ? 'selected' : ''}>Буду смотреть</option>
-                   <option value="2" ${status === 'watching' ? 'selected' : ''}>Смотрю сейчас</option>
-                   <option value="3" ${status === 'dropped' ? 'selected' : ''}>Забросил</option>
-                   <option value="4" ${status === 'watched' ? 'selected' : ''}>Просмотрено</option>
+                   <option value="1" ${statusValue === 1 ? 'selected' : ''}>Буду смотреть</option>
+                   <option value="2" ${statusValue === 2 ? 'selected' : ''}>Смотрю сейчас</option>
+                   <option value="3" ${statusValue === 3 ? 'selected' : ''}>Забросил</option>
+                   <option value="4" ${statusValue === 4 ? 'selected' : ''}>Просмотрено</option>
                  </select></div>
               <div class="field"><label>Публичность</label><select data-role="public"><option value="1" ${isPublic ? 'selected' : ''}>Публично</option><option value="0" ${!isPublic ? 'selected' : ''}>Скрыто</option></select></div>
               <div class="field"><label>Комментарий</label><input type="text" data-role="comment" value="${escapeHtml(item.comment || '')}" /></div>
