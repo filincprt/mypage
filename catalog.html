@@ -287,13 +287,17 @@
     /* Helpers for view status (uses view_status column or legacy favorite) */
     function getViewStatus(item) {
       const raw = item?.view_status;
-      const asNumber = Number(raw);
-      if (Number.isFinite(asNumber) && asNumber >= 1 && asNumber <= 4) {
-        const map = { 1: 'will_watch', 2: 'watching', 3: 'dropped', 4: 'watched' };
-        return map[asNumber] || 'will_watch';
+      const numeric = Number(raw);
+      const numericMap = { 1: 'will_watch', 2: 'watching', 3: 'dropped', 4: 'watched' };
+
+      if (Number.isFinite(numeric) && numeric >= 1 && numeric <= 4) {
+        return numericMap[numeric] || 'will_watch';
       }
-      const v = String(raw || '').trim();
-      if (['will_watch', 'watching', 'dropped', 'watched'].includes(v)) return v;
+
+      const text = String(raw ?? '').trim().toLowerCase();
+      if (['will_watch', 'watching', 'dropped', 'watched'].includes(text)) return text;
+
+      // Legacy favorite flag is only a fallback when no explicit view_status is set.
       if (Number(item?.favorite) === 1) return 'watched';
       return 'will_watch';
     }
@@ -323,8 +327,8 @@
         const filledStars = Math.round(Math.max(0, Math.min(10, rating * 2)));
         const comment = item.comment ? String(item.comment).trim() : '';
         const typeLabel = item.media_type === 'tv' ? 'Сериал' : 'Фильм';
-        const statusKey = (function(){ const v=String(item?.view_status||'').trim(); if(['will_watch','watching','dropped','watched'].includes(v)) return v; if(Number(item?.favorite)===1) return 'watched'; return 'will_watch'; })();
-        const statusLabel = (function(k){ const labels={will_watch:'Буду смотреть',watching:'Смотрю сейчас',dropped:'Забросил',watched:'Просмотрено'}; return labels[k]||'Буду смотреть'; })(statusKey);
+        const statusKey = getViewStatus(item);
+        const statusLabel = getViewStatusLabel(statusKey);
         const hasComment = Boolean(comment);
         const commentButtonLabel = hasComment ? 'Комментарий' : 'Комментарий нет';
 
