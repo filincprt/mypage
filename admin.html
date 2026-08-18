@@ -166,6 +166,8 @@
     const TMDB_IMAGE = 'https://irgvbrqwqpeqlokfkofw.supabase.co/functions/v1/api/image/w500';
 
     let authHeader = null;
+    // Temporary in-memory Service Role Key for direct REST PATCH fallback. Not persisted to disk.
+    let _tempServiceRoleKey = null;
     let selectedPayload = null;
     const csvState = { total: 0, duplicates: 0, ready: [], review: [], importedAuto: 0, importedManual: 0 };
     const VIEW_STATUS_IDS = { will_watch: 1, watching: 2, dropped: 3, watched: 4 };
@@ -833,16 +835,31 @@
             const supabaseBase = DEFAULT_API_BASE.replace('/functions/v1/api', '');
             const restUrl = `${supabaseBase}/rest/v1/entries?id=eq.${encodeURIComponent(id)}`;
             const restBody = { view_status: payload.view_status ?? payload.viewStatus ?? null, favorite: payload.favorite };
-            // Use authHeader if available; this may or may not be accepted by Supabase REST depending on configuration
             const restHeaders = { 'Content-Type': 'application/json', Prefer: 'return=representation' };
+            // Prefer using proxied auth from the gate/edge function if available
             if (authHeader) restHeaders.Authorization = authHeader;
-            const restRes = await fetch(restUrl, { method: 'PATCH', headers: restHeaders, body: JSON.stringify(restBody) });
-            const restText = await restRes.text().catch(() => '');
+            // If user provided a temporary Service Role Key in this session, use it
+            if (_tempServiceRoleKey) { restHeaders.apikey = _tempServiceRoleKey; restHeaders.Authorization = `Bearer ${_tempServiceRoleKey}`; }
+
+            let restRes = await fetch(restUrl, { method: 'PATCH', headers: restHeaders, body: JSON.stringify(restBody) });
+            let restText = await restRes.text().catch(() => '');
             // eslint-disable-next-line no-console
             console.log('Direct REST PATCH status', restRes.status, restText);
-            if (restRes.ok) {
-              // reload entries to pick up direct change
-              await loadEntries();
+
+            // If unauthorized and we don't yet have a temp key, prompt the user once to provide Service Role Key
+            if (!restRes.ok && restRes.status === 401 && !_tempServiceRoleKey) {
+              const key = window.prompt('Для прямого сохранения требуется Supabase Service Role Key. Вставь ключ — он не будет сохранён в репозитории и используется только в этой вкладке. Отмена — пропустить.');
+              if (key) {
+                _tempServiceRoleKey = String(key).trim();
+                const retryHeaders = { 'Content-Type': 'application/json', Prefer: 'return=representation', apikey: _tempServiceRoleKey, Authorization: `Bearer ${_tempServiceRoleKey}` };
+                restRes = await fetch(restUrl, { method: 'PATCH', headers: retryHeaders, body: JSON.stringify(restBody) });
+                restText = await restRes.text().catch(() => '');
+                // eslint-disable-next-line no-console
+                console.log('Direct REST PATCH retry status', restRes.status, restText);
+                if (restRes.ok) await loadEntries();
+              }
+            } else {
+              if (restRes.ok) await loadEntries();
             }
           } catch (err) {
             // eslint-disable-next-line no-console
