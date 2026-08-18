@@ -48,7 +48,7 @@
     .error,.empty{margin-top:12px;border-radius:18px;padding:16px;border:1px solid rgba(255,75,0,.25);background:rgba(255,75,0,.08);color:#8a2d04;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
 
     .grid{margin-top:14px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-    .card{border:1px solid rgba(24,22,21,.1);border-radius:18px;background:#fffdfa;overflow:hidden;display:grid;grid-template-rows:300px auto;box-shadow:0 10px 28px rgba(24,22,21,.06);transition:.2s ease}
+    .card{position:relative;border:1px solid rgba(24,22,21,.1);border-radius:18px;background:#fffdfa;overflow:hidden;display:grid;grid-template-rows:300px auto;box-shadow:0 10px 28px rgba(24,22,21,.06);transition:.2s ease}
     .card:hover{transform:translateY(-2px);box-shadow:0 16px 38px rgba(24,22,21,.12)}
     .poster{width:100%;height:100%;object-fit:contain;background:#ebe5de}
     .body{padding:12px;display:grid;gap:8px}
@@ -61,6 +61,13 @@
 
     .chip-type{display:inline-block;padding:4px 8px;border-radius:6px;background:rgba(255,75,0,.12);color:#ff4b00;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;flex-shrink:0}
     .chip{padding:4px 8px;border-radius:6px;border:1px solid rgba(255,75,0,.2);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,75,0,.06);color:#8a2d04}
+
+    /* Status strip (thin label across poster) */
+    .status-strip{position:absolute;left:12px;right:12px;top:12px;height:22px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:0 10px;z-index:10}
+    .status-strip.will_watch{background:rgba(24,22,21,.06);color:#3d3a37;border:1px solid rgba(24,22,21,.08)}
+    .status-strip.watching{background:rgba(255,122,0,.1);color:#9a4600;border:1px solid rgba(255,122,0,.12)}
+    .status-strip.dropped{background:rgba(184,39,39,.06);color:#8d1e1e;border:1px solid rgba(184,39,39,.12)}
+    .status-strip.watched{background:rgba(16,110,58,.08);color:#0c6d3f;border:1px solid rgba(16,110,58,.12)}
 
     /* FIX 2+3: звёзды и число — одинаковый размер 16px */
     .rating{display:flex;align-items:center;gap:6px;margin-top:4px}
@@ -284,6 +291,7 @@
 
         return `
           <article class="card">
+            <div class="status-strip ${statusKey}">${statusLabel}</div>
             <img class="poster" src="${posterUrl(item.poster_path)}" alt="Постер: ${escapeHtml(title)}" loading="lazy" />
             <div class="body">
               <div class="title-row">
