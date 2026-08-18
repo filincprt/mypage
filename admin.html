@@ -522,6 +522,9 @@
       const details = data.details || data.data?.details;
       const credits = data.credits || data.data?.credits || { cast: [] };
       if (!details) throw new Error('Не удалось загрузить детали TMDb');
+      const rawStatus = Number(overrides.view_status ?? 1);
+      const statusValue = Number.isFinite(rawStatus) ? rawStatus : VIEW_STATUS_IDS.will_watch;
+      const favoriteValue = Number(overrides.favorite ?? (statusValue === VIEW_STATUS_IDS.watched ? 1 : 0));
       return {
         source: 'tmdb', source_id: String(details.id || ''), media_type: match.media_type,
         title: getTitle(details), original_title: getOriginalTitle(details),
@@ -529,9 +532,11 @@
         poster_path: details.poster_path || '', overview: details.overview || '',
         cast: (credits.cast || []).slice(0, 20).map((c) => ({ id: c.id, name: c.name, character: c.character })),
         genres: details.genres || [], countries: getCountries(details),
-        rating: overrides.rating, favorite: (overrides.favorite ?? (overrides.view_status === 'watched')),
-        view_status: overrides.view_status ?? (overrides.favorite ? 'watched' : null),
-        comment: overrides.comment, is_public: overrides.is_public
+        rating: overrides.rating,
+        favorite: favoriteValue,
+        view_status: statusValue,
+        comment: overrides.comment,
+        is_public: overrides.is_public
       };
     }
 
@@ -770,8 +775,9 @@
       const statusValue = normalizeViewStatusValue(item.view_status ?? item.favorite ?? 'will_watch');
       const status = getStatusKeyFromValue(statusValue);
       const isPublic = Number(item.is_public) === 1;
+      const favoriteValue = Number(item.favorite ?? 0);
       return `
-        <article class="entry" data-id="${item.id}">
+        <article class="entry" data-id="${item.id}" data-favorite="${favoriteValue}">
           <img src="${posterUrl(item.poster_path)}" alt="${escapeHtml(title)}" />
           <div>
             <h3>${escapeHtml(title)}</h3>
@@ -818,7 +824,15 @@
       const statusId = Number(status);
       const isPublic = card.querySelector('[data-role="public"]').value === '1';
       const comment = card.querySelector('[data-role="comment"]').value;
-      const payload = { id, rating: rating === '' ? null : Number(rating), favorite: statusId === VIEW_STATUS_IDS.watched, view_status: statusId || null, is_public: isPublic, comment };
+      const favoriteValue = Number(card.dataset.favorite ?? 0);
+      const payload = {
+        id,
+        rating: rating === '' ? null : Number(rating),
+        favorite: favoriteValue,
+        view_status: Number.isFinite(statusId) ? statusId : 1,
+        is_public: isPublic,
+        comment
+      };
       try {
         // log payload for debugging; server response is returned and shown below
         // eslint-disable-next-line no-console
