@@ -794,10 +794,20 @@
       const status = card.querySelector('[data-role="status"]').value;
       const isPublic = card.querySelector('[data-role="public"]').value === '1';
       const comment = card.querySelector('[data-role="comment"]').value;
+      const payload = { id, rating: rating === '' ? null : Number(rating), favorite: status === 'watched', view_status: status, is_public: isPublic, comment };
       try {
-        await api('/admin', { method: 'PATCH', body: JSON.stringify({ id, rating: rating === '' ? null : Number(rating), favorite: status === 'watched', view_status: status, is_public: isPublic, comment }) });
+        // log payload for debugging; server response is returned and shown below
+        // eslint-disable-next-line no-console
+        console.log('PATCH /admin payload:', payload);
+        const res = await api('/admin', { method: 'PATCH', body: JSON.stringify(payload) });
+        // eslint-disable-next-line no-console
+        console.log('PATCH /admin response:', res);
+        // Refresh admin entries so UI reflects stored values
+        await loadEntries();
         setStatus(entriesStatus, `Запись ${id} обновлена.`, 'ok');
-      } catch (err) { setStatus(entriesStatus, `Ошибка обновления ${id}: ${err.message}`, 'err'); }
+      } catch (err) {
+        setStatus(entriesStatus, `Ошибка обновления ${id}: ${err.message}`, 'err');
+      }
     }
 
     async function deleteEntry(card) {
