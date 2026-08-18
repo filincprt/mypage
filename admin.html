@@ -38,6 +38,10 @@
     .btn.primary{background:#181615;color:#f7f5f0}
     .btn.accent{background:#ff4b00;border-color:#ff4b00;color:#fffdfa}
     .btn:hover{transform:translateY(-2px)}
+    .btn.saving{opacity:0.75;cursor:default}
+    .btn.saving::after{content:' ⏳';margin-left:6px}
+    .btn.success{background:#0c6d3f;color:#fffdfa;border-color:#0c6d3f}
+    .btn.err{background:#9e2f0f;color:#fffdfa;border-color:#9e2f0f}
 
     .hero{padding:48px 0 18px}
     .kicker{font-family:'Space Mono',monospace;color:#7a7570;text-transform:uppercase;letter-spacing:.2em;font-size:12px;margin:0 0 14px}
@@ -833,6 +837,11 @@
         comment
       };
       try {
+        // per-card save button feedback
+        const saveBtn = card.querySelector('button[data-action="save"]');
+        const originalText = saveBtn ? saveBtn.textContent : null;
+        if (saveBtn) { saveBtn.disabled = true; saveBtn.classList.add('saving'); saveBtn.textContent = 'Сохраняю...'; }
+
         // log payload for debugging; server response is returned and shown below
         // eslint-disable-next-line no-console
         console.log('PATCH /admin payload:', payload);
@@ -843,10 +852,20 @@
         await loadEntries();
         setStatus(entriesStatus, `Запись ${id} обновлена.`, 'ok');
 
+        if (saveBtn) {
+          saveBtn.classList.remove('saving');
+          saveBtn.classList.add('success');
+          saveBtn.textContent = 'Сохранено';
+          setTimeout(() => { saveBtn.classList.remove('success'); if (originalText) saveBtn.textContent = originalText; saveBtn.disabled = false; }, 1200);
+        }
+
         // NOTE: removed client-side direct REST fallback for security.
         // Persistence must be handled by the /admin edge function using the Service Role Key.
         // If the admin endpoint did not persist the change, fix the edge function (see server code in supabase-admin-function.js).
       } catch (err) {
+        // show error on the card save button as well as global status
+        const saveBtnErr = card.querySelector('button[data-action="save"]');
+        if (saveBtnErr) { saveBtnErr.classList.remove('saving'); saveBtnErr.classList.add('err'); saveBtnErr.textContent = 'Ошибка'; setTimeout(() => { if (originalText) { saveBtnErr.textContent = originalText; } saveBtnErr.classList.remove('err'); saveBtnErr.disabled = false; }, 1800); }
         setStatus(entriesStatus, `Ошибка обновления ${id}: ${err.message}`, 'err');
       }
     }
