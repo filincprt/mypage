@@ -85,8 +85,10 @@
         .comment-toggle:not(.empty)::after{content:'';position:absolute;left:8px;right:8px;bottom:-4px;height:4px;border-radius:6px;background:linear-gradient(90deg, rgba(255,122,0,0.18), rgba(16,110,58,0.18));pointer-events:none}
     .comment-layer{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);z-index:20}
     .comment-layer.open{display:flex}
-    .comment-box{max-width:82%;padding:20px 18px;border:1px solid rgba(24,22,21,.12);border-radius:18px;background:rgba(255,255,255,.92);box-shadow:0 18px 36px rgba(24,22,21,.12);text-align:center}
-    .comment-overlay-text{margin:0;color:#1b1918;font-size:18px;line-height:1.5}
+    .comment-box{position:relative;max-width:82%;padding:20px 18px;border:1px solid rgba(24,22,21,.12);border-radius:18px;background:rgba(255,255,255,.92);box-shadow:0 18px 36px rgba(24,22,21,.12);text-align:center}
+    .comment-close{position:absolute;top:10px;right:10px;width:28px;height:28px;border:1px solid rgba(24,22,21,.12);border-radius:999px;background:#fff;color:#181615;cursor:pointer;font-size:16px;line-height:1}
+    .comment-close:hover{border-color:rgba(24,22,21,.2)}
+    .comment-overlay-text{margin:0;color:#1b1918;font-size:18px;line-height:1.5;padding-top:12px}
     .comment-overlay-text.empty{color:#6f6a66}
 
     .table-wrap{margin-top:14px;border:1px solid rgba(24,22,21,.1);border-radius:18px;background:#fffdfa;overflow:auto}
@@ -338,6 +340,7 @@
             <img class="poster" src="${posterUrl(item.poster_path)}" alt="Постер: ${escapeHtml(title)}" loading="lazy" />
             <div class="comment-layer" aria-hidden="true">
               <div class="comment-box">
+                <button class="comment-close" type="button" aria-label="Закрыть комментарий">×</button>
                 <p class="comment-overlay-text${hasComment ? '' : ' empty'}">${hasComment ? escapeHtml(comment) : 'Комментарий отсутствует'}</p>
               </div>
             </div>
@@ -466,6 +469,23 @@
     });
 
     results.addEventListener('click', (event) => {
+      const closeBtn = event.target.closest('.comment-close');
+      if (closeBtn) {
+        const layer = closeBtn.closest('.comment-layer');
+        if (layer) {
+          layer.classList.remove('open');
+          layer.setAttribute('aria-hidden', 'true');
+        }
+        return;
+      }
+
+      const layerClick = event.target.closest('.comment-layer');
+      if (layerClick && event.target === layerClick) {
+        layerClick.classList.remove('open');
+        layerClick.setAttribute('aria-hidden', 'true');
+        return;
+      }
+
       const btn = event.target.closest('[data-comment-toggle]');
       if (!btn) return;
       if (btn.dataset.hasComment !== '1') return;
