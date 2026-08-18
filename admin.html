@@ -235,6 +235,7 @@
         countries: getCountries(bundle.details),
         rating: ratingInput.value ? Number(ratingInput.value) : null,
         favorite: statusInput.value === 'watched',
+        view_status: statusInput.value || null,
         comment: commentInput.value.trim(),
         is_public: publicInput.value === '1'
       };
@@ -361,7 +362,7 @@
         rating: parseRatingValue(rowField(row, ['Rating_10', 'Rating10']), rowField(row, ['Rating', 'Rating_5'])),
         watchDate: String(rowField(row, ['Date', 'WatchDate'])).trim(),
         comment: '',
-        favorite: defaults.favorite,
+        view_status: defaults.view_status,
         is_public: defaults.is_public
       };
     }
@@ -474,7 +475,12 @@
             <div class="field"><label>Тип</label><select data-role="type"><option value="movie" ${item.media_type === 'movie' ? 'selected' : ''}>Фильм</option><option value="tv" ${item.media_type === 'tv' ? 'selected' : ''}>Сериал</option></select></div>
             <div class="field"><label>Год</label><input data-role="year" type="number" min="1900" max="2100" value="${item.year || ''}" /></div>
             <div class="field"><label>Оценка</label><input data-role="rating" type="number" min="0" max="10" step="0.1" value="${item.rating ?? ''}" /></div>
-            <div class="field"><label>Статус</label><select data-role="favorite"><option value="watched" ${item.favorite ? 'selected' : ''}>Просмотрено</option><option value="pending" ${!item.favorite ? 'selected' : ''}>В ожидании</option></select></div>
+            <div class="field"><label>Статус</label><select data-role="status">
+                  <option value="will_watch" ${!item.view_status && !item.favorite ? 'selected' : item.view_status === 'will_watch' ? 'selected' : ''}>Буду смотреть</option>
+                  <option value="watching" ${item.view_status === 'watching' ? 'selected' : ''}>Смотрю сейчас</option>
+                  <option value="dropped" ${item.view_status === 'dropped' ? 'selected' : ''}>Забросил</option>
+                  <option value="watched" ${item.view_status === 'watched' || item.favorite ? 'selected' : ''}>Просмотрено</option>
+                </select></div>
             <div class="field"><label>Публичность</label><select data-role="public"><option value="1" ${item.is_public ? 'selected' : ''}>Публично</option><option value="0" ${!item.is_public ? 'selected' : ''}>Скрыто</option></select></div>
             <div class="field"><label>Комментарий</label><input data-role="comment" value="${escapeHtml(item.comment)}" /></div>
           </div>
@@ -501,7 +507,8 @@
         poster_path: details.poster_path || '', overview: details.overview || '',
         cast: (credits.cast || []).slice(0, 20).map((c) => ({ id: c.id, name: c.name, character: c.character })),
         genres: details.genres || [], countries: getCountries(details),
-        rating: overrides.rating, favorite: overrides.favorite,
+        rating: overrides.rating, favorite: (overrides.favorite ?? (overrides.view_status === 'watched')),
+        view_status: overrides.view_status ?? (overrides.favorite ? 'watched' : null),
         comment: overrides.comment, is_public: overrides.is_public
       };
     }
@@ -514,7 +521,7 @@
       try {
         const text = await readCsvText(file);
         const rows = parseCsvTable(text);
-        const defaults = { is_public: csvPublicInput.value === '1', favorite: csvStatusInput.value === 'watched' };
+        const defaults = { is_public: csvPublicInput.value === '1', view_status: csvStatusInput.value || 'will_watch' };
         const parsed = rows.map((row, idx) => rowToImportItem(row, idx, defaults)).filter(Boolean);
         csvState.total = parsed.length;
         if (!parsed.length) { setStatus(csvStatus, 'В файле не найдено подходящих строк.', 'err'); updateCsvSummary(); return; }
@@ -600,7 +607,8 @@
       const type = card.querySelector('[data-role="type"]').value;
       const year = parseYearValue(card.querySelector('[data-role="year"]').value);
       const ratingRaw = card.querySelector('[data-role="rating"]').value;
-      const favorite = card.querySelector('[data-role="favorite"]').value === 'watched';
+      const statusVal = card.querySelector('[data-role="status"]').value;
+      const view_status = statusVal || null;
       const isPublic = card.querySelector('[data-role="public"]').value === '1';
       const comment = card.querySelector('[data-role="comment"]').value.trim();
       const line = card.querySelector('[data-role="statusLine"]');
@@ -610,7 +618,7 @@
       try {
         setStatus(line, 'Добавляю запись...');
         const payload = await buildPayloadFromMatch({ id, media_type: mediaType || type }, {
-          year, rating: Number.isFinite(rating) ? rating : null, favorite, is_public: isPublic,
+          year, rating: Number.isFinite(rating) ? rating : null, view_status, is_public: isPublic,
           comment: comment || buildImportComment({ watchDate: item.watchDate })
         });
         await api('/admin', { method: 'POST', body: JSON.stringify(payload) });
@@ -737,7 +745,7 @@
       const title = item.title || item.original_title || 'Без названия';
       const meta = `${typeLabel(item.media_type)} • ${item.year || '—'} • id ${item.id}`;
       const rating = item.rating === null || item.rating === undefined ? '' : item.rating;
-      const status = Number(item.favorite) === 1 ? 'watched' : 'pending';
+      const status = item.view_status || (Number(item.favorite) === 1 ? 'watched' : 'will_watch');
       const isPublic = Number(item.is_public) === 1;
       return `
         <article class="entry" data-id="${item.id}">
@@ -747,7 +755,12 @@
             <p class="entry-sub">${escapeHtml(meta)}</p>
             <div class="entry-grid">
               <div class="field"><label>Оценка</label><input type="number" min="0" max="10" step="0.1" data-role="rating" value="${escapeHtml(rating)}" /></div>
-              <div class="field"><label>Статус</label><select data-role="status"><option value="watched" ${status === 'watched' ? 'selected' : ''}>Просмотрено</option><option value="pending" ${status === 'pending' ? 'selected' : ''}>В ожидании</option></select></div>
+              <div class="field"><label>Статус</label><select data-role="status">
+                   <option value="will_watch" ${status === 'will_watch' ? 'selected' : ''}>Буду смотреть</option>
+                   <option value="watching" ${status === 'watching' ? 'selected' : ''}>Смотрю сейчас</option>
+                   <option value="dropped" ${status === 'dropped' ? 'selected' : ''}>Забросил</option>
+                   <option value="watched" ${status === 'watched' ? 'selected' : ''}>Просмотрено</option>
+                 </select></div>
               <div class="field"><label>Публичность</label><select data-role="public"><option value="1" ${isPublic ? 'selected' : ''}>Публично</option><option value="0" ${!isPublic ? 'selected' : ''}>Скрыто</option></select></div>
               <div class="field"><label>Комментарий</label><input type="text" data-role="comment" value="${escapeHtml(item.comment || '')}" /></div>
               <div class="entry-actions">
@@ -782,7 +795,7 @@
       const isPublic = card.querySelector('[data-role="public"]').value === '1';
       const comment = card.querySelector('[data-role="comment"]').value;
       try {
-        await api('/admin', { method: 'PATCH', body: JSON.stringify({ id, rating: rating === '' ? null : Number(rating), favorite: status === 'watched', is_public: isPublic, comment }) });
+        await api('/admin', { method: 'PATCH', body: JSON.stringify({ id, rating: rating === '' ? null : Number(rating), favorite: status === 'watched', view_status: status, is_public: isPublic, comment }) });
         setStatus(entriesStatus, `Запись ${id} обновлена.`, 'ok');
       } catch (err) { setStatus(entriesStatus, `Ошибка обновления ${id}: ${err.message}`, 'err'); }
     }
@@ -838,7 +851,12 @@
               <div id="selectedWrap" class="empty">Сначала выберите media из результатов поиска.</div>
               <div id="addFields" class="add-grid" hidden>
                 <div class="field"><label for="ratingInput">Оценка (0-10)</label><input id="ratingInput" type="number" min="0" max="10" step="0.1" placeholder="8.5" /></div>
-                <div class="field"><label for="statusInput">Статус</label><select id="statusInput"><option value="watched">Просмотрено</option><option value="pending">В ожидании</option></select></div>
+                <div class="field"><label for="statusInput">Статус</label><select id="statusInput">
+               <option value="will_watch">Буду смотреть</option>
+               <option value="watching">Смотрю сейчас</option>
+               <option value="dropped">Забросил</option>
+               <option value="watched">Просмотрено</option>
+             </select></div>
                 <div class="field"><label for="publicInput">Публичность</label><select id="publicInput"><option value="1">Показывать</option><option value="0">Скрыть</option></select></div>
                 <div class="field"><label for="commentInput">Комментарий</label><input id="commentInput" type="text" placeholder="Короткий комментарий" /></div>
                 <button id="addBtn" class="btn accent" type="button">Добавить в картотеку</button>
@@ -851,7 +869,12 @@
               <div class="csv-controls">
                 <div class="field"><label for="csvFileInput">CSV файл</label><input id="csvFileInput" type="file" accept=".csv,text/csv" /></div>
                 <div class="field"><label for="csvPublicInput">Публичность</label><select id="csvPublicInput"><option value="1">Показывать в витрине</option><option value="0">Скрыть из витрины</option></select></div>
-                <div class="field"><label for="csvStatusInput">Статус</label><select id="csvStatusInput"><option value="watched">Просмотрено</option><option value="pending">В ожидании</option></select></div>
+                <div class="field"><label for="csvStatusInput">Статус</label><select id="csvStatusInput">
+               <option value="will_watch">Буду смотреть</option>
+               <option value="watching">Смотрю сейчас</option>
+               <option value="dropped">Забросил</option>
+               <option value="watched">Просмотрено</option>
+             </select></div>
                 <button id="csvAnalyzeBtn" class="btn accent" type="button">Проверить CSV</button>
                 <button id="csvImportMatchedBtn" class="btn" type="button" disabled>Импортировать найденные</button>
                 <button id="csvImportReviewReadyBtn" class="btn" type="button" disabled>Импортировать подтвержденные</button>
