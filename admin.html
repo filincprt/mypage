@@ -824,11 +824,10 @@
       const statusId = Number(status);
       const isPublic = card.querySelector('[data-role="public"]').value === '1';
       const comment = card.querySelector('[data-role="comment"]').value;
-      const favoriteValue = Number(card.dataset.favorite ?? 0);
       const payload = {
         id,
         rating: rating === '' ? null : Number(rating),
-        favorite: favoriteValue,
+        // do not include `favorite` here to avoid accidental overwrites when editing status/comment
         view_status: Number.isFinite(statusId) ? statusId : 1,
         is_public: isPublic,
         comment
