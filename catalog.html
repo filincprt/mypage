@@ -325,8 +325,8 @@
         const title = item.title || item.original_title || 'Без названия';
         const year = item.year || '—';
         const rating = item.rating === null || item.rating === undefined || item.rating === '' ? 0 : Number(item.rating);
-        /* rating хранится в шкале 0–5 → умножаем на 2 для получения 0–10 заполненных звёзд */
-        const filledStars = Math.round(Math.max(0, Math.min(10, rating * 2)));
+        /* rating хранится в диапазоне 0–10, напрямую соответствует количеству звёзд */
+        const filledStars = Math.round(Math.max(0, Math.min(10, rating)));
         const comment = item.comment ? String(item.comment).trim() : '';
         const typeLabel = item.media_type === 'tv' ? 'Сериал' : 'Фильм';
         const statusKey = getViewStatus(item);
