@@ -91,6 +91,27 @@
     .comment-overlay-text{margin:0;color:#1b1918;font-size:18px;line-height:1.5;padding-top:12px}
     .comment-overlay-text.empty{color:#6f6a66}
 
+    /* Make cards clearly clickable */
+    .card{cursor:pointer}
+
+    /* small info badge to hint that card is clickable */
+    .info-badge{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;background:rgba(24,22,21,0.06);border:1px solid rgba(24,22,21,.06);font-family:'Space Mono',monospace;font-size:12px;color:#181615;z-index:25}
+    .info-badge:hover{transform:translateY(-2px);background:rgba(24,22,21,0.09)}
+
+    /* Overview modal — similar to comment but scrollable for long descriptions */
+    .overview-layer{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);z-index:30}
+    .overview-layer.open{display:flex}
+    .overview-box{position:relative;max-width:80%;max-height:60vh;width:100%;padding:20px 18px;border:1px solid rgba(24,22,21,.12);border-radius:18px;background:rgba(255,255,255,.96);box-shadow:0 18px 36px rgba(24,22,21,.12);overflow:hidden}
+    .overview-close{position:absolute;top:10px;right:10px;width:32px;height:32px;border:1px solid rgba(24,22,21,.12);border-radius:999px;background:#fff;color:#181615;cursor:pointer;font-size:16px;line-height:1}
+    .overview-content{margin-top:6px;color:#1b1918;font-size:16px;line-height:1.6;overflow:auto;padding-right:12px;max-height:calc(60vh - 64px)}
+    .overview-content p{margin:0 0 12px}
+
+    /* mobile adjustments */
+    @media (max-width:720px){
+      .overview-box{max-width:94%;max-height:80vh}
+      .overview-content{max-height:calc(80vh - 64px)}
+    }
+
     .table-wrap{margin-top:14px;border:1px solid rgba(24,22,21,.1);border-radius:18px;background:#fffdfa;overflow:auto}
     table{width:100%;border-collapse:collapse;min-width:860px}
     th,td{padding:12px 10px;border-bottom:1px solid rgba(24,22,21,.08);vertical-align:top;text-align:left}
@@ -337,11 +358,18 @@
         return `
           <article class="card">
             <div class="status-strip ${statusKey}">${statusLabel}</div>
+            <button class="info-badge" type="button" aria-label="Подробнее">i</button>
             <img class="poster" src="${posterUrl(item.poster_path)}" alt="Постер: ${escapeHtml(title)}" loading="lazy" />
             <div class="comment-layer" aria-hidden="true">
               <div class="comment-box">
                 <button class="comment-close" type="button" aria-label="Закрыть комментарий">×</button>
                 <p class="comment-overlay-text${hasComment ? '' : ' empty'}">${hasComment ? escapeHtml(comment) : 'Комментарий отсутствует'}</p>
+              </div>
+            </div>
+            <div class="overview-layer" aria-hidden="true">
+              <div class="overview-box">
+                <button class="overview-close" type="button" aria-label="Закрыть описание">×</button>
+                <div class="overview-content">${escapeHtml(item.overview || 'Описание отсутствует')}</div>
               </div>
             </div>
             <div class="body">
@@ -469,6 +497,7 @@
     });
 
     results.addEventListener('click', (event) => {
+      // Close comment (×)
       const closeBtn = event.target.closest('.comment-close');
       if (closeBtn) {
         const layer = closeBtn.closest('.comment-layer');
@@ -479,22 +508,78 @@
         return;
       }
 
-      const layerClick = event.target.closest('.comment-layer');
-      if (layerClick && event.target === layerClick) {
-        layerClick.classList.remove('open');
-        layerClick.setAttribute('aria-hidden', 'true');
+      // Click outside comment box -> close
+      const commentLayerClick = event.target.closest('.comment-layer');
+      if (commentLayerClick && event.target === commentLayerClick) {
+        commentLayerClick.classList.remove('open');
+        commentLayerClick.setAttribute('aria-hidden', 'true');
         return;
       }
 
-      const btn = event.target.closest('[data-comment-toggle]');
-      if (!btn) return;
-      if (btn.dataset.hasComment !== '1') return;
-      const card = btn.closest('.card');
+      // Close overview (×)
+      const overviewCloseBtn = event.target.closest('.overview-close');
+      if (overviewCloseBtn) {
+        const layer = overviewCloseBtn.closest('.overview-layer');
+        if (layer) {
+          layer.classList.remove('open');
+          layer.setAttribute('aria-hidden', 'true');
+        }
+        return;
+      }
+
+      // Click outside overview box -> close overview
+      const overviewLayerClick = event.target.closest('.overview-layer');
+      if (overviewLayerClick && event.target === overviewLayerClick) {
+        overviewLayerClick.classList.remove('open');
+        overviewLayerClick.setAttribute('aria-hidden', 'true');
+        return;
+      }
+
+      // Toggle comment via button
+      const commentBtn = event.target.closest('[data-comment-toggle]');
+      if (commentBtn) {
+        if (commentBtn.dataset.hasComment !== '1') return;
+        const card = commentBtn.closest('.card');
+        if (!card) return;
+        const layer = card.querySelector('.comment-layer');
+        if (!layer) return;
+        const isOpen = layer.classList.toggle('open');
+        layer.setAttribute('aria-hidden', String(!isOpen));
+        return;
+      }
+
+      // Info badge explicitly opens overview
+      const overviewBadge = event.target.closest('.info-badge');
+      if (overviewBadge) {
+        const card = overviewBadge.closest('.card');
+        if (!card) return;
+        const layer = card.querySelector('.overview-layer');
+        if (!layer) return;
+        layer.classList.add('open');
+        layer.setAttribute('aria-hidden', 'false');
+        return;
+      }
+
+      // Click on card -> open/close overview, but ignore clicks on controls
+      const card = event.target.closest('.card');
       if (!card) return;
-      const layer = card.querySelector('.comment-layer');
+      // if clicking on interactive controls (buttons/links/inputs) — don't open overview
+      if (event.target.closest('button, a, input, select, textarea, [data-comment-toggle]') && !event.target.closest('.info-badge')) return;
+
+      const layer = card.querySelector('.overview-layer');
       if (!layer) return;
       const isOpen = layer.classList.toggle('open');
       layer.setAttribute('aria-hidden', String(!isOpen));
+    });
+
+    // Close layers on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.overview-layer.open, .comment-layer.open').forEach((l) => {
+          l.classList.remove('open');
+          l.setAttribute('aria-hidden', 'true');
+        });
+      }
     });
 
     reloadBtn.addEventListener('click', async () => {
