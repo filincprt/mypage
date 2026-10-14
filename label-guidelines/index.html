@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="filin_cprt — требования к подготовке и отправке музыкального релиза.">
+  <meta name="description" content="Полный регламент filin_cprt: подача релиза, технические стандарты, права, рабочий процесс, роялти и финансовые условия.">
   <meta name="theme-color" content="#f7f5f0">
   <link rel="canonical" href="https://filincprt.ru/label-guidelines/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -11,56 +11,75 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <title>Требования к релизу — filin_cprt</title>
+  <title>Регламент лейбла — filin_cprt</title>
   <style>
-    :root{--paper:#f7f5f0;--ink:#181615;--muted:#6b655f;--orange:#ff4b00;--line:rgba(24,22,21,.12);--card:#fffdfa}
+    :root{--paper:#f7f5f0;--ink:#181615;--muted:#6b655f;--orange:#ff4b00;--line:rgba(24,22,21,.13);--card:#fffdfa}
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth;scroll-padding-top:90px}
+    html{scroll-behavior:smooth;scroll-padding-top:94px}
     body{margin:0;background:var(--paper);color:var(--ink);font-family:'Cormorant Garamond',serif}
     a{color:inherit}
-    .wrap{width:min(1080px,calc(100% - 48px));margin-inline:auto}
-    .topbar{position:sticky;top:0;z-index:10;background:rgba(247,245,240,.91);backdrop-filter:blur(14px);border-bottom:1px solid rgba(24,22,21,.08)}
-    .topbar-inner{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-    .brand,.nav,.eyebrow,.section-kicker,.toc,.footer-meta{font-family:'Space Mono',monospace}
+    .wrap{width:min(1120px,calc(100% - 48px));margin-inline:auto}
+    .topbar{position:sticky;top:0;z-index:20;background:rgba(247,245,240,.93);backdrop-filter:blur(14px);border-bottom:1px solid rgba(24,22,21,.08)}
+    .topbar-inner{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:22px}
+    .brand,.nav,.eyebrow,.section-label,.section-kicker,.toc,.table th,.meta{font-family:'Space Mono',monospace}
     .brand{text-decoration:none;font-size:13px;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
-    .nav{display:flex;align-items:center;gap:20px;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
-    .nav a{text-decoration:none;color:var(--muted);transition:color .2s}
+    .nav{display:flex;align-items:center;gap:18px;font-size:10px;letter-spacing:.09em;text-transform:uppercase}
+    .nav a{text-decoration:none;color:var(--muted);white-space:nowrap;transition:color .2s}
     .nav a:hover{color:var(--orange)}
-    .hero{padding:62px 0 48px;max-width:900px}
-    .eyebrow{margin:0 0 18px;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.2em}
+    .hero{padding:56px 0 42px;max-width:960px}
+    .eyebrow{margin:0 0 17px;color:var(--muted);font-size:11px;letter-spacing:.2em;text-transform:uppercase}
     .eyebrow span{color:var(--orange)}
-    h1{font-size:clamp(56px,8vw,100px);line-height:.93;letter-spacing:-.04em;font-weight:300;margin:0}
-    h1 em{color:var(--orange);font-weight:600;font-style:italic}
-    .subtitle{font-size:clamp(24px,3vw,31px);line-height:1.15;font-weight:600;margin:26px 0 10px}
-    .intro{font-size:22px;line-height:1.6;color:#5f5a55;max-width:780px;margin:0}
-    .contact-line{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin:24px 0 0}
-    .contact-line a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--orange);padding-bottom:4px}
+    h1{font-size:clamp(54px,8vw,94px);font-weight:300;letter-spacing:-.045em;line-height:.94;margin:0}
+    h1 em{font-style:italic;color:var(--orange);font-weight:600}
+    .hero-subtitle{font-size:clamp(26px,3.5vw,36px);font-weight:600;line-height:1.1;margin:26px 0 12px}
+    .hero-copy{max-width:850px;font-size:22px;line-height:1.6;color:#5f5a55;margin:0}
+    .contact-line{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin:23px 0 0}
+    .contact-line a{display:inline-block;text-decoration:none;border-bottom:1px solid var(--orange);padding-bottom:5px}
     .contact-line a:hover{color:var(--orange)}
-    .layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:44px;padding:28px 0 58px;border-top:1px solid var(--line);align-items:start}
-    .toc{position:sticky;top:92px;padding-top:10px}
-    .toc-title{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);margin:0 0 13px}
-    .toc a{display:flex;gap:12px;align-items:baseline;padding:12px 0;text-decoration:none;border-bottom:1px solid var(--line);font-size:11px;letter-spacing:.025em;color:#716b65;line-height:1.5}
-    .toc a span{color:var(--orange);font-size:11px}
-    .toc a:hover{color:var(--ink)}
-    .document{min-width:0}
-    .section{padding:26px 0 30px;border-bottom:1px solid var(--line)}
-    .section:first-child{padding-top:6px}
-    .section-head{display:flex;align-items:flex-start;gap:15px;margin-bottom:19px}
-    .num{display:grid;place-items:center;flex:0 0 39px;height:39px;border:1px solid rgba(255,75,0,.35);border-radius:50%;font-family:'Space Mono',monospace;font-size:12px;color:var(--orange)}
-    h2{font-size:clamp(32px,4vw,43px);line-height:1.07;font-weight:600;margin:0}
-    .section-kicker{margin:8px 0 0;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-    .items{display:grid;gap:0}
-    .item{display:grid;grid-template-columns:10px minmax(0,1fr);gap:15px;padding:15px 0;border-top:1px solid rgba(24,22,21,.07)}
-    .item:before{content:"";width:5px;height:5px;margin-top:11px;border-radius:50%;background:var(--orange)}
-    .item h3{font-size:23px;line-height:1.12;margin:0 0 6px;font-weight:600}
-    .item p{font-size:20px;line-height:1.62;color:#625c56;margin:0}
-    .item strong{color:var(--ink);font-weight:600}
-    .note{font-size:18px;line-height:1.6;color:#625c56;padding:20px 0 0;margin:24px 0 0;border-top:1px solid var(--line)}
-    footer{border-top:1px solid var(--line);padding:24px 0 34px}
+    .contents{display:flex;flex-wrap:wrap;gap:8px 10px;padding:17px 0 30px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .contents a{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.025em;text-decoration:none;color:#625c56;border:1px solid var(--line);border-radius:999px;padding:9px 12px;background:rgba(255,253,250,.55)}
+    .contents a span{color:var(--orange);margin-right:5px}
+    .contents a:hover{border-color:rgba(255,75,0,.45);color:var(--ink)}
+    .section{padding:42px 0 46px;border-bottom:1px solid var(--line)}
+    .section-head{display:grid;grid-template-columns:58px minmax(0,1fr);gap:18px;align-items:start;margin-bottom:25px}
+    .section-number{display:flex;align-items:center;justify-content:center;width:50px;height:50px;border:1px solid rgba(255,75,0,.4);border-radius:50%;font-family:'Space Mono',monospace;font-size:13px;color:var(--orange)}
+    .section-label{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);margin:0 0 8px}
+    h2{font-size:clamp(32px,4.2vw,46px);font-weight:600;line-height:1.04;letter-spacing:-.02em;margin:0}
+    h3{font-size:25px;font-weight:600;line-height:1.15;margin:28px 0 11px}
+    h4{font-size:21px;font-weight:600;line-height:1.2;margin:0 0 5px}
+    p{font-size:20px;line-height:1.62;color:#59534d;margin:0 0 15px}
+    .section-intro{font-size:21px;line-height:1.6;margin:0 0 22px;color:#514b45}
+    ul{margin:0 0 20px;padding-left:25px}
+    li{font-size:20px;line-height:1.62;color:#59534d;padding-left:3px;margin:0 0 10px}
+    li::marker{color:var(--orange)}
+    .callout{margin:24px 0;padding:22px 24px;background:rgba(255,75,0,.055);border:1px solid rgba(255,75,0,.23);border-radius:18px}
+    .callout .callout-title{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin:0 0 10px}
+    .callout p{font-size:20px;line-height:1.62;color:#514b45;margin:0}
+    .callout p+p{margin-top:10px}
+    .callout strong{color:var(--ink)}
+    .subsection{margin-top:27px}
+    .subsection h3{margin-top:0}
+    .table-wrap{width:100%;overflow-x:auto;margin:16px 0 18px;border:1px solid var(--line);border-radius:15px;background:var(--card)}
+    table{width:100%;border-collapse:collapse;min-width:560px}
+    .table th,.table td{text-align:left;vertical-align:top;padding:15px 17px;border-bottom:1px solid rgba(24,22,21,.08)}
+    .table th{background:rgba(24,22,21,.035);font-size:10px;line-height:1.5;letter-spacing:.1em;text-transform:uppercase;color:#716b65}
+    .table td{font-size:19px;line-height:1.52;color:#59534d}
+    .table tr:last-child td{border-bottom:0}
+    .table td:first-child{color:var(--ink);font-weight:600;width:28%}
+    .small-note{font-size:18px;line-height:1.58;color:#6b655f;margin-top:12px}
+    .small-note strong{color:var(--ink)}
+    .steps td:first-child{width:23%}
+    .steps td:nth-child(2){width:25%;color:var(--ink);font-weight:600}
+    .checklist{list-style:none;padding:0;margin:15px 0 20px}
+    .checklist li{position:relative;padding-left:31px;margin-bottom:11px}
+    .checklist li:before{content:"";position:absolute;left:1px;top:7px;width:15px;height:15px;border:1px solid rgba(255,75,0,.55);border-radius:3px}
+    .legal-note{font-size:18px;line-height:1.58;color:#706961;font-style:italic}
+    .final-note{border-top:1px solid var(--line);padding:25px 0 35px;margin-top:0}
+    footer{border-top:1px solid var(--line);padding:24px 0 35px}
     .footer-inner{display:flex;align-items:center;justify-content:space-between;gap:20px}
     .footer-meta{font-size:10px;letter-spacing:.1em;color:#827b73;text-transform:uppercase;text-align:right}
-    @media(max-width:800px){.hero{padding-top:46px}.layout{grid-template-columns:1fr;gap:22px}.toc{position:static;padding:0;display:flex;flex-wrap:wrap;gap:7px 12px}.toc-title{width:100%;margin-bottom:0}.toc a{border:1px solid var(--line);border-radius:999px;padding:8px 11px;background:rgba(255,253,250,.55)}.toc a span{display:none}.section:first-child{padding-top:14px}}
-    @media(max-width:560px){.wrap{width:calc(100% - 30px)}.topbar-inner{min-height:auto;align-items:flex-start;flex-direction:column;gap:7px;padding:12px 0}.nav{width:100%;gap:16px;overflow-x:auto;white-space:nowrap;padding:3px 0 5px;font-size:10px}.hero{padding:36px 0 32px}h1{font-size:clamp(49px,13vw,72px)}.subtitle{font-size:24px;margin-top:22px}.intro{font-size:20px}.contact-line{font-size:11px}.layout{padding-top:19px}.section{padding:23px 0 26px}.section-head{gap:12px;margin-bottom:15px}.num{flex-basis:33px;height:33px}h2{font-size:31px}.item{gap:11px;padding:13px 0}.item h3{font-size:21px}.item p{font-size:19px}.note{font-size:18px}.footer-inner{align-items:flex-start;flex-direction:column}.footer-meta{text-align:left}}
+    @media(max-width:800px){.hero{padding-top:43px}.section{padding:34px 0 37px}.section-head{grid-template-columns:44px minmax(0,1fr);gap:13px}.section-number{width:40px;height:40px;font-size:11px}.contents{padding-bottom:24px}.nav{gap:13px}.table th,.table td{padding:13px 14px}}
+    @media(max-width:560px){.wrap{width:calc(100% - 30px)}.topbar-inner{min-height:auto;align-items:flex-start;flex-direction:column;gap:7px;padding:12px 0 9px}.nav{width:100%;overflow-x:auto;padding:3px 0 5px;gap:17px;font-size:10px}.hero{padding:34px 0 30px}h1{font-size:clamp(47px,13vw,67px)}.hero-subtitle{font-size:27px;margin-top:23px}.hero-copy{font-size:20px}.section-head{grid-template-columns:34px minmax(0,1fr);gap:12px;margin-bottom:20px}.section-number{width:31px;height:31px;font-size:10px}.section-label{font-size:9px}h2{font-size:31px}h3{font-size:23px}h4{font-size:20px}p,.section-intro,li{font-size:19px}.callout{padding:18px 17px}.callout p{font-size:19px}.table td{font-size:18px}.small-note,.legal-note{font-size:17px}.footer-inner{align-items:flex-start;flex-direction:column}.footer-meta{text-align:left}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
   </style>
 </head>
@@ -68,12 +87,13 @@
   <header class="topbar">
     <div class="wrap topbar-inner">
       <a class="brand" href="/">filin_cprt</a>
-      <nav class="nav" aria-label="Основная навигация">
+      <nav class="nav" aria-label="Навигация по сайту">
         <a href="/">Главная</a>
-        <a href="#release-info">Требования</a>
-        <a href="#audio">Аудио</a>
-        <a href="#artwork">Обложка</a>
-        <a href="#rights">Права</a>
+        <a href="#submission">Подача</a>
+        <a href="#standards">Технические стандарты</a>
+        <a href="#workflow">Процесс</a>
+        <a href="#royalties">Роялти</a>
+        <a href="https://t.me/filin_cprt" target="_blank" rel="noopener noreferrer">Telegram ↗</a>
       </nav>
     </div>
   </header>
@@ -81,86 +101,282 @@
   <main class="wrap">
     <section class="hero">
       <p class="eyebrow"><span>filin_cprt</span> / RELEASE GUIDELINES</p>
-      <h1>filin_cprt</h1>
-      <h2 class="subtitle">Требования к релизу</h2>
-      <p class="intro">Чек-лист для подготовки и отправки музыкального релиза</p>
-      <p class="intro" style="margin-top:18px">Перед отправкой релиза проверьте, что все данные заполнены, аудиофайлы и обложка соответствуют техническим требованиям, а права на материалы подтверждены.</p>
+      <h1>Регламент<br><em>лейбла.</em></h1>
+      <h2 class="hero-subtitle">Требования к релизу</h2>
+      <p class="hero-copy">Полные правила подготовки и выпуска музыки на filin_cprt. Изучи требования к материалам, правам, срокам и финансовым условиям до согласования релиза.</p>
       <p class="contact-line"><a href="https://t.me/filin_cprt" target="_blank" rel="noopener noreferrer">Подать заявку через Telegram @filin_cprt ↗</a></p>
     </section>
 
-    <div class="layout">
-      <nav class="toc" aria-label="Содержание регламента">
-        <p class="toc-title">Содержание</p>
-        <a href="#release-info"><span>01</span> Информация о релизе</a>
-        <a href="#audio"><span>02</span> Требования к аудио</a>
-        <a href="#artwork"><span>03</span> Требования к обложке</a>
-        <a href="#rights"><span>04</span> Авторские права и ответственность</a>
-      </nav>
+    <nav class="contents" aria-label="Содержание регламента">
+      <a href="#submission"><span>01 /</span> Подача релиза</a>
+      <a href="#standards"><span>02 /</span> Технические стандарты</a>
+      <a href="#content-rights"><span>03 /</span> Контент и права</a>
+      <a href="#workflow"><span>04 /</span> Рабочий процесс</a>
+      <a href="#royalties"><span>05 /</span> Доходы</a>
+      <a href="#financial-terms"><span>06 /</span> Финансовые условия</a>
+    </nav>
 
-      <div class="document">
-        <section class="section" id="release-info">
-          <div class="section-head">
-            <span class="num">01</span>
-            <h2>1. Информация о релизе</h2>
-          </div>
-          <div class="items">
-            <article class="item"><div><h3>Название релиза:</h3><p>Название сингла, EP или альбома. Написание должно совпадать с тем, как релиз должен отображаться на площадках.</p></div></article>
-            <article class="item"><div><h3>Исполнитель(-и):</h3><p>Название группы, проекта или имя каждого исполнителя. Проверьте написание и порядок участников.</p></div></article>
-            <article class="item"><div><h3>Авторы:</h3><p>Имя и фамилия авторов музыки и текста. Укажите всех авторов, участвовавших в создании композиции.</p></div></article>
-            <article class="item"><div><h3>Лицензия и права:</h3><p>Подтвердите наличие необходимых прав или лицензий на музыку, текст, семплы, биты, фонограммы и другие использованные материалы.</p></div></article>
-            <article class="item"><div><h3>Жанр и поджанр:</h3><p>Выберите наиболее точные жанр и поджанр, соответствующие звучанию композиции.</p></div></article>
-            <article class="item"><div><h3>Explicit:</h3><p>Укажите, содержит ли композиция ненормативную лексику или другой откровенный контент. При наличии такого контента отметьте релиз как Explicit.</p></div></article>
-            <article class="item"><div><h3>Использование ИИ:</h3><p>Сообщите, использовался ли искусственный интеллект при создании обложки, текста, вокала или аудио. При необходимости уточните, какие именно элементы созданы или обработаны с помощью ИИ.</p></div></article>
-            <article class="item"><div><h3>Дата релиза:</h3><p>Укажите желаемую дату публикации. Для планового размещения отправляйте материалы заранее. Срочная публикация на ближайшую дату может быть доступна за дополнительную плату — возможность и стоимость согласуются отдельно.</p></div></article>
-          </div>
-        </section>
-
-        <section class="section" id="audio">
-          <div class="section-head">
-            <span class="num">02</span>
-            <h2>2. Требования к аудио</h2>
-          </div>
-          <div class="items">
-            <article class="item"><div><h3>Формат файла:</h3><p>WAV.</p></div></article>
-            <article class="item"><div><p>Предоставьте финальную версию композиции без технических ошибок, обрывов и случайных посторонних звуков.</p></div></article>
-            <article class="item"><div><p>Проверьте, что загружена именно утверждённая версия трека и что название файла позволяет однозначно определить композицию.</p></div></article>
-            <article class="item"><div><p>Если релиз содержит несколько треков, приложите отдельный WAV-файл для каждой композиции и укажите порядок треков.</p></div></article>
-            <article class="item"><div><p>Убедитесь, что у вас есть права на весь использованный аудиоматериал, включая семплы, биты, гостевые партии и сторонние записи.</p></div></article>
-          </div>
-        </section>
-
-        <section class="section" id="artwork">
-          <div class="section-head">
-            <span class="num">03</span>
-            <h2>3. Требования к обложке</h2>
-          </div>
-          <div class="items">
-            <article class="item"><div><h3>Формат:</h3><p>PNG или JPG/JPEG.</p></div></article>
-            <article class="item"><div><h3>Размер:</h3><p>строго 3000 × 3000 пикселей, квадратное изображение.</p></div></article>
-            <article class="item"><div><p>Обложка должна быть оригинальной и не использоваться как готовая стоковая картинка без необходимых прав.</p></div></article>
-            <article class="item"><div><p>Не размещайте логотипы сторонних брендов, чужие товарные знаки и лишний текст.</p></div></article>
-            <article class="item"><div><p>Проверьте читаемость изображения в маленьком размере, отсутствие артефактов и соответствие обложки содержанию релиза.</p></div></article>
-            <article class="item"><div><p>Используйте только изображения, шрифты и другие элементы, на которые у вас есть права или разрешение.</p></div></article>
-          </div>
-        </section>
-
-        <section class="section" id="rights">
-          <div class="section-head">
-            <span class="num">04</span>
-            <h2>4. Авторские права и ответственность</h2>
-          </div>
-          <p class="intro" style="max-width:none;margin:0">Отправляя релиз, исполнитель или правообладатель подтверждает, что предоставленные сведения точны, а необходимые права и разрешения на публикацию всех материалов получены. Не загружайте чужие произведения, записи, изображения или семплы без законных оснований. При использовании ИИ убедитесь, что такой способ создания материалов допускается применимыми условиями сервисов и не нарушает права третьих лиц.</p>
-        </section>
+    <section class="section" id="submission">
+      <div class="section-head">
+        <div class="section-number">01</div>
+        <div>
+          <p class="section-label">01 / ПОДАЧА РЕЛИЗА</p>
+          <h2>Что артист должен предоставить</h2>
+        </div>
       </div>
-    </div>
+      <p class="section-intro">Заявка считается полной, когда переданы все материалы и сведения ниже.</p>
+      <ul>
+        <li>Финальные WAV/FLAC-файлы всех треков. Для альбома каждый трек предоставляется отдельным файлом и в согласованном порядке.</li>
+        <li>Финальная обложка в JPG или PNG, соответствующая требованиям площадок.</li>
+        <li>Название релиза и треков, имя каждого исполнителя ровно в том написании, которое должно отображаться на площадках.</li>
+        <li>Для каждой композиции: авторы музыки и текста с настоящими именами и фамилиями; сведения о продюсере, приглашённых артистах и иных участниках, если они должны быть указаны в кредитах.</li>
+        <li>Жанр, язык, дата релиза, отметка Explicit при наличии ненормативной лексики, тексты песен при необходимости и дополнительные данные, запрошенные дистрибьютором.</li>
+        <li>Подтверждение прав: собственное авторство либо лицензии/письменные разрешения на бит, сэмплы, вокал, ремикс, кавер и другие сторонние элементы.</li>
+        <li>Ссылки на действующие профили артиста и идентификаторы страниц на площадках, если музыка уже выпускалась.</li>
+      </ul>
+      <aside class="callout">
+        <p class="callout-title">ВАЖНО</p>
+        <p>Псевдоним артиста выбирается внимательно и проверяется до подачи: дистрибьютор предупреждает, что смена псевдонима после создания профиля может потребовать создания нового профиля артиста. Если релизы уже выходили, передавайте точные ссылки/ID, чтобы избежать попадания на чужую страницу.</p>
+      </aside>
+      <div class="subsection">
+        <h3>Формат сдачи материалов</h3>
+        <ul>
+          <li>Названия файлов должны однозначно соответствовать порядку треков: <strong>01 — Название.wav, 02 — Название.wav</strong> и т. д.</li>
+          <li>Не присылайте демо, незавершённые миксы или версии с временными тегами, если только лейбл отдельно не запросил их для оценки.</li>
+          <li>Все согласования финальной версии, кредитов, сплитов и даты выхода фиксируются менеджером в чате до отправки релиза дистрибьютору.</li>
+        </ul>
+      </div>
+    </section>
 
-    <p class="note">Требования могут дополняться в зависимости от правил музыкальных платформ.</p>
+    <section class="section" id="standards">
+      <div class="section-head">
+        <div class="section-number">02</div>
+        <div>
+          <p class="section-label">02 / ТЕХНИЧЕСКИЕ СТАНДАРТЫ</p>
+          <h2>Аудио и обложка</h2>
+        </div>
+      </div>
+      <p class="section-intro">Это обязательные технические параметры дистрибьютора. Несоответствие может привести к отказу или задержке релиза.</p>
+      <div class="subsection">
+        <h3>Аудиофайлы</h3>
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Параметр</th><th>Требование</th></tr></thead>
+            <tbody>
+              <tr><td>Формат</td><td>WAV или FLAC</td></tr>
+              <tr><td>Каналы</td><td>Только стерео. Моно и файлы с сигналом только в левом/правом канале не принимаются.</td></tr>
+              <tr><td>Частота дискретизации</td><td>44,1 / 48 / 88,2 / 96 кГц</td></tr>
+              <tr><td>Разрядность</td><td>16 или 24 бит</td></tr>
+              <tr><td>Уровень</td><td>Без цифровой перегрузки/клиппинга выше 0 dBFS.</td></tr>
+              <tr><td>Целостность</td><td>Файл должен быть полным, без обрыва в середине композиции.</td></tr>
+              <tr><td>Тишина</td><td>Не более 5 секунд в начале и в конце трека.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small-note"><strong>Рекомендация:</strong> 44,1 кГц / 16 бит / WAV или FLAC. Допустимы и остальные перечисленные параметры.</p>
+      </div>
+      <div class="subsection">
+        <h3>Обложка релиза</h3>
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Параметр</th><th>Требование</th></tr></thead>
+            <tbody>
+              <tr><td>Формат и вес</td><td>JPG или PNG; менее 10 МБ.</td></tr>
+              <tr><td>Размер</td><td>Квадрат от 1400 × 1400 до 3000 × 3000 пикселей. Для максимальной совместимости можно готовить 3000 × 3000.</td></tr>
+              <tr><td>Цвет</td><td>RGB.</td></tr>
+              <tr><td>Текст</td><td>Только имя артиста и название релиза, в точности как в метаданных, либо обложка без текста.</td></tr>
+              <tr><td>Права</td><td>Артист должен иметь право использовать и распространять изображение.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="subsection">
+        <h3>На обложке запрещено</h3>
+        <ul>
+          <li>Лишний текст, ссылки, URL, e-mail, QR-коды, цены и контакты.</li>
+          <li>Упоминания Spotify или других стриминговых сервисов, надписи «CD», «DVD», «Digital Exclusive» и другой текст, создающий ложное впечатление о формате продукта.</li>
+          <li>Чужие защищённые изображения без разрешения, размытые/обрезанные изображения, обрезанный текст и макеты с неестественно большим пустым полем из-за изображения, сдвинутого в угол.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="content-rights">
+      <div class="section-head">
+        <div class="section-number">03</div>
+        <div>
+          <p class="section-label">03 / КОНТЕНТ И ПРАВА</p>
+          <h2>Метаданные, авторство и допустимый контент</h2>
+        </div>
+      </div>
+      <p class="section-intro">Лейбл принимает к релизу только материалы, которые можно законно распространять и корректно оформить на площадках.</p>
+      <div class="subsection">
+        <h3>Метаданные</h3>
+        <ul>
+          <li>Названия треков, релиза и имена исполнителей должны совпадать в обложке, аудио-метках (если используются). Не добавляйте в названия рекламу, URL, лишние описания или неподтверждённые версии.</li>
+          <li>Настоящие имена и фамилии авторов музыки/текста передаются дистрибьютору для кредитов и учёта прав. По справке дистрибьютора, эти сведения могут показываться в разделе Credits и не обязаны отображаться на основной странице релиза.</li>
+          <li>Для ранее выпущенной музыки сообщите первоначальную дату релиза и передайте существующие UPC/ISRC, если они есть. Не создавайте новые версии кодов наугад.</li>
+          <li>Псевдоним артиста, написание feat./with, порядок участников, язык, жанр и Explicit согласуются до отправки. После доставки исправления могут занять время или потребовать повторной модерации.</li>
+        </ul>
+      </div>
+      <div class="subsection">
+        <h3>Права и лицензии</h3>
+        <ul>
+          <li>Артист гарантирует, что имеет все права и разрешения, необходимые для цифровой дистрибуции записи, композиции, текста, исполнения и обложки.</li>
+          <li>Покупка бита не всегда означает право выпускать его на всех площадках или использовать в коммерческом релизе. Проверьте условия лицензии, включая ограничения по стримам, Content ID, эксклюзивности и указанию продюсера.</li>
+          <li>Каверы, ремиксы, DJ-миксы, чужие сэмплы, архивные записи и публичное достояние могут требовать отдельных разрешений или особого оформления. Отправляйте такие материалы только после проверки лицензий и предварительного согласования с лейблом.</li>
+          <li>По запросу, артист обязан оперативно передать лицензии, подтверждение авторства или иные документы. Если правовой статус не подтверждён, релиз может быть задержан, отклонён или снят.</li>
+        </ul>
+      </div>
+      <aside class="callout">
+        <p class="callout-title">ОГРАНИЧЕНИЕ НА AI-МУЗЫКУ</p>
+        <p>В опубликованной справке дистрибьютора указано, что музыка, полностью сгенерированная искусственным интеллектом, не принимается к загрузке даже при наличии коммерческой лицензии. Если в создании трека использовалась генеративная музыка/вокал, заранее сообщите об этом лейблу и получите подтверждение допустимости до подачи.</p>
+      </aside>
+      <div class="subsection">
+        <h3>Контент, который не подаём без отдельного подтверждения</h3>
+        <ul>
+          <li>Звуковые эффекты без музыкального содержания, разговорные записи, подкасты, радиошоу и комментарии к альбомам.</li>
+          <li>Нелегальные ускоренные/замедленные версии чужих треков, версии с простыми эффектами поверх оригинала, имитации оригинальных исполнителей, несанкционированные DJ-миксы/Extended Mixes и караоке без лицензии.</li>
+          <li>Стоковая/library music и недостаточно отличимые дубликаты, а также некоторые фоновые записи для сна/медитации, которые дистрибьютор относит к ограниченным категориям.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="workflow">
+      <div class="section-head">
+        <div class="section-number">04</div>
+        <div>
+          <p class="section-label">04 / РАБОЧИЙ ПРОЦЕСС</p>
+          <h2>Сроки и порядок выпуска</h2>
+        </div>
+      </div>
+      <p class="section-intro">Внутренние сроки filin_cprt строже минимально допустимого срока дистрибьютора: это снижает риск опоздания и ошибок.</p>
+      <div class="table-wrap">
+        <table class="table steps">
+          <thead><tr><th>Этап</th><th>Срок</th><th>Что происходит</th></tr></thead>
+          <tbody>
+            <tr><td>1. Первичная заявка</td><td>За 28 дней до релиза</td><td>Артист передаёт демо/описание проекта, желаемую дату и подтверждение доступности прав. Лейбл подтверждает, готов ли рассматривать релиз.</td></tr>
+            <tr><td>2. Финальный пакет</td><td>Не позднее чем за 21 день</td><td>Передаются мастер-файлы, финальная обложка, точные метаданные, авторы, лицензии и согласованные доли.</td></tr>
+            <tr><td>3. Проверка лейблом</td><td>Обычно 2–5 рабочих дней</td><td>Проверка аудио, обложки, метаданных, прав и полноты файлов. При замечаниях артист исправляет материалы.</td></tr>
+            <tr><td>4. Отправка дистрибьютору</td><td>После одобрения автора</td><td>Лейбл загружает релиз, проверяет форму, выбирает дату и направляет материалы на модерацию.</td></tr>
+            <tr><td>5. Подтверждение публикации</td><td>После обработки платформами</td><td>Артист/лейбл проверяет карточки, написание имени, порядок треков, обложку и ссылки. Обнаруженные ошибки сразу фиксируются.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <aside class="callout">
+        <p class="callout-title">ПО ДАННЫМ ДИСТРИБЬЮТОРА</p>
+        <p>Минимально доступная дата в форме может начинаться через 7 дней после загрузки, но лейбл рекомендует подавать релиз минимум за 14 дней. filin_cprt устанавливает внутренний дедлайн за 21 день; для важных релизов и питчинга лучше закладывать 28 дней.</p>
+      </aside>
+      <div class="subsection">
+        <h3>Проверка перед отправкой</h3>
+        <ul class="checklist">
+          <li>Файлы финальные, стерео, без клиппинга и технических ошибок.</li>
+          <li>Обложка прошла техническую проверку и не содержит запрещённого текста/материалов.</li>
+          <li>Имена, названия, авторы, Explicit, порядок треков и дата сверены артистом.</li>
+          <li>Все лицензии, согласия соавторов и сплит-лист согласованы письменно.</li>
+          <li>Артист подтвердил финальную версию письменно: после этого любые изменения могут сдвинуть дату.</li>
+        </ul>
+      </div>
+      <p class="legal-note">Сроки проверки лейблом являются внутренним ориентиром, а не гарантией прохождения модерации. Дистрибьютор и сами площадки могут запросить дополнительные сведения или задержать публикацию.</p>
+    </section>
+
+    <section class="section" id="royalties">
+      <div class="section-head">
+        <div class="section-number">05</div>
+        <div>
+          <p class="section-label">05 / ДОХОДЫ</p>
+          <h2>Роялти и выплаты</h2>
+        </div>
+      </div>
+      <p class="section-intro">Роялти начисляются не мгновенно: площадки передают отчёты и выплаты по разным графикам.</p>
+      <div class="subsection">
+        <h3>Как формируется доход</h3>
+        <ul>
+          <li>Стриминговые площадки рассчитывают доход по своим правилам и передают отчёт дистрибьютору. Сумма зависит от площадки, территории, периода, типа прослушивания и корректировок.</li>
+          <li>По опубликованной справке дистрибьютора, выплаты от крупных международных сервисов обычно поступают в пределах 60 дней после завершения отчётного месяца, а от ряда локальных сервисов (например, Яндекс Музыка, VK, Звук) — в пределах 90 дней после завершения квартала.</li>
+          <li>Дистрибьютор указывает, что начисления на баланс аккаунта обычно отражаются с 15-го по 20-е число месяца. Фактические сроки отличаются по площадкам и могут меняться.</li>
+        </ul>
+      </div>
+      <div class="subsection">
+        <h3>Порог и сроки вывода</h3>
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Тип аккаунта</th><th>Минимум</th><th>Срок обработки по справке</th></tr></thead>
+            <tbody>
+              <tr><td>Бесплатный договор</td><td>$25</td><td>До 30 дней</td></tr>
+              <tr><td>Pro-договор</td><td>$10</td><td>7 дней</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small-note"><strong>Дистрибьютор также указывает:</strong> выводится вся сумма, доступная на балансе; выплаты обрабатываются по вторникам и пятницам. Условия зависят от тарифа аккаунта и актуальных правил дистрибьютора.</p>
+      </div>
+      <div class="subsection">
+        <h3>Выплаты артистам из России: MC Pay и криптовалюта</h3>
+        <aside class="callout">
+          <p class="callout-title">ПРАКТИЧЕСКИЙ ПОРЯДОК FILIN_CPRT</p>
+          <p>Для артиста из РФ до релиза необходимо проверить, что он сможет пройти регистрацию/KYC в MC Pay и вывести средства доступным для его аккаунта способом. Если в конкретном аккаунте доступен только вывод в криптовалюте, выплату следует планировать через MC Pay с криптовалютным выводом. Не рассчитывайте на банковский или электронный способ, пока он не отображается в вашем аккаунте.</p>
+        </aside>
+        <ul>
+          <li>Что удалось подтвердить: справка перечисляет для физических лиц Payoneer, WebMoney и MC Pay. Справка MC Pay в общем виде перечисляет банковские переводы, карты, электронные кошельки и криптовалюты; часть методов может быть недоступна из-за страны, провайдера, санкционных ограничений или статуса проверки.</li>
+          <li>Что не удалось подтвердить как универсальное правило: в открытых официальных справках нет общего утверждения, что абсолютно все артисты из России могут получать роялти только через MC Pay и только в криптовалюте. Поэтому доступный способ должен проверяться индивидуально в аккаунте MC Pay.</li>
+          <li>Перед запросом вывода, лейбл проверяет минимальную сумму, комиссию и сеть блокчейна в самом MC Pay. Для USDT сети TRC20, ERC20 и другие несовместимые сети адреса не взаимозаменяемы. Перевод на неверную сеть может привести к потере средств.</li>
+          <li>Учитывайте возможные комиссии дистрибьютора, MC Pay, сети, обмена и конвертации. Криптовалютный вывод несёт технические и ценовые риски; сохраните подтверждение транзакции и учётные документы для собственного налогового учёта.</li>
+        </ul>
+        <p class="legal-note">Сведения о выплатах и комиссиях изменяются. Перед первой выплатой артист обязан проверить ограничения и доступные методы по своим данным, а также условия идентификации (KYC). Лейбл не гарантирует работу сторонних платёжных сервисов.</p>
+      </div>
+    </section>
+
+    <section class="section" id="financial-terms">
+      <div class="section-head">
+        <div class="section-number">06</div>
+        <div>
+          <p class="section-label">06 / ФИНАНСОВЫЕ УСЛОВИЯ</p>
+          <h2>Распределение роялти и ответственность</h2>
+        </div>
+      </div>
+      <p class="section-intro">Этот регламент описывает подготовку релиза. Он не заменяет индивидуальный договор и сам по себе не устанавливает доли дохода.</p>
+      <div class="subsection">
+        <h3>Доли и отчётность</h3>
+        <ul>
+          <li>Процент артиста, процент лейбла и доли соавторов согласуются письменно до загрузки. Универсального автоматического деления 50/50 этот документ не устанавливает.</li>
+          <li>До отправки каждый релиз должен иметь сплит-лист/соглашение: участники, роли, доли, база расчёта (gross/net), допустимые удержания, расходы, периодичность отчёта и способ выплаты.</li>
+          <li>Базой для расчётов между лейблом и артистом служат фактически полученные и идентифицируемые поступления по релизу от дистрибьютора, а не прогнозы стриминговых калькуляторов. Удержания комиссии, конвертации, возвратов, корректировок и иных расходов должны быть явно согласованы в сплит-листе/договоре.</li>
+          <li>Расходы на рекламу, клипы, оформление, сведение/мастеринг и другие услуги не считаются автоматически вычитаемыми из доли артиста, если правила их возмещения заранее не согласованы письменно.</li>
+          <li>По запросу артисту предоставляется доступная выписка/отчёт, позволяющий понять период, релиз, сумму поступления, комиссию/удержания и расчёт доли. Персональные данные и данные платёжных аккаунтов не передаются без необходимости.</li>
+        </ul>
+      </div>
+      <div class="subsection">
+        <h3>Обязанности артиста</h3>
+        <ul>
+          <li>Гарантировать достоверность переданных данных и наличие прав на всё содержимое релиза.</li>
+          <li>Не запускать накрутки, ботов, искусственное воспроизведение, купленные прослушивания или иные манипуляции с метриками. Такие действия создают риск удержания роялти, удаления релиза и санкций площадок.</li>
+          <li>Быстро отвечать на запросы о правах, исправлениях метаданных и верификации, предоставлять документы в разумный срок.</li>
+          <li>Не менять самостоятельно название, состав участников, аудио или обложку после финального согласования без уведомления лейбла.</li>
+        </ul>
+      </div>
+      <div class="subsection">
+        <h3>Обязанности filin_cprt</h3>
+        <ul>
+          <li>Проверять пакет материалов в рамках доступных ресурсов и отправлять на дистрибуцию только после согласования ключевых данных.</li>
+          <li>Сообщать о найденных ошибках/проблемах и по возможности информировать об изменениях статуса релиза.</li>
+          <li>Вести расчёты по согласованным условиям и не обещать конкретное количество прослушиваний, редакционное размещение или точную сумму дохода.</li>
+        </ul>
+      </div>
+      <aside class="callout">
+        <p class="callout-title">ПЕРЕД ПУБЛИКАЦИЕЙ ОБЯЗАТЕЛЬНО</p>
+        <p>Зафиксируйте отдельным письменным соглашением срок/территорию лицензии, права на мастер-запись, доли и базу расчёта, расходы, порядок отчётности и процедуру снятия релиза. В случае противоречия между этим регламентом и подписанным договором приоритет имеет договор в пределах применимого права.</p>
+      </aside>
+    </section>
+
+    <div class="final-note">
+      <p class="legal-note">Регламент не является публичной офертой, юридической консультацией или гарантией допуска/публикации релиза. Индивидуальные коммерческие условия фиксируются отдельно.</p>
+      <p class="contact-line"><a href="https://t.me/filin_cprt" target="_blank" rel="noopener noreferrer">Обсудить релиз в Telegram @filin_cprt ↗</a></p>
+    </div>
   </main>
 
   <footer>
     <div class="wrap footer-inner">
       <a class="brand" href="/">filin_cprt</a>
-      <div class="footer-meta">filin_cprt / RELEASE GUIDELINES</div>
+      <div class="footer-meta">RELEASE GUIDELINES · © 2026 filin_cprt</div>
     </div>
   </footer>
 </body>
