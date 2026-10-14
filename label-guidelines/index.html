@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Требования filin_cprt к подготовке музыкального релиза: метаданные, аудио WAV, обложка, авторские права и финальная проверка.">
+  <meta name="description" content="filin_cprt — требования к подготовке и отправке музыкального релиза.">
   <meta name="theme-color" content="#f7f5f0">
-  <link rel="canonical" href="https://filincprt.ru/label-guidelines">
+  <link rel="canonical" href="https://filincprt.ru/label-guidelines/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,79 +15,52 @@
   <style>
     :root{--paper:#f7f5f0;--ink:#181615;--muted:#6b655f;--orange:#ff4b00;--line:rgba(24,22,21,.12);--card:#fffdfa}
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth;scroll-padding-top:96px}
+    html{scroll-behavior:smooth;scroll-padding-top:90px}
     body{margin:0;background:var(--paper);color:var(--ink);font-family:'Cormorant Garamond',serif}
     a{color:inherit}
-    button,input{font:inherit}
-    .wrap{width:min(1120px,calc(100% - 48px));margin-inline:auto}
-    .topbar{position:sticky;top:0;z-index:10;background:rgba(247,245,240,.9);backdrop-filter:blur(14px);border-bottom:1px solid rgba(24,22,21,.08)}
-    .topbar-inner{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-    .brand,.nav,.eyebrow,.section-kicker,.meta,.btn,.toc,.check-count,.footer-meta{font-family:'Space Mono',monospace}
+    .wrap{width:min(1080px,calc(100% - 48px));margin-inline:auto}
+    .topbar{position:sticky;top:0;z-index:10;background:rgba(247,245,240,.91);backdrop-filter:blur(14px);border-bottom:1px solid rgba(24,22,21,.08)}
+    .topbar-inner{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand,.nav,.eyebrow,.section-kicker,.toc,.footer-meta{font-family:'Space Mono',monospace}
     .brand{text-decoration:none;font-size:13px;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
-    .nav{display:flex;align-items:center;gap:18px;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+    .nav{display:flex;align-items:center;gap:20px;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
     .nav a{text-decoration:none;color:var(--muted);transition:color .2s}
     .nav a:hover{color:var(--orange)}
-    .hero{padding:66px 0 54px;display:grid;grid-template-columns:minmax(0,1.18fr) minmax(280px,.82fr);gap:42px;align-items:end}
+    .hero{padding:62px 0 48px;max-width:900px}
     .eyebrow{margin:0 0 18px;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.2em}
     .eyebrow span{color:var(--orange)}
-    h1{font-size:clamp(56px,8vw,104px);line-height:.91;letter-spacing:-.045em;font-weight:300;margin:0;max-width:780px}
-    h1 em{color:var(--orange);font-weight:600}
-    .intro{font-size:21px;line-height:1.62;color:#5f5a55;max-width:590px;margin:24px 0 0}
-    .text-links{display:flex;gap:22px;flex-wrap:wrap;margin-top:27px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
-    .text-links a{display:inline-flex;gap:7px;align-items:center;text-decoration:none;border-bottom:1px solid rgba(24,22,21,.25);padding-bottom:6px;transition:color .2s,border-color .2s}
-    .text-links a:hover{color:var(--orange);border-color:var(--orange)}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;padding:13px 17px;border:1px solid var(--ink);border-radius:999px;text-decoration:none;text-transform:uppercase;letter-spacing:.08em;font-size:10px;transition:transform .2s,background .2s,color .2s}
-    .btn:hover{transform:translateY(-2px)}
-    .btn.primary{background:var(--ink);color:var(--paper)}
-    .btn.secondary:hover{background:rgba(255,75,0,.08);border-color:var(--orange)}
-    .summary{position:relative;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:26px;padding:24px}
-    .summary:after{content:"";position:absolute;width:190px;height:190px;border:1px solid rgba(255,75,0,.16);border-radius:50%;right:-70px;top:-80px;box-shadow:0 0 0 22px rgba(255,75,0,.035),0 0 0 45px rgba(255,75,0,.025);pointer-events:none}
-    .summary-label{font-size:10px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin:0 0 20px}
-    .summary-line{display:flex;align-items:baseline;justify-content:space-between;gap:18px;padding:13px 0;border-top:1px solid var(--line)}
-    .summary-line:last-of-type{border-bottom:1px solid var(--line)}
-    .summary-line span{color:var(--muted);font-size:17px}
-    .summary-line strong{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.02em;text-align:right}
-    .summary-note{font-size:16px;line-height:1.55;color:var(--muted);margin:17px 0 0}
-    .layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:48px;padding:30px 0 78px;border-top:1px solid var(--line);align-items:start}
-    .toc{position:sticky;top:96px;padding-top:12px}
+    h1{font-size:clamp(56px,8vw,100px);line-height:.93;letter-spacing:-.04em;font-weight:300;margin:0}
+    h1 em{color:var(--orange);font-weight:600;font-style:italic}
+    .subtitle{font-size:clamp(24px,3vw,31px);line-height:1.15;font-weight:600;margin:26px 0 10px}
+    .intro{font-size:22px;line-height:1.6;color:#5f5a55;max-width:780px;margin:0}
+    .contact-line{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin:24px 0 0}
+    .contact-line a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--orange);padding-bottom:4px}
+    .contact-line a:hover{color:var(--orange)}
+    .layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:44px;padding:28px 0 58px;border-top:1px solid var(--line);align-items:start}
+    .toc{position:sticky;top:92px;padding-top:10px}
     .toc-title{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);margin:0 0 13px}
-    .toc a{display:flex;gap:12px;align-items:baseline;padding:10px 0;text-decoration:none;border-bottom:1px solid var(--line);font-size:10px;letter-spacing:.04em;color:#716b65;line-height:1.5}
-    .toc a span{color:var(--orange);font-size:10px}
+    .toc a{display:flex;gap:12px;align-items:baseline;padding:12px 0;text-decoration:none;border-bottom:1px solid var(--line);font-size:11px;letter-spacing:.025em;color:#716b65;line-height:1.5}
+    .toc a span{color:var(--orange);font-size:11px}
     .toc a:hover{color:var(--ink)}
     .document{min-width:0}
-    .section{padding:28px 0 34px;border-bottom:1px solid var(--line)}
-    .section:first-child{padding-top:10px}
-    .section-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:21px}
-    .num{display:grid;place-items:center;flex:0 0 38px;height:38px;border:1px solid rgba(255,75,0,.35);border-radius:50%;font-family:'Space Mono',monospace;font-size:11px;color:var(--orange)}
-    h2{font-size:clamp(29px,4vw,42px);line-height:1.05;font-weight:600;margin:0}
-    .section-kicker{margin:7px 0 0;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+    .section{padding:26px 0 30px;border-bottom:1px solid var(--line)}
+    .section:first-child{padding-top:6px}
+    .section-head{display:flex;align-items:flex-start;gap:15px;margin-bottom:19px}
+    .num{display:grid;place-items:center;flex:0 0 39px;height:39px;border:1px solid rgba(255,75,0,.35);border-radius:50%;font-family:'Space Mono',monospace;font-size:12px;color:var(--orange)}
+    h2{font-size:clamp(32px,4vw,43px);line-height:1.07;font-weight:600;margin:0}
+    .section-kicker{margin:8px 0 0;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
     .items{display:grid;gap:0}
-    .item{display:grid;grid-template-columns:10px minmax(0,1fr);gap:15px;padding:14px 0;border-top:1px solid rgba(24,22,21,.07)}
-    .item:before{content:"";width:5px;height:5px;margin-top:10px;border-radius:50%;background:var(--orange)}
-    .item h3{font-size:22px;line-height:1.1;margin:0 0 5px;font-weight:600}
-    .item p{font-size:18px;line-height:1.62;color:#625c56;margin:0}
+    .item{display:grid;grid-template-columns:10px minmax(0,1fr);gap:15px;padding:15px 0;border-top:1px solid rgba(24,22,21,.07)}
+    .item:before{content:"";width:5px;height:5px;margin-top:11px;border-radius:50%;background:var(--orange)}
+    .item h3{font-size:23px;line-height:1.12;margin:0 0 6px;font-weight:600}
+    .item p{font-size:20px;line-height:1.62;color:#625c56;margin:0}
     .item strong{color:var(--ink);font-weight:600}
-    .inline-tag{display:inline-block;margin-left:6px;padding:3px 6px;border:1px solid rgba(255,75,0,.25);border-radius:5px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.04em;color:var(--orange);vertical-align:middle}
-    .note{margin-top:20px;padding:18px 19px;background:rgba(255,75,0,.065);border:1px solid rgba(255,75,0,.2);border-radius:17px;font-size:17px;line-height:1.6;color:#554c46}
-    .note strong{color:var(--ink)}
-    .checklist{border:1px solid var(--line);background:var(--card);border-radius:22px;padding:20px}
-    .check-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px}
-    .check-top h3{font-size:25px;margin:0;font-weight:600}
-    .check-count{font-size:10px;color:var(--muted);white-space:nowrap}
-    .progress{height:4px;background:#e9e4de;border-radius:999px;overflow:hidden;margin-bottom:10px}
-    .progress-bar{height:100%;width:0;background:var(--orange);transition:width .2s}
-    .check-help{margin:0 0 12px;color:var(--muted);font-size:15px;line-height:1.5}
-    .check-item{display:flex;align-items:flex-start;gap:11px;padding:12px 0;border-top:1px solid rgba(24,22,21,.07);font-size:17px;line-height:1.45;color:#514b45;cursor:pointer}
-    .check-item input{width:17px;height:17px;flex:0 0 17px;margin:4px 0 0;accent-color:var(--orange);cursor:pointer}
-    .check-item:has(input:checked) span{text-decoration:line-through;color:#918981}
-    .end-actions{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-top:24px}
-    .small-print{font-size:15px;line-height:1.5;color:var(--muted);max-width:400px;margin:0}
-    footer{border-top:1px solid var(--line);padding:25px 0 36px}
+    .note{font-size:18px;line-height:1.6;color:#625c56;padding:20px 0 0;margin:24px 0 0;border-top:1px solid var(--line)}
+    footer{border-top:1px solid var(--line);padding:24px 0 34px}
     .footer-inner{display:flex;align-items:center;justify-content:space-between;gap:20px}
-    .footer-brand{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.08em}
-    .footer-meta{font-size:9px;letter-spacing:.1em;color:#827b73;text-transform:uppercase;text-align:right}
-    @media(max-width:820px){.hero{grid-template-columns:1fr;gap:28px;padding-top:48px}.summary{max-width:none}.layout{grid-template-columns:1fr;gap:20px}.toc{position:static;padding:0;display:flex;flex-wrap:wrap;gap:7px 14px}.toc-title{width:100%;margin-bottom:0}.toc a{border:1px solid var(--line);border-radius:999px;padding:8px 11px;background:rgba(255,253,250,.6)}.toc a span{display:none}.section:first-child{padding-top:18px}}
-    @media(max-width:560px){.wrap{width:min(100% - 30px,1120px)}.topbar-inner{min-height:62px;align-items:flex-start;flex-direction:column;gap:2px;padding:12px 0 10px}.nav{width:100%;gap:8px;overflow-x:auto;white-space:nowrap;padding:4px 0 2px}.nav a{padding:7px 8px}.hero{padding:36px 0 35px;gap:22px}h1{font-size:clamp(51px,14vw,74px)}.intro{font-size:19px;margin-top:19px}.summary{padding:18px;border-radius:21px}.summary-line span{font-size:16px}.layout{padding-top:20px}.section{padding:24px 0 28px}.section-head{gap:12px;margin-bottom:15px}.num{flex-basis:32px;height:32px}h2{font-size:31px}.item{gap:11px}.item h3{font-size:20px}.item p{font-size:17px}.checklist{padding:15px}.check-top{align-items:flex-start;flex-direction:column;gap:6px}.end-actions{align-items:flex-start}.footer-inner{align-items:flex-start;flex-direction:column}.footer-meta{text-align:left}}
+    .footer-meta{font-size:10px;letter-spacing:.1em;color:#827b73;text-transform:uppercase;text-align:right}
+    @media(max-width:800px){.hero{padding-top:46px}.layout{grid-template-columns:1fr;gap:22px}.toc{position:static;padding:0;display:flex;flex-wrap:wrap;gap:7px 12px}.toc-title{width:100%;margin-bottom:0}.toc a{border:1px solid var(--line);border-radius:999px;padding:8px 11px;background:rgba(255,253,250,.55)}.toc a span{display:none}.section:first-child{padding-top:14px}}
+    @media(max-width:560px){.wrap{width:calc(100% - 30px)}.topbar-inner{min-height:auto;align-items:flex-start;flex-direction:column;gap:7px;padding:12px 0}.nav{width:100%;gap:16px;overflow-x:auto;white-space:nowrap;padding:3px 0 5px;font-size:10px}.hero{padding:36px 0 32px}h1{font-size:clamp(49px,13vw,72px)}.subtitle{font-size:24px;margin-top:22px}.intro{font-size:20px}.contact-line{font-size:11px}.layout{padding-top:19px}.section{padding:23px 0 26px}.section-head{gap:12px;margin-bottom:15px}.num{flex-basis:33px;height:33px}h2{font-size:31px}.item{gap:11px;padding:13px 0}.item h3{font-size:21px}.item p{font-size:19px}.note{font-size:18px}.footer-inner{align-items:flex-start;flex-direction:column}.footer-meta{text-align:left}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
   </style>
 </head>
@@ -98,30 +71,21 @@
       <nav class="nav" aria-label="Основная навигация">
         <a href="/">Главная</a>
         <a href="#release-info">Требования</a>
-        <a href="#final-check">Чек-лист</a>
-        <a href="https://t.me/filin_cprt" target="_blank" rel="noopener noreferrer">Telegram ↗</a>
+        <a href="#audio">Аудио</a>
+        <a href="#artwork">Обложка</a>
+        <a href="#rights">Права</a>
       </nav>
     </div>
   </header>
 
   <main class="wrap">
     <section class="hero">
-      <div>
-        <p class="eyebrow"><span>filin_cprt</span> / release guidelines</p>
-        <h1>Твой релиз.<br><em>Без сюрпризов.</em></h1>
-        <p class="intro">Регламент подготовки музыки к выпуску на лейбле filin_cprt. Проверь метаданные, аудиофайлы, обложку и права до отправки заявки — так меньше шансов, что релиз придётся переделывать.</p>
-        <div class="text-links">
-          <a href="https://t.me/filin_cprt" target="_blank" rel="noopener noreferrer">Написать в Telegram ↗</a>
-          <a href="/filin_cprt_release_rules.docx" download>Скачать исходный DOCX ↓</a>
-        </div>
-      </div>
-      <aside class="summary" aria-label="Ключевые технические требования">
-        <p class="summary-label">Коротко о главном / 03 ключевых пункта</p>
-        <div class="summary-line"><span>Аудио</span><strong>WAV</strong></div>
-        <div class="summary-line"><span>Обложка</span><strong>3000 × 3000 PX</strong></div>
-        <div class="summary-line"><span>Изображение</span><strong>PNG / JPG</strong></div>
-        <p class="summary-note">Перед отправкой убедись, что материалы финальные, все авторы указаны, а права и лицензии на использованные элементы подтверждены.</p>
-      </aside>
+      <p class="eyebrow"><span>filin_cprt</span> / RELEASE GUIDELINES</p>
+      <h1>filin_cprt</h1>
+      <h2 class="subtitle">Требования к релизу</h2>
+      <p class="intro">Чек-лист для подготовки и отправки музыкального релиза</p>
+      <p class="intro" style="margin-top:18px">Перед отправкой релиза проверьте, что все данные заполнены, аудиофайлы и обложка соответствуют техническим требованиям, а права на материалы подтверждены.</p>
+      <p class="contact-line"><a href="https://t.me/filin_cprt" target="_blank" rel="noopener noreferrer">Подать заявку через Telegram @filin_cprt ↗</a></p>
     </section>
 
     <div class="layout">
@@ -130,114 +94,74 @@
         <a href="#release-info"><span>01</span> Информация о релизе</a>
         <a href="#audio"><span>02</span> Требования к аудио</a>
         <a href="#artwork"><span>03</span> Требования к обложке</a>
-        <a href="#rights"><span>04</span> Права и ответственность</a>
-        <a href="#final-check"><span>05</span> Финальная проверка</a>
+        <a href="#rights"><span>04</span> Авторские права и ответственность</a>
       </nav>
 
       <div class="document">
         <section class="section" id="release-info">
           <div class="section-head">
             <span class="num">01</span>
-            <div><h2>Информация о релизе</h2><p class="section-kicker">Метаданные и описание</p></div>
+            <h2>1. Информация о релизе</h2>
           </div>
           <div class="items">
-            <article class="item"><div><h3>Название релиза</h3><p>Укажи название сингла, EP или альбома. Написание должно совпадать с тем, как релиз должен отображаться на музыкальных площадках.</p></div></article>
-            <article class="item"><div><h3>Исполнитель(-и)</h3><p>Укажи название группы, проекта или имя каждого исполнителя. Проверь написание и порядок участников.</p></div></article>
-            <article class="item"><div><h3>Авторы</h3><p>Укажи имя и фамилию авторов музыки и текста. Перечисли всех авторов, участвовавших в создании композиции.</p></div></article>
-            <article class="item"><div><h3>Лицензия и права</h3><p>Подтверди наличие необходимых прав или лицензий на музыку, текст, семплы, биты, фонограммы и другие использованные материалы.</p></div></article>
-            <article class="item"><div><h3>Жанр и поджанр</h3><p>Выбери наиболее точные жанр и поджанр, соответствующие звучанию композиции.</p></div></article>
-            <article class="item"><div><h3>Explicit</h3><p>Укажи, содержит ли композиция ненормативную лексику или другой откровенный контент. Если содержит — отметь релиз как <strong>Explicit</strong>.</p></div></article>
-            <article class="item"><div><h3>Использование ИИ</h3><p>Сообщи, использовался ли искусственный интеллект при создании обложки, текста, вокала или аудио. При необходимости уточни, какие элементы созданы или обработаны с помощью ИИ.</p></div></article>
-            <article class="item"><div><h3>Дата релиза</h3><p>Укажи желаемую дату публикации и отправляй материалы заранее. Срочная публикация на ближайшую дату может потребовать дополнительной оплаты — возможность и стоимость согласуются отдельно.</p></div></article>
+            <article class="item"><div><h3>Название релиза:</h3><p>Название сингла, EP или альбома. Написание должно совпадать с тем, как релиз должен отображаться на площадках.</p></div></article>
+            <article class="item"><div><h3>Исполнитель(-и):</h3><p>Название группы, проекта или имя каждого исполнителя. Проверьте написание и порядок участников.</p></div></article>
+            <article class="item"><div><h3>Авторы:</h3><p>Имя и фамилия авторов музыки и текста. Укажите всех авторов, участвовавших в создании композиции.</p></div></article>
+            <article class="item"><div><h3>Лицензия и права:</h3><p>Подтвердите наличие необходимых прав или лицензий на музыку, текст, семплы, биты, фонограммы и другие использованные материалы.</p></div></article>
+            <article class="item"><div><h3>Жанр и поджанр:</h3><p>Выберите наиболее точные жанр и поджанр, соответствующие звучанию композиции.</p></div></article>
+            <article class="item"><div><h3>Explicit:</h3><p>Укажите, содержит ли композиция ненормативную лексику или другой откровенный контент. При наличии такого контента отметьте релиз как Explicit.</p></div></article>
+            <article class="item"><div><h3>Использование ИИ:</h3><p>Сообщите, использовался ли искусственный интеллект при создании обложки, текста, вокала или аудио. При необходимости уточните, какие именно элементы созданы или обработаны с помощью ИИ.</p></div></article>
+            <article class="item"><div><h3>Дата релиза:</h3><p>Укажите желаемую дату публикации. Для планового размещения отправляйте материалы заранее. Срочная публикация на ближайшую дату может быть доступна за дополнительную плату — возможность и стоимость согласуются отдельно.</p></div></article>
           </div>
         </section>
 
         <section class="section" id="audio">
           <div class="section-head">
             <span class="num">02</span>
-            <div><h2>Требования к аудио</h2><p class="section-kicker">Финальные файлы и порядок треков</p></div>
+            <h2>2. Требования к аудио</h2>
           </div>
           <div class="items">
-            <article class="item"><div><h3>Формат файла <span class="inline-tag">WAV</span></h3><p>Предоставь композицию в формате WAV. Файл должен быть финальной утверждённой версией без технических ошибок, обрывов и случайных посторонних звуков.</p></div></article>
-            <article class="item"><div><h3>Проверка версии</h3><p>Перед отправкой проверь, что загружена именно утверждённая версия трека, а название файла позволяет однозначно определить композицию.</p></div></article>
-            <article class="item"><div><h3>Несколько композиций</h3><p>Если релиз содержит несколько треков, приложи отдельный WAV-файл для каждой композиции и явно укажи порядок треков.</p></div></article>
-            <article class="item"><div><h3>Права на аудиоматериал</h3><p>Убедись, что у тебя есть права на весь использованный материал, включая семплы, биты, гостевые партии и сторонние записи.</p></div></article>
+            <article class="item"><div><h3>Формат файла:</h3><p>WAV.</p></div></article>
+            <article class="item"><div><p>Предоставьте финальную версию композиции без технических ошибок, обрывов и случайных посторонних звуков.</p></div></article>
+            <article class="item"><div><p>Проверьте, что загружена именно утверждённая версия трека и что название файла позволяет однозначно определить композицию.</p></div></article>
+            <article class="item"><div><p>Если релиз содержит несколько треков, приложите отдельный WAV-файл для каждой композиции и укажите порядок треков.</p></div></article>
+            <article class="item"><div><p>Убедитесь, что у вас есть права на весь использованный аудиоматериал, включая семплы, биты, гостевые партии и сторонние записи.</p></div></article>
           </div>
         </section>
 
         <section class="section" id="artwork">
           <div class="section-head">
             <span class="num">03</span>
-            <div><h2>Требования к обложке</h2><p class="section-kicker">Размер, формат и права на изображение</p></div>
+            <h2>3. Требования к обложке</h2>
           </div>
           <div class="items">
-            <article class="item"><div><h3>Формат и размер</h3><p>Принимаются PNG или JPG/JPEG. Изображение должно быть квадратным, строго <strong>3000 × 3000 пикселей</strong>.</p></div></article>
-            <article class="item"><div><h3>Оригинальность</h3><p>Обложка должна быть оригинальной. Не используй готовую стоковую картинку без необходимых прав.</p></div></article>
-            <article class="item"><div><h3>Логотипы и текст</h3><p>Не размещай логотипы сторонних брендов, чужие товарные знаки и лишний текст.</p></div></article>
-            <article class="item"><div><h3>Финальная проверка</h3><p>Проверь читаемость изображения в маленьком размере, отсутствие артефактов и соответствие обложки содержанию релиза. На изображения, шрифты и другие элементы у тебя должны быть права или разрешение.</p></div></article>
+            <article class="item"><div><h3>Формат:</h3><p>PNG или JPG/JPEG.</p></div></article>
+            <article class="item"><div><h3>Размер:</h3><p>строго 3000 × 3000 пикселей, квадратное изображение.</p></div></article>
+            <article class="item"><div><p>Обложка должна быть оригинальной и не использоваться как готовая стоковая картинка без необходимых прав.</p></div></article>
+            <article class="item"><div><p>Не размещайте логотипы сторонних брендов, чужие товарные знаки и лишний текст.</p></div></article>
+            <article class="item"><div><p>Проверьте читаемость изображения в маленьком размере, отсутствие артефактов и соответствие обложки содержанию релиза.</p></div></article>
+            <article class="item"><div><p>Используйте только изображения, шрифты и другие элементы, на которые у вас есть права или разрешение.</p></div></article>
           </div>
         </section>
 
         <section class="section" id="rights">
           <div class="section-head">
             <span class="num">04</span>
-            <div><h2>Авторские права и ответственность</h2><p class="section-kicker">Отправляя релиз, ты подтверждаешь</p></div>
+            <h2>4. Авторские права и ответственность</h2>
           </div>
-          <div class="items">
-            <article class="item"><div><h3>Достоверность данных</h3><p>Предоставленные сведения точны, а необходимые права и разрешения на публикацию всех материалов получены.</p></div></article>
-            <article class="item"><div><h3>Чужие материалы</h3><p>Нельзя загружать чужие произведения, записи, изображения или семплы без законных оснований.</p></div></article>
-            <article class="item"><div><h3>Материалы, созданные с ИИ</h3><p>При использовании ИИ убедись, что такой способ создания материалов допускается применимыми условиями сервисов и не нарушает права третьих лиц. Сам факт использования ИИ необходимо раскрыть при подаче релиза.</p></div></article>
-          </div>
-          <div class="note"><strong>Важно.</strong> Ответственность за достоверность предоставленных сведений и наличие необходимых разрешений лежит на отправителе релиза.</div>
-        </section>
-
-        <section class="section" id="final-check">
-          <div class="section-head">
-            <span class="num">05</span>
-            <div><h2>Финальная проверка</h2><p class="section-kicker">Чек-лист перед отправкой заявки</p></div>
-          </div>
-          <div class="checklist">
-            <div class="check-top">
-              <h3>Всё готово?</h3>
-              <div class="check-count" id="checkCount" aria-live="polite">0 из 8 отмечено</div>
-            </div>
-            <div class="progress" role="progressbar" aria-label="Готовность релиза" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0" id="progress"><div class="progress-bar" id="progressBar"></div></div>
-            <p class="check-help">Отмечай пункты по мере проверки. Отметки не отправляются на сервер и не сохраняются после обновления страницы.</p>
-            <label class="check-item"><input type="checkbox"><span>Название релиза, исполнители и авторы указаны без ошибок.</span></label>
-            <label class="check-item"><input type="checkbox"><span>Жанр и поджанр выбраны.</span></label>
-            <label class="check-item"><input type="checkbox"><span>Права и лицензии на все материалы проверены.</span></label>
-            <label class="check-item"><input type="checkbox"><span>Статус Explicit указан корректно.</span></label>
-            <label class="check-item"><input type="checkbox"><span>Использование ИИ раскрыто.</span></label>
-            <label class="check-item"><input type="checkbox"><span>Все треки приложены в WAV и стоят в правильном порядке.</span></label>
-            <label class="check-item"><input type="checkbox"><span>Обложка — PNG/JPG, 3000 × 3000 px, оригинальная и соответствует требованиям.</span></label>
-            <label class="check-item"><input type="checkbox"><span>Дата релиза указана и согласована с необходимым сроком подготовки.</span></label>
-            <p class="small-print" style="margin-top:22px">Требования могут дополняться в зависимости от правил музыкальных платформ. Для подачи релиза напиши в <a href="https://t.me/filin_cprt" target="_blank" rel="noopener noreferrer">Telegram @filin_cprt</a>.</p>
-          </div>
+          <p class="intro" style="max-width:none;margin:0">Отправляя релиз, исполнитель или правообладатель подтверждает, что предоставленные сведения точны, а необходимые права и разрешения на публикацию всех материалов получены. Не загружайте чужие произведения, записи, изображения или семплы без законных оснований. При использовании ИИ убедитесь, что такой способ создания материалов допускается применимыми условиями сервисов и не нарушает права третьих лиц.</p>
         </section>
       </div>
     </div>
+
+    <p class="note">Требования могут дополняться в зависимости от правил музыкальных платформ.</p>
   </main>
 
   <footer>
     <div class="wrap footer-inner">
       <a class="brand" href="/">filin_cprt</a>
-      <div class="footer-meta">Release guidelines · © 2026 filin_cprt</div>
+      <div class="footer-meta">filin_cprt / RELEASE GUIDELINES</div>
     </div>
   </footer>
-  <script>
-    const checks = [...document.querySelectorAll('.check-item input')];
-    const count = document.getElementById('checkCount');
-    const bar = document.getElementById('progressBar');
-    const progress = document.getElementById('progress');
-    function updateChecklist(){
-      const done = checks.filter(input => input.checked).length;
-      count.textContent = done + ' из ' + checks.length + ' отмечено';
-      bar.style.width = (done / checks.length * 100) + '%';
-      progress.setAttribute('aria-valuenow', String(done));
-      if(done === checks.length) count.textContent = 'Всё проверено ✓';
-    }
-    checks.forEach(input => input.addEventListener('change', updateChecklist));
-    updateChecklist();
-  </script>
 </body>
 </html>
