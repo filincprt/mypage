@@ -12,6 +12,10 @@ export default {
         return serveAsset(request, env, '/catalog.html');
       }
 
+      if (path === '/label-guidelines' && request.method === 'GET') {
+        return serveAsset(request, env, '/label-guidelines.html');
+      }
+
       if (path === '/veronika' && request.method === 'GET') {
         return serveAsset(request, env, '/veronika.html');
       }
