@@ -39,10 +39,3 @@
   from = "/catalog"
   to = "/catalog.html"
   status = 200
-
-# Чистый URL страницы регламента (без .html)
-[[redirects]]
-  from = "/label-guidelines"
-  to = "/label-guidelines.html"
-  status = 200
-  force = true
